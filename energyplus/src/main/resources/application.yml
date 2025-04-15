@@ -1,0 +1,14 @@
+spring:
+  application:
+    name:  energyplus
+
+  datasource:
+    url:  jdbc:oracle:thin:@192.168.130.17:1521:XE
+    username:  KH15_LSM
+    password: KH1234
+    driver-class-name:  oracle.jdbc.driver.OracleDriver
+  profiles:
+    include: private
+
+server:
+  port:  80
