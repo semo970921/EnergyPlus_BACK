@@ -28,6 +28,8 @@ public class MileageServiceImpl implements MileageService {
 			
 			String filePath = fileService.store(file);
 			
+			log.info("파일 저장 완료 : {}", filePath);
+			
 			requestData = Mileage.builder()
 					.mileageTitle(mileage.getMileageTitle())
 					.mileageCategory(mileage.getMileageCategory())

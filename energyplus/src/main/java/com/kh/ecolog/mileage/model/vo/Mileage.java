@@ -8,7 +8,7 @@ import lombok.Value;
 public class Mileage {
 
 	private Long mileageSeq;
-	private Long userId;
+	private String userId;
 	private String mileageTitle;
 	private String mileageContent;
 	private String mileageCategory;
