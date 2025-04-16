@@ -27,6 +27,7 @@ public class FileService {
 		
 		Path targetLocation = this.fileLocation.resolve(originalFileName);
 		
+		log.info("저장 경로 : {}", targetLocation);
 		try {
 			Files.copy(file.getInputStream(),
 					   targetLocation, 

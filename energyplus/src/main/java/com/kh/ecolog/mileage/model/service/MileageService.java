@@ -11,4 +11,9 @@ public interface MileageService {
 	public void saveMileage(MileageDTO mileage, MultipartFile file);
 	
 	
+	/* 관리자 권한 */
+	// 작성된 인증 게시글의 상태를 변경
+	
+	
+	
 }

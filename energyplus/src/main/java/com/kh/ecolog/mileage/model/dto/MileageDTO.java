@@ -15,11 +15,10 @@ import lombok.ToString;
 public class MileageDTO {
 	
 	private Long mileageSeq;
-	private Long userId;
+	private String userId;
 	private String mileageTitle;
 	private String mileageContent;
 	private String mileageCategory;
-	private String mileageImg;
 	private String mileageStatus;
 	private Integer mileageScore;
 	
