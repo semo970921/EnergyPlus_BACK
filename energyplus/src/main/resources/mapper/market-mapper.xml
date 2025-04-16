@@ -55,17 +55,23 @@
 	    )
 	</insert>
 	
-	<update id="updateMarket">
-		UPDATE TB_MARKET
-		SET MARKET_TITLE = #{marketTitle},
-			MARKET_CONTENT = #{marketContent},
-			MARKET_PRICE = #{marketPrice},
-		WHERE MARKET_NO = #{marketNo}
+	<update id="updateMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
+		 UPDATE TB_MARKET
+	    SET 
+	        MARKET_TITLE = #{marketTitle},
+	        MARKET_CONTENT = #{marketContent},
+	        MARKET_PRICE = #{marketPrice},
+	        MARKET_STATUS = #{marketStatus},
+	        MARKET_DATE = SYSDATE
+	    WHERE MARKET_NO = #{marketNo}
 	</update>
 	
-	<delete id="deletMarket">
-		DELETE FROM TB_MARKET
-		WHERE MARKET_NO = #{marketNo}
+	<delete id="deleteMarket" parameterType="long">
+	    DELETE FROM TB_MARKET WHERE MARKET_NO = #{marketNo}
+	</delete>
+	
+	<delete id="deleteMarketImagesByMarketNo" parameterType="long">
+	    DELETE FROM TB_MARKET_IMG WHERE MARKET_NO = #{marketNo}
 	</delete>
 
 </mapper>

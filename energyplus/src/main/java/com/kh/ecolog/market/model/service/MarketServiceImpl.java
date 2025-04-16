@@ -54,10 +54,39 @@ public class MarketServiceImpl implements MarketService  {
 	}
 
 	@Override
-	public MarketDTO updateMarket(MarketDTO market, MultipartFile file) {
+	public void updateMarket(MarketDTO dto, List<MultipartFile> images) {
+	    // 1. 게시글 내용 업데이트
+	    marketMapper.updateMarket(dto);
 
-		marketMapper.updateMarket(market);
-		return market;
+	    // 2. 이미지가 있을 경우에만 처리
+	    if (images != null && !images.isEmpty()) {
+	        // 기존 이미지 삭제
+	        marketMapper.deleteImagesByMarketNo(dto.getMarketNo());
+
+	        // 새 이미지 저장
+	        int order = 1;
+	        for (MultipartFile file : images) {
+	            String url = fileService.store(file);
+
+	            MarketImageDTO img = MarketImageDTO.builder()
+	                .marketNo(dto.getMarketNo())
+	                .imgUrl(url)
+	                .imgOrder(order++)
+	                .build();
+
+	            marketMapper.insertMarketImage(img);
+	        }
+	    }
+	}
+
+	@Override
+	public void deleteMarket(Long marketNo) {
+		 // 1. 관련 이미지 먼저 삭제
+	    marketMapper.deleteMarketImagesByMarketNo(marketNo);
+
+	    // 2. 게시글 삭제
+	    marketMapper.deleteMarket(marketNo);
+		
 	}
 
 
