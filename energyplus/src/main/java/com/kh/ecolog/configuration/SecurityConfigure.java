@@ -32,6 +32,7 @@ public class SecurityConfigure {
 	                .requestMatchers("/notices/**").permitAll() 
 	                .requestMatchers("/market/**").permitAll() 
 	                .requestMatchers("/mileages/**").permitAll() 
+	                .requestMatchers("/apis/**").permitAll() 
                     .anyRequest().authenticated() 
             )
             .formLogin(AbstractHttpConfigurer::disable)
