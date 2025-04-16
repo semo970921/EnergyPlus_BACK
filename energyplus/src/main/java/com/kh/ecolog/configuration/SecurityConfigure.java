@@ -33,14 +33,15 @@ public class SecurityConfigure {
 	                .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll() // ← 요거 추가
                 	.requestMatchers("/members/**").permitAll()
 
-                    .requestMatchers("/markets/**").permitAll()
+                  .requestMatchers("/markets/**").permitAll()
 
                 	.requestMatchers("/notices/**").permitAll()
+                                   
+                  .requestMatchers("/apis/**").permitAll() 
                 	
                 	.requestMatchers("/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**").permitAll()
 
-
-                    .anyRequest().authenticated() 
+                  .anyRequest().authenticated() 
             )
             .formLogin(AbstractHttpConfigurer::disable)
             .httpBasic(AbstractHttpConfigurer::disable);
