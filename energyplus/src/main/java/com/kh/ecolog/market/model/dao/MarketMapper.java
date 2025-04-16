@@ -9,5 +9,8 @@ import com.kh.ecolog.market.model.dto.MarketImageDTO;
 public interface MarketMapper {
 	void insertMarket(MarketDTO dto);
 	void insertMarketImage(MarketImageDTO image);
-	void updateMarket(MarketDTO market);
+	void updateMarket(MarketDTO dto);
+	void deleteImagesByMarketNo(Long marketNo);
+	void deleteMarket(Long marketNo);
+	void deleteMarketImagesByMarketNo(Long marketNo);
 }
