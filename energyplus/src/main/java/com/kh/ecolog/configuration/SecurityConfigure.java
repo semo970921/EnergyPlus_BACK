@@ -36,6 +36,7 @@ public class SecurityConfigure {
                 	
                 	.requestMatchers("/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**").permitAll()
 
+
                     .anyRequest().authenticated() 
             )
             .formLogin(AbstractHttpConfigurer::disable)
