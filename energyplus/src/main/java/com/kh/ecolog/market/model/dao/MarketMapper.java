@@ -7,4 +7,7 @@ import com.kh.ecolog.market.model.dto.MarketDTO;
 @Mapper
 public interface MarketMapper {
 	void insertMarket(MarketDTO dto);
+
+	
+	void update(MarketDTO market);
 }

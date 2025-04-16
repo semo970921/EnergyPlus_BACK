@@ -15,26 +15,40 @@
 	</sql>
 	<insert id="insertMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
 		INSERT INTO
-			TB_MARKET (
-						 MARKET_NO
-					   , USER_ID
-					   , MARKET_TITLE
-					   , MARKET_CONTENT
-					   , MARKET_DATE
-					   , MARKET_STATUS
-					   , MARKET_PRICE
-		) VALUES (
-			SEQ_MARKET_NO.NEXTVAL,
-			#{userId},
-			#{marketTitle},
-			#{marketContent},
-			#{marketDate},
-			#{marketStatus},
-			#{marketPrice}
+			TB_MARKET 
+					  (
+						MARKET_NO
+					  , USER_ID
+					  , MARKET_TITLE
+					  , MARKET_CONTENT
+					  , MARKET_DATE
+					  , MARKET_STATUS
+					  , MARKET_PRICE
+					  )
+			   VALUES 
+			   	     (
+					   SEQ_MARKET_NO.NEXTVAL
+					   ,
+						#{userId}, 
+						#{marketTitle},
+						#{marketContent},
+						#{marketDate},
+						#{marketStatus},
+						#{marketPrice}
 		)
 	</insert>
 	
-	<select id="find">
-	</select>
+	<update id="updateMarket">
+		UPDATE TB_MARKET
+		SET MARKET_TITLE = #{marketTitle},
+			MARKET_CONTENT = #{marketContent},
+			MARKET_PRICE = #{marketPrice},
+		WHERE MARKET_NO = #{marketNo}
+	</update>
+	
+	<delete id="deletMarket">
+		DELETE FROM TB_MARKET
+		WHERE MARKET_NO = #{marketNo}
+	</delete>
 
 </mapper>
