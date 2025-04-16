@@ -20,7 +20,11 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+<<<<<<< HEAD
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+=======
+	/* implementation 'org.springframework.boot:spring-boot-starter-security' */
+>>>>>>> 9604e031a80d42165110036731cbc0cfbe306a22
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -30,7 +34,11 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
+<<<<<<< HEAD
 	testImplementation 'org.springframework.security:spring-security-test'
+=======
+	/* testImplementation 'org.springframework.security:spring-security-test' */
+>>>>>>> 9604e031a80d42165110036731cbc0cfbe306a22
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

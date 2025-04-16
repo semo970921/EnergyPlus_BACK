@@ -14,28 +14,45 @@
 		MARKET_PRICE marketPrice
 	</sql>
 	<insert id="insertMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
-		INSERT INTO
-			TB_MARKET 
-					  (
-						MARKET_NO
-					  , USER_ID
-					  , MARKET_TITLE
-					  , MARKET_CONTENT
-					  , MARKET_DATE
-					  , MARKET_STATUS
-					  , MARKET_PRICE
-					  )
-			   VALUES 
-			   	     (
-					   SEQ_MARKET_NO.NEXTVAL
-					   ,
-						#{userId}, 
-						#{marketTitle},
-						#{marketContent},
-						#{marketDate},
-						#{marketStatus},
-						#{marketPrice}
-		)
+	
+    <!-- 시퀀스 값을 미리 DTO에 세팅 -->
+    <selectKey keyProperty="marketNo" resultType="long" order="BEFORE">
+        SELECT SEQ_MARKET_NO.NEXTVAL FROM DUAL
+    </selectKey>
+
+    INSERT INTO TB_MARKET (
+        MARKET_NO,
+        USER_ID,
+        MARKET_TITLE,
+        MARKET_CONTENT,
+        MARKET_DATE,
+        MARKET_STATUS,
+        MARKET_PRICE
+    )
+    VALUES (
+        #{marketNo},         
+        #{userId},
+        #{marketTitle},
+        #{marketContent},
+        SYSDATE,
+        #{marketStatus},
+        #{marketPrice}
+    )
+</insert>
+	
+	<insert id="insertMarketImage" parameterType="com.kh.ecolog.market.model.dto.MarketImageDTO">
+	 INSERT INTO TB_MARKET_IMG (
+        MARKET_IMG_ID,
+        MARKET_NO,
+        MARKET_IMG_URL,
+        IMG_ORDER
+	    )
+	 VALUES (
+	        SEQ_MARKET_IMG_ID.NEXTVAL, 
+	        #{marketNo},
+	        #{imgUrl},
+	        #{imgOrder}
+	    )
 	</insert>
 	
 	<update id="updateMarket">
