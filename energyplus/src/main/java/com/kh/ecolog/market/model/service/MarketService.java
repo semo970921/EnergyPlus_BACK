@@ -8,11 +8,11 @@ import com.kh.ecolog.market.model.dto.MarketDTO;
 
 public interface MarketService {
 
-	 void insertMarket(MarketDTO dto, List<MultipartFile> images);
-	
+	void insertMarket(MarketDTO dto, List<MultipartFile> images);
 
+	MarketDTO updateMarket(MarketDTO market, MultipartFile file);
 
-	 MarketDTO updateMarket(MarketDTO market, MultipartFile file);
+	List<MarketDTO> findAllMarkets();
 
 	
 }

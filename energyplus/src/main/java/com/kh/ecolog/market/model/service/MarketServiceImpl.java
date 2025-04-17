@@ -43,6 +43,11 @@ public class MarketServiceImpl implements MarketService  {
 		return market;
 	}
 
+	@Override
+	public List<MarketDTO> findAllMarkets() {
+	    return marketMapper.findAllMarkets();
+	}
+
 
 	
 	

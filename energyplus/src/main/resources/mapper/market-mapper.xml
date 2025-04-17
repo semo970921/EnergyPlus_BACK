@@ -50,5 +50,18 @@
 		DELETE FROM TB_MARKET
 		WHERE MARKET_NO = #{marketNo}
 	</delete>
+	
+	<select id="findAllMarkets" resultType="com.kh.ecolog.market.model.dto.MarketDTO">
+    	SELECT 
+	        MARKET_NO,
+	        USER_ID,
+	        MARKET_TITLE,
+	        MARKET_CONTENT,
+	        MARKET_DATE,
+	        MARKET_STATUS,
+	        MARKET_PRICE
+		    FROM TB_MARKET
+		    ORDER BY MARKET_NO DESC
+	</select>
 
 </mapper>

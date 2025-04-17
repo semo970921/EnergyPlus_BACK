@@ -1,5 +1,7 @@
 package com.kh.ecolog.market.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.ecolog.market.model.dto.MarketDTO;
@@ -10,4 +12,6 @@ public interface MarketMapper {
 
 	
 	void update(MarketDTO market);
+	
+	List<MarketDTO> findAllMarkets();
 }
