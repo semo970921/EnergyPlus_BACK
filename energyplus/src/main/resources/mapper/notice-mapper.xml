@@ -39,6 +39,15 @@
 	    	NOTICE_ID = #{noticeId}
 	</delete>
 
-	  
+	<select id="findAll" resultType="com.kh.ecolog.notice.model.dto.NoticeDTO">
+        SELECT 
+            NOTICE_ID as noticeId,
+            NOTICE_TITLE as noticeTitle,
+            NOTICE_DATE as noticeDate
+        FROM
+        	TB_NOTICE
+        ORDER BY
+        	NOTICE_DATE DESC
+    </select>
   
   </mapper>
