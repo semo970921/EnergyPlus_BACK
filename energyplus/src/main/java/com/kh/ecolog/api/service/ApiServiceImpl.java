@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import com.kh.ecolog.api.model.dao.ZerostoreMapper;
 import com.kh.ecolog.api.model.dto.ZerostoreDTO;
 
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,12 +44,13 @@ public class ApiServiceImpl implements ApiService {
 	}
 
 	// --------------------------------------------------- //
-	private ZerostoreMapper zerostoreMapper;
+	private final ZerostoreMapper zerostoreMapper;
 	
 	@Override
-	public List<ZerostoreDTO> requestGetZeroStore() {
-		return zerostoreMapper.requestGetZeroStore();
+	public List<ZerostoreDTO> requestGetZerostore() {
+		return zerostoreMapper.requestGetZerostore();
 	}
+
 
 	
 

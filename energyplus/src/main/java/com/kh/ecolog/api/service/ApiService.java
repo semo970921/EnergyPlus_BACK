@@ -8,6 +8,6 @@ public interface ApiService {
 
 	String requestGetPublicBicycle();
 	
-	List<ZerostoreDTO> requestGetZeroStore();
+	List<ZerostoreDTO> requestGetZerostore();
 	
 }

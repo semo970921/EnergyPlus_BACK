@@ -9,6 +9,6 @@ import com.kh.ecolog.api.model.dto.ZerostoreDTO;
 @Mapper
 public interface ZerostoreMapper {
 
-	List<ZerostoreDTO> requestGetZeroStore();
+	List<ZerostoreDTO> requestGetZerostore();
 	
 }
