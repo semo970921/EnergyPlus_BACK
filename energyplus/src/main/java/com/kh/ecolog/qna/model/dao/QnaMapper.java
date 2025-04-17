@@ -21,5 +21,4 @@ public interface QnaMapper {
 	
 	void deleteById(Long qnaId);
 	
-	// --------아래부터 댓글--------
 }

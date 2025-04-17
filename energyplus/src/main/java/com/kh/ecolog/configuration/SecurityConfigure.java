@@ -30,6 +30,8 @@ public class SecurityConfigure {
             .authorizeHttpRequests(auth -> 
                 auth.requestMatchers("/members/**").permitAll()
                 	.requestMatchers("/notices/**").permitAll()
+                	.requestMatchers("/qnas/**").permitAll()
+                	.requestMatchers("/replys/**").permitAll()
                     .anyRequest().authenticated() 
             )
             .formLogin(AbstractHttpConfigurer::disable)

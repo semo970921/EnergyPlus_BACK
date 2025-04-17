@@ -1,4 +1,4 @@
-package com.kh.ecolog.qna.model.dto;
+package com.kh.ecolog.qna_reply.model.dto;
 
 import java.sql.Date;
 
@@ -13,11 +13,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class QnaDTO {
+public class QnaReplyDTO {
+	private long qnaReplyId;
 	private long qnaId;
-	private long userId;
-	private String qnaTitle;
-	private String qnaContent;
-	private Date qnaDate;
-	private String qnaStatus;
+	private String qnaReply;
+	private Date qnaReplyDate;
 }

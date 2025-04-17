@@ -48,7 +48,7 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	public void deleteById(Long qnaId) {
-
+		qnaMapper.deleteById(qnaId);
 	}
 
 }

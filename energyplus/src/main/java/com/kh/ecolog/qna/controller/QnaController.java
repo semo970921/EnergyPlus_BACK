@@ -32,7 +32,7 @@ public class QnaController {
 	
 	private final QnaService qnaService;
 	
-	// 등록
+	// 등록(완)
 	@PostMapping
 	public ResponseEntity<?> insert(@Valid @RequestBody QnaDTO qna){
 		qnaService.insert(qna);
@@ -56,24 +56,23 @@ public class QnaController {
 		return ResponseEntity.ok(qnaService.selectById(qnaId));
 	}
 	
-	// 수정
+	// 수정(완)
 	@PutMapping("/{id}")
 	public ResponseEntity<QnaDTO> update(
 								@PathVariable(name="id") Long qnaId,
-								QnaDTO qna){
+								@RequestBody QnaDTO qna){
 		log.info("{}, {}", qnaId, qna);
 		qna.setQnaId(qnaId);
 		return ResponseEntity.status(HttpStatus.CREATED)
 							 .body(qnaService.update(qna));
 	}
 	
-	// 삭제
+	// 삭제(완)
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteById(@PathVariable(name="id") Long qnaId){
 		qnaService.deleteById(qnaId);
 		return ResponseEntity.ok().build();
 	}
 	
-	// -----------아래부터는 댓글-----------
 
 }
