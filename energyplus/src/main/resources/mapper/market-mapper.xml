@@ -14,41 +14,64 @@
 		MARKET_PRICE marketPrice
 	</sql>
 	<insert id="insertMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
-		INSERT INTO
-			TB_MARKET 
-					  (
-						MARKET_NO
-					  , USER_ID
-					  , MARKET_TITLE
-					  , MARKET_CONTENT
-					  , MARKET_DATE
-					  , MARKET_STATUS
-					  , MARKET_PRICE
-					  )
-			   VALUES 
-			   	     (
-					   SEQ_MARKET_NO.NEXTVAL
-					   ,
-						#{userId}, 
-						#{marketTitle},
-						#{marketContent},
-						#{marketDate},
-						#{marketStatus},
-						#{marketPrice}
-		)
+	
+    <!-- 시퀀스 값을 미리 DTO에 세팅 -->
+    <selectKey keyProperty="marketNo" resultType="long" order="BEFORE">
+        SELECT SEQ_MARKET_NO.NEXTVAL FROM DUAL
+    </selectKey>
+
+    INSERT INTO TB_MARKET (
+        MARKET_NO,
+        USER_ID,
+        MARKET_TITLE,
+        MARKET_CONTENT,
+        MARKET_DATE,
+        MARKET_STATUS,
+        MARKET_PRICE
+    )
+    VALUES (
+        #{marketNo},         
+        #{userId},
+        #{marketTitle},
+        #{marketContent},
+        SYSDATE,
+        #{marketStatus},
+        #{marketPrice}
+    )
+</insert>
+	
+	<insert id="insertMarketImage" parameterType="com.kh.ecolog.market.model.dto.MarketImageDTO">
+	 INSERT INTO TB_MARKET_IMG (
+        MARKET_IMG_ID,
+        MARKET_NO,
+        MARKET_IMG_URL,
+        IMG_ORDER
+	    )
+	 VALUES (
+	        SEQ_MARKET_IMG_ID.NEXTVAL, 
+	        #{marketNo},
+	        #{imgUrl},
+	        #{imgOrder}
+	    )
 	</insert>
 	
-	<update id="updateMarket">
-		UPDATE TB_MARKET
-		SET MARKET_TITLE = #{marketTitle},
-			MARKET_CONTENT = #{marketContent},
-			MARKET_PRICE = #{marketPrice},
-		WHERE MARKET_NO = #{marketNo}
+	<update id="updateMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
+		 UPDATE TB_MARKET
+	    SET 
+	        MARKET_TITLE = #{marketTitle},
+	        MARKET_CONTENT = #{marketContent},
+	        MARKET_PRICE = #{marketPrice},
+	        MARKET_STATUS = #{marketStatus},
+	        MARKET_DATE = SYSDATE
+	    WHERE MARKET_NO = #{marketNo}
 	</update>
 	
-	<delete id="deletMarket">
-		DELETE FROM TB_MARKET
-		WHERE MARKET_NO = #{marketNo}
+	<delete id="deleteMarket" parameterType="long">
+	    DELETE FROM TB_MARKET WHERE MARKET_NO = #{marketNo}
+	</delete>
+	
+	<delete id="deleteMarketImagesByMarketNo" parameterType="long">
+	    DELETE FROM TB_MARKET_IMG WHERE MARKET_NO = #{marketNo}
 	</delete>
 	
 	<select id="findAllMarkets" resultType="com.kh.ecolog.market.model.dto.MarketDTO">

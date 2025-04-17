@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,24 +21,33 @@ public class FileService {
 	
 	public FileService() {
 		this.fileLocation = Paths.get("uploads").toAbsolutePath().normalize();
+		try {
+			Files.createDirectories(this.fileLocation);
+		} catch (IOException e) {
+			throw new RuntimeException("업로드 폴더 생성 실패!", e);
+		}
 	}
 	
 	public String store(MultipartFile file) {
 		
-		String originalFileName = file.getOriginalFilename();
-		
-		Path targetLocation = this.fileLocation.resolve(originalFileName);
-		
-		log.info("저장 경로 : {}", targetLocation);
-		try {
-			Files.copy(file.getInputStream(),
-					   targetLocation, 
-					   StandardCopyOption.REPLACE_EXISTING);
-			
-			return "http://localhost/uploads/" + originalFileName;
-		} catch(IOException e) {
-			throw new RuntimeException("이상한 파일");
+		if(file.isEmpty()) {
+			throw new IllegalArgumentException("파일이 비어있습니다.");
 		}
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		int random = (int)(Math.random() * 900) + 100;
+		String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+		String renamedFile = "ep_" + currentTime + "_" + random + ext;
+		
+		try {
+            Path targetPath = this.fileLocation.resolve(renamedFile);
+            file.transferTo(targetPath.toFile());
+
+            // URL 경로로 반환
+            return "/uploads/" + renamedFile;
+
+        } catch (IOException e) {
+            throw new RuntimeException("파일 저장 실패", e);
+        }
 	}
 
 }

@@ -21,7 +21,6 @@ public interface NoticeMapper {
 	
 	void update(NoticeDTO notice);
 	
-	@Update("DELETE FROM TB_NOTICE WHERE NOTICE_ID = #{noticeId}")
     void deleteById(@Param("noticeId") Long noticeId);
 
 
