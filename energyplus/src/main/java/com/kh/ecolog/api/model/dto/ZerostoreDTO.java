@@ -15,7 +15,7 @@ public class ZerostoreDTO {
 
 	private Long zerostoreSeq;
 	private String storeName;
-	private int lat;
-	private int lot;
+	private String lat;
+	private String lot;
 	
 }
