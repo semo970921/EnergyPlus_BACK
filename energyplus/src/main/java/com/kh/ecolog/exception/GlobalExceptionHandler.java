@@ -9,14 +9,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(MemberEmailDuplicateException.class)
-	public ResponseEntity< String> handleDuplicateMemberEmail(MemberEmailDuplicateException e){
+	public ResponseEntity<String> handleDuplicateMemberEmail(MemberEmailDuplicateException e){
 
 		return new ResponseEntity<>("ERROR "+e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(InvalidTokenException.class)
+	public ResponseEntity<String> handleInvalidTokenException(InvalidTokenException e){
+		
+		return new ResponseEntity<>("토큰오류 : "+e.getMessage(), HttpStatus.UNAUTHORIZED);
+	}
 
 }
