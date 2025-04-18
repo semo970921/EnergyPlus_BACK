@@ -29,18 +29,19 @@ public class SecurityConfigure {
             .csrf(AbstractHttpConfigurer::disable) 
             .authorizeHttpRequests(auth -> 
                 auth
-	                .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
-	                .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll() // ← 요거 추가
-                	.requestMatchers("/members/**").permitAll()
-
-                  .requestMatchers("/markets/**").permitAll()
-
-                	.requestMatchers("/notices/**").permitAll()
-                                   
-                  .requestMatchers("/apis/**").permitAll() 
-                	
-                	.requestMatchers("/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**").permitAll()
-
+                .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll()
+                .requestMatchers(
+                    "/members/**",
+                    "/markets/**",
+                    "/notices/**",
+                    "/mileages/**",
+                    "/apis/**",
+                    "/uploads/**",
+                    "/resources/**",
+                    "/css/**",
+                    "/images/**"
+                ).permitAll()
                   .anyRequest().authenticated() 
             )
             .formLogin(AbstractHttpConfigurer::disable)

@@ -1,5 +1,6 @@
 package com.kh.ecolog.mileage.model.service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,35 +21,46 @@ public class MileageServiceImpl implements MileageService {
 	private final FileService fileService;
 	
 	@Override
-	public void saveMileage(MileageDTO mileage, MultipartFile file) {
+	public ResponseEntity<?> saveMileage(MileageDTO mileage, MultipartFile file) {
 
 		Mileage requestData = null;
 		
-		if(file != null & !file.isEmpty()) {
-			
-			String filePath = fileService.store(file);
-			
-			log.info("파일 저장 완료 : {}", filePath);
-			
-			requestData = Mileage.builder()
-					.mileageTitle(mileage.getMileageTitle())
-					.mileageCategory(mileage.getMileageCategory())
-					.mileageContent(mileage.getMileageContent())
-					.mileageImg(filePath)
-					.build();
-			
-		} else {
-			
-			requestData = Mileage.builder()
-					.mileageTitle(mileage.getMileageTitle())
-					.mileageCategory(mileage.getMileageCategory())
-					.mileageContent(mileage.getMileageContent())
-					.build();
+		if(file == null || file.isEmpty()) {
+			return ResponseEntity.badRequest().body("인증사진을 첨부해주세요.");
 		}
+		
+		String filePath = fileService.store(file);
+		log.info("파일 저장 완료 : {}", filePath);
+		
+		requestData = Mileage.builder()
+				.userId(mileage.getUserId())
+				.mileageTitle(mileage.getMileageTitle())
+				.mileageCategory(mileage.getMileageCategory())
+				.mileageContent(mileage.getMileageContent())
+				.mileageImg(filePath)
+				.build();
 		
 		mileageMapper.saveMileage(requestData);
 		
+		return ResponseEntity.ok().body("신청이 완료되었습니다.");
 	}
+
+	@Override
+	public MileageDTO detailMileage(Long mileageSeq) {
+		
+	    return mileageMapper.detailMileage(mileageSeq);
+	}
+
+	@Override
+	public void updateMileageStatus(Long mileageSeq, String status) {
+		
+		mileageMapper.updateMileageStatus(mileageSeq, status);
+	}
+
+	
+
+
+	
 
 	
 	
