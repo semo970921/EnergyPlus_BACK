@@ -45,6 +45,15 @@ public class MileageServiceImpl implements MileageService {
 		return ResponseEntity.ok().body("신청이 완료되었습니다.");
 	}
 
+	@Override
+	public MileageDTO detailMileage(Long mileageSeq) {
+		
+	    return mileageMapper.detailMileage(mileageSeq);
+	}
+
+
+	
+
 	
 	
 }

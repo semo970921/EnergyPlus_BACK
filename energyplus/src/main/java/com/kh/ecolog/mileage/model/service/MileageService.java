@@ -11,6 +11,8 @@ public interface MileageService {
 	// (제목, 카테고리, 설명, 인증사진(multipartFile)) 입력 
 	public ResponseEntity<?> saveMileage(MileageDTO mileage, MultipartFile file);
 	
+	// 마일리지 신청 글 조회
+	public MileageDTO detailMileage(Long mileageSeq);
 	
 	/* 관리자 권한 */
 	// 작성된 인증 게시글의 상태를 변경 (UPDATE)
