@@ -29,10 +29,8 @@ public class MileageController {
 	public ResponseEntity<?> saveMileage(@ModelAttribute MileageDTO mileage, @RequestParam(name="mileageImg", required=false) MultipartFile file){
 		
 		log.info("게시글 정보 : {}, 파일 정보 : {}", mileage, file);
-		mileageService.saveMileage(mileage, file);
 		
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-		
+		return mileageService.saveMileage(mileage, file);
 	}
 	
 }

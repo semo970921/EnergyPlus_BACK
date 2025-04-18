@@ -1,5 +1,7 @@
 package com.kh.ecolog.mileage.model.dto;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,7 @@ public class MileageDTO {
 	private String mileageContent;
 	private String mileageCategory;
 	private String mileageStatus;
-	private Integer mileageScore;
-	
+	private int mileageScore;
+	private String mileageReject;
+	private Date createDate;
 }

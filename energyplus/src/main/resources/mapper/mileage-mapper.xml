@@ -16,8 +16,6 @@
 			 , MILEAGE_CONTENT
 			 , MILEAGE_CATEGORY
 			 , MILEAGE_IMG
-			 , MILEAGE_STATUS
-			 , MILEAGE_SCORE
 			   )
 		VALUES 
 		       (
@@ -26,8 +24,6 @@
 			 , #{mileageContent}
 			 , #{mileageCategory}
 			 , #{mileageImg}
-			 , #{mileageStatus}
-			 , #{mileageScore}
 			   )
 	</insert>
 	
