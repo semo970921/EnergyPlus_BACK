@@ -51,6 +51,14 @@ public class MileageServiceImpl implements MileageService {
 	    return mileageMapper.detailMileage(mileageSeq);
 	}
 
+	@Override
+	public void updateMileageStatus(Long mileageSeq, String status) {
+		
+		mileageMapper.updateMileageStatus(mileageSeq, status);
+	}
+
+	
+
 
 	
 

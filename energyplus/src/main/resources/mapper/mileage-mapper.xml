@@ -45,6 +45,17 @@
 	</select>
 	
 	
+	<update id="updateMileageStatus"
+			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+		UPDATE
+			TB_MILEAGE
+		SET 
+			MILEAGE_STATUS = #{mileageStatus} 
+		WHERE 
+			MILEAGE_SEQ = #{mileageSeq}
+	</update>
+	
+	
 
 
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +43,13 @@ public class MileageController {
 		MileageDTO mileage = mileageService.detailMileage(mileageSeq);
 		
 	    return ResponseEntity.ok(mileage);
+	}
+	
+	@PutMapping("/{mileageSeq}/status")
+	public ResponseEntity<?> updateMileageStatus(@PathVariable Long mileageSeq, @RequestParam String status) {
+	    
+	    mileageService.updateMileageStatus(mileageSeq, status);
+	    return ResponseEntity.ok("상태가 업데이트되었습니다.");
 	}
 	
 }

@@ -13,5 +13,7 @@ public interface MileageMapper {
 	void saveMileage(Mileage mileage);
 	
 	MileageDTO detailMileage(@Param("mileageSeq") Long mileageSeq);
+	
+	void updateMileageStatus(@Param("mileageSeq") Long mileageSeq, @Param("status") String status);
 
 }
