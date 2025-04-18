@@ -36,6 +36,6 @@ public interface TokenMapper {
 	 * 유저 토큰 삭제
 	 * @param userID
 	 */
-	void deleteUserToken(@Param("userId") Long userID);
+	void deleteTokenByUserId(@Param("userId") Long userID);
 	
 }
