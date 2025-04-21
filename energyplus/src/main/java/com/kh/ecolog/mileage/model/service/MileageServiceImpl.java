@@ -52,9 +52,9 @@ public class MileageServiceImpl implements MileageService {
 	}
 
 	@Override
-	public void updateMileageStatus(Long mileageSeq, String status) {
+	public void updateMileageStatus(Long mileageSeq, String mileageStatus) {
 		
-		mileageMapper.updateMileageStatus(mileageSeq, status);
+		mileageMapper.updateMileageStatus(mileageSeq, mileageStatus);
 	}
 
 	

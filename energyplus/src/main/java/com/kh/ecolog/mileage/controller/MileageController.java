@@ -46,9 +46,9 @@ public class MileageController {
 	}
 	
 	@PutMapping("/{mileageSeq}/status")
-	public ResponseEntity<?> updateMileageStatus(@PathVariable Long mileageSeq, @RequestParam String status) {
+	public ResponseEntity<?> updateMileageStatus(@PathVariable Long mileageSeq, @RequestParam String mileageStatus) {
 	    
-	    mileageService.updateMileageStatus(mileageSeq, status);
+	    mileageService.updateMileageStatus(mileageSeq, mileageStatus);
 	    return ResponseEntity.ok("상태가 업데이트되었습니다.");
 	}
 	
