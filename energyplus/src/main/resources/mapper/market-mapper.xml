@@ -70,21 +70,38 @@
 	    DELETE FROM TB_MARKET WHERE MARKET_NO = #{marketNo}
 	</delete>
 	
-	<delete id="deleteMarketImagesByMarketNo" parameterType="long">
-	    DELETE FROM TB_MARKET_IMG WHERE MARKET_NO = #{marketNo}
+	<delete id="deleteImagesByMarketNo" parameterType="long">
+	  DELETE FROM TB_MARKET_IMG
+	  WHERE MARKET_NO = #{marketNo}
 	</delete>
-	
+	<resultMap id="marketResultMap" type="com.kh.ecolog.market.model.dto.MarketDTO">
+	  <result column="MARKET_NO" property="marketNo"/>
+	  <result column="USER_ID" property="userId"/>
+	  <result column="MARKET_TITLE" property="marketTitle"/>
+	  <result column="MARKET_CONTENT" property="marketContent"/>
+	  <result column="MARKET_DATE" property="marketDate"/>
+	  <result column="MARKET_STATUS" property="marketStatus"/>
+	  <result column="MARKET_PRICE" property="marketPrice"/>
+	  <result column="marketStatusLabel" property="marketStatusLabel"/>
+	  <result column="thumbnailUrl" property="thumbnailUrl"/>
+	</resultMap>
 	<select id="findAllMarkets" resultType="com.kh.ecolog.market.model.dto.MarketDTO">
-    	SELECT 
-	        MARKET_NO,
-	        USER_ID,
-	        MARKET_TITLE,
-	        MARKET_CONTENT,
-	        MARKET_DATE,
-	        MARKET_STATUS,
-	        MARKET_PRICE
-		    FROM TB_MARKET
-		    ORDER BY MARKET_NO DESC
-	</select>
+	SELECT 
+		M.MARKET_NO AS marketNo,
+		M.USER_ID AS userId,
+		M.MARKET_TITLE AS marketTitle,
+		M.MARKET_CONTENT AS marketContent,
+		M.MARKET_DATE AS marketDate,
+		M.MARKET_STATUS AS marketStatus,
+		M.MARKET_PRICE AS marketPrice,
+		DECODE(M.MARKET_STATUS, 'N', '판매중', 'Y', '판매완료') AS marketStatusLabel,
+		(
+			SELECT MI.MARKET_IMG_URL
+			FROM TB_MARKET_IMG MI
+			WHERE MI.MARKET_NO = M.MARKET_NO AND MI.IMG_ORDER = 1
+		) AS thumbnailUrl
+	FROM TB_MARKET M
+	ORDER BY M.MARKET_NO DESC
+</select>
 
 </mapper>

@@ -25,27 +25,32 @@ public class SecurityConfigure {
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(AbstractHttpConfigurer::disable) 
-            .authorizeHttpRequests(auth -> 
-                auth
-	                .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
-	                .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll() // ← 요거 추가
-                	.requestMatchers("/members/**").permitAll()
+    	http
+        .csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(auth -> auth
+            // ✅ 마켓 관련 전체 허용
+            .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
+            .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll()
+            .requestMatchers("/markets/**").permitAll()
 
-                  .requestMatchers("/markets/**").permitAll()
+            // ✅ 회원 기능 허용
+            .requestMatchers("/members/**").permitAll()
 
-                	.requestMatchers("/notices/**").permitAll()
-                                   
-                  .requestMatchers("/apis/**").permitAll() 
-                	
-                	.requestMatchers("/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**").permitAll()
+            // ✅ 공지사항 허용
+            .requestMatchers("/notices/**").permitAll()
 
-                  .anyRequest().authenticated() 
-            )
-            .formLogin(AbstractHttpConfigurer::disable)
-            .httpBasic(AbstractHttpConfigurer::disable);
-        
-        return http.build();
+            // ✅ 외부 API 허용
+            .requestMatchers("/apis/**").permitAll()
+
+            // ✅ 정적 자원 허용 (썸네일 포함!)
+            .requestMatchers("/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**").permitAll()
+
+            // ✅ 나머지는 인증 필요
+            .anyRequest().authenticated()
+        )
+        .formLogin(AbstractHttpConfigurer::disable)
+        .httpBasic(AbstractHttpConfigurer::disable);
+
+    return http.build();
     }
 }
