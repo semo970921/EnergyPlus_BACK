@@ -21,4 +21,7 @@ public class MarketDTO {
     private Date marketDate;
     private String marketStatus;
     private Long marketPrice;
+    private String marketStatusLabel;
+    private String thumbnailUrl;
+    
 }

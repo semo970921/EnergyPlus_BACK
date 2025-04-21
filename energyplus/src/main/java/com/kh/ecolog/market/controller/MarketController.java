@@ -46,11 +46,11 @@ public class MarketController {
 	
 	@PutMapping("/update")
 	public ResponseEntity<String> updateMarket(
-		  @RequestPart("market") MarketDTO dto,
-		  @RequestPart(value = "images", required = false) List<MultipartFile> images
+	      @RequestPart("market") MarketDTO dto,
+	      @RequestPart(value = "images", required = false) List<MultipartFile> images
 	) {
-		  marketService.updateMarket(dto, images);
-		  return ResponseEntity.ok("수정 성공!");
+	    marketService.updateMarket(dto, images);
+	    return ResponseEntity.ok("수정 성공!");
 	}
 	
 	@DeleteMapping("/delete/{marketNo}")
@@ -65,6 +65,14 @@ public class MarketController {
 	public ResponseEntity<List<MarketDTO>> getAllMarkets() {
 	    List<MarketDTO> list = marketService.findAllMarkets();
 	    return ResponseEntity.ok(list);
+	}
+	
+// 게시글 상세 조회
+	
+	@GetMapping("/{marketNo}")
+	public ResponseEntity<MarketDTO> getMarketDetail(@PathVariable Long marketNo) {
+		MarketDTO dto = marketService.findMarketByNo(marketNo);
+		return ResponseEntity.ok(dto);
 	}
 	
 }
