@@ -1,6 +1,7 @@
 package com.kh.ecolog.market.model.dto;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import lombok.ToString;
 public class MarketDTO {
 	private Long marketNo;
     private Long userId;
+    private String userName;
     private String marketTitle;
     private String marketContent;
     private Date marketDate;
@@ -23,5 +25,6 @@ public class MarketDTO {
     private Long marketPrice;
     private String marketStatusLabel;
     private String thumbnailUrl;
+    private List<MarketImageDTO> imageList;
     
 }
