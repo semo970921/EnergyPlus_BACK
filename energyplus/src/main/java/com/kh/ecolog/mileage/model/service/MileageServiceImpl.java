@@ -1,5 +1,8 @@
 package com.kh.ecolog.mileage.model.service;
 
+import java.util.List;
+
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,6 +53,17 @@ public class MileageServiceImpl implements MileageService {
 		
 	    return mileageMapper.detailMileage(mileageSeq);
 	}
+	
+	
+	// 관리자 권한
+	
+	@Override
+	public List<MileageDTO> findAllMileage(int pageNo) {
+		int size = 5;
+		RowBounds rowBounds = new RowBounds(pageNo * size, size);
+		
+		return mileageMapper.findAllMileage(rowBounds);
+	}
 
 	@Override
 	public void updateMileageStatus(Long mileageSeq, String mileageStatus) {
@@ -58,10 +72,6 @@ public class MileageServiceImpl implements MileageService {
 	}
 
 	
-
-
-	
-
 	
 	
 }
