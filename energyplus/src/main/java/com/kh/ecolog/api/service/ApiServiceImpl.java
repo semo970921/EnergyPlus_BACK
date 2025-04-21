@@ -2,9 +2,14 @@ package com.kh.ecolog.api.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.kh.ecolog.api.model.dao.ZerostoreMapper;
+import com.kh.ecolog.api.model.dto.ZerostoreDTO;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +42,16 @@ public class ApiServiceImpl implements ApiService {
 		
 		return apiRequest(sb.toString());
 	}
+
+	// --------------------------------------------------- //
+	private final ZerostoreMapper zerostoreMapper;
 	
+	@Override
+	public List<ZerostoreDTO> requestGetZerostore() {
+		return zerostoreMapper.requestGetZerostore();
+	}
+
+
 	
 
 }

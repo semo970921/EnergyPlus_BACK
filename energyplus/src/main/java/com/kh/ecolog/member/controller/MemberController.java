@@ -1,5 +1,7 @@
 package com.kh.ecolog.member.controller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +26,18 @@ public class MemberController {
 	@PostMapping
 	public ResponseEntity<?> signUp(@RequestBody @Valid MemberDTO member){
 		
+		log.info("회원가입 요청: {}", member.getUserEmail());
+		
 		memberService.signUp(member);
 		
-		return ResponseEntity.status(201).build();
+	    Map<String, String> response = Map.of(
+	            "message", "회원가입이 성공적으로 완료되었습니다.",
+	            "userEmail", member.getUserEmail()
+	        );
+		
+		
+		log.info("회원가입 성공: {}", member.getUserEmail());
+		return ResponseEntity.status(201).body(response);
 	}
 
 }
