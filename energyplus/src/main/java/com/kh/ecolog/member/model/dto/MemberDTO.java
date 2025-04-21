@@ -38,6 +38,7 @@ public class MemberDTO {
 	private String userName;
 	
 	
+	@Pattern(regexp="^\\d{11}$", message="전화번호는 11자리 숫자만 입력해주세요.")
 	private String userPhone;
 	
 	
