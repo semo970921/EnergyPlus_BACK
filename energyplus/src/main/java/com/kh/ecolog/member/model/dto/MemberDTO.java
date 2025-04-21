@@ -18,7 +18,7 @@ import jakarta.validation.constraints.Size;
 public class MemberDTO {
 
 	private Long userId;
-	private Integer gradeId=1; // 기본 등급을 1(새싹)로 설정
+	private Integer gradeId;
 	
 	@Pattern(regexp="^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$", message="유효한 이메일을 입력해쥬세요.")
 	@NotBlank(message="이메일은 반드시 입력바랍니다.")
@@ -38,9 +38,10 @@ public class MemberDTO {
 	private String userName;
 	
 	
+	@Pattern(regexp="^\\d{11}$", message="전화번호는 11자리 숫자만 입력해주세요.")
 	private String userPhone;
 	
 	
-	private  String role = "ROLE_USER"; // 기본 역할로 설정
+	private  String role;
 	
 }
