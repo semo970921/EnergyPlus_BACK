@@ -1,90 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.ecolog.market.model.dao.MarketMapper">
-	
+
 	<sql id="marketColumns">
 		MARKET_NO marketNo,
-		USER_ID userId, 
+		USER_ID userId,
 		MARKET_TITLE marketTitle,
-		MARKET_CONTENT marketContent, 
+		MARKET_CONTENT marketContent,
 		MARKET_DATE marketDate,
 		MARKET_STATUS marketStatus,
 		MARKET_PRICE marketPrice
 	</sql>
-	<insert id="insertMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
-	
-    <!-- 시퀀스 값을 미리 DTO에 세팅 -->
-    <selectKey keyProperty="marketNo" resultType="long" order="BEFORE">
-        SELECT SEQ_MARKET_NO.NEXTVAL FROM DUAL
-    </selectKey>
+	<insert id="insertMarket"
+		parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
 
-    INSERT INTO TB_MARKET (
-        MARKET_NO,
-        USER_ID,
-        MARKET_TITLE,
-        MARKET_CONTENT,
-        MARKET_DATE,
-        MARKET_STATUS,
-        MARKET_PRICE
-    )
-    VALUES (
-        #{marketNo},         
-        #{userId},
-        #{marketTitle},
-        #{marketContent},
-        SYSDATE,
-        #{marketStatus},
-        #{marketPrice}
-    )
-</insert>
-	
-	<insert id="insertMarketImage" parameterType="com.kh.ecolog.market.model.dto.MarketImageDTO">
-	 INSERT INTO TB_MARKET_IMG (
-        MARKET_IMG_ID,
-        MARKET_NO,
-        MARKET_IMG_URL,
-        IMG_ORDER
-	    )
-	 VALUES (
-	        SEQ_MARKET_IMG_ID.NEXTVAL, 
-	        #{marketNo},
-	        #{imgUrl},
-	        #{imgOrder}
-	    )
+		<!-- 시퀀스 값을 미리 DTO에 세팅 -->
+    <selectKey
+			keyProperty="marketNo" resultType="long" order="BEFORE">
+			SELECT SEQ_MARKET_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TB_MARKET ( MARKET_NO, USER_ID, MARKET_TITLE,
+		MARKET_CONTENT, MARKET_DATE, MARKET_STATUS, MARKET_PRICE ) VALUES (
+		#{marketNo}, #{userId}, #{marketTitle}, #{marketContent}, SYSDATE,
+		#{marketStatus}, #{marketPrice} ) </insert>
+
+	<insert id="insertMarketImage"
+		parameterType="com.kh.ecolog.market.model.dto.MarketImageDTO">
+		INSERT INTO TB_MARKET_IMG (
+		MARKET_IMG_ID,
+		MARKET_NO,
+		MARKET_IMG_URL,
+		IMG_ORDER
+		)
+		VALUES (
+		SEQ_MARKET_IMG_ID.NEXTVAL,
+		#{marketNo},
+		#{imgUrl},
+		#{imgOrder}
+		)
 	</insert>
-	
-	<update id="updateMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
-		 UPDATE TB_MARKET
-	    SET 
-	        MARKET_TITLE = #{marketTitle},
-	        MARKET_CONTENT = #{marketContent},
-	        MARKET_PRICE = #{marketPrice},
-	        MARKET_STATUS = #{marketStatus},
-	        MARKET_DATE = SYSDATE
-	    WHERE MARKET_NO = #{marketNo}
-	</update>
-	
-	<delete id="deleteMarket" parameterType="long">
-	    DELETE FROM TB_MARKET WHERE MARKET_NO = #{marketNo}
-	</delete>
-	
-	<delete id="deleteMarketImagesByMarketNo" parameterType="long">
-	    DELETE FROM TB_MARKET_IMG WHERE MARKET_NO = #{marketNo}
-	</delete>
-	
-	<select id="findAllMarkets" resultType="com.kh.ecolog.market.model.dto.MarketDTO">
-    	SELECT 
-	        MARKET_NO,
-	        USER_ID,
-	        MARKET_TITLE,
-	        MARKET_CONTENT,
-	        MARKET_DATE,
-	        MARKET_STATUS,
-	        MARKET_PRICE
-		    FROM TB_MARKET
-		    ORDER BY MARKET_NO DESC
-	</select>
 
+	<update id="updateMarket"
+		parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
+		UPDATE TB_MARKET
+		SET
+		MARKET_TITLE = #{marketTitle},
+		MARKET_CONTENT = #{marketContent},
+		MARKET_PRICE = #{marketPrice},
+		MARKET_STATUS = #{marketStatus},
+		MARKET_DATE = SYSDATE
+		WHERE MARKET_NO = #{marketNo}
+	</update>
+
+	<delete id="deleteMarket" parameterType="long">
+		DELETE FROM TB_MARKET WHERE MARKET_NO = #{marketNo}
+	</delete>
+
+	<delete id="deleteImagesByMarketNo" parameterType="long">
+		DELETE FROM TB_MARKET_IMG
+		WHERE MARKET_NO = #{marketNo}
+	</delete>
+
+	<resultMap id="marketResultMap"
+		type="com.kh.ecolog.market.model.dto.MarketDTO">
+		<result column="MARKET_NO" property="marketNo" />
+		<result column="USER_ID" property="userId" />
+		<result column="USER_NAME" property="userName" />
+		<result column="MARKET_TITLE" property="marketTitle" />
+		<result column="MARKET_CONTENT" property="marketContent" />
+		<result column="MARKET_DATE" property="marketDate" />
+		<result column="MARKET_STATUS" property="marketStatus" />
+		<result column="MARKET_PRICE" property="marketPrice" />
+		<result column="marketStatusLabel" property="marketStatusLabel" />
+		<result column="thumbnailUrl" property="thumbnailUrl" />
+	</resultMap>
+
+	<sql id="marketStatusLabel">
+		DECODE(M.MARKET_STATUS, 'N', '판매중', 'Y', '판매완료') AS marketStatusLabel
+	</sql>
+
+	<select id="findAllMarkets"
+		resultType="com.kh.ecolog.market.model.dto.MarketDTO"> SELECT
+		M.MARKET_NO AS marketNo, M.USER_ID AS userId, U.USER_NAME AS userName,
+		M.MARKET_TITLE AS marketTitle, M.MARKET_CONTENT AS marketContent,
+		M.MARKET_DATE AS marketDate, M.MARKET_STATUS AS marketStatus,
+		M.MARKET_PRICE AS marketPrice, <include refid="marketStatusLabel" />, (
+		SELECT MI.MARKET_IMG_URL FROM TB_MARKET_IMG MI WHERE MI.MARKET_NO =
+		M.MARKET_NO AND MI.IMG_ORDER = 1 ) AS thumbnailUrl FROM TB_MARKET M JOIN
+		TB_USER U ON M.USER_ID = U.USER_ID ORDER BY M.MARKET_NO DESC </select>
+	<select id="selectMarketByNo" parameterType="long"
+		resultType="com.kh.ecolog.market.model.dto.MarketDTO"> SELECT
+		M.MARKET_NO AS marketNo, M.USER_ID AS userId, M.MARKET_TITLE AS
+		marketTitle, M.MARKET_CONTENT AS marketContent, M.MARKET_DATE AS
+		marketDate, M.MARKET_STATUS AS marketStatus, M.MARKET_PRICE AS
+		marketPrice, U.USER_NAME AS userName, <include refid="marketStatusLabel" />
+		FROM TB_MARKET M JOIN TB_USER U ON M.USER_ID = U.USER_ID WHERE
+		M.MARKET_NO = #{marketNo} </select>
+	<select id="selectImagesByMarketNo" parameterType="long"
+		resultType="com.kh.ecolog.market.model.dto.MarketImageDTO">
+		SELECT
+		MARKET_IMG_ID AS marketImgId,
+		MARKET_NO AS marketNo,
+		MARKET_IMG_URL AS imgUrl,
+		IMG_ORDER AS imgOrder
+		FROM TB_MARKET_IMG
+		WHERE MARKET_NO = #{marketNo}
+		ORDER BY IMG_ORDER ASC
+	</select>
 </mapper>
