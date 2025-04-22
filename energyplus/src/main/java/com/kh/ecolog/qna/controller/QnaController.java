@@ -1,10 +1,12 @@
 package com.kh.ecolog.qna.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/qnas")
+@CrossOrigin(origins = "http://localhost:5173")
 public class QnaController {
 	
 	private final QnaService qnaService;
@@ -43,9 +46,10 @@ public class QnaController {
 	
 	// 전체 조회
 	@GetMapping
-	public ResponseEntity<List<QnaDTO>> selectAll(
-			@RequestParam(name="page", defaultValue="0") int page){
-		return ResponseEntity.ok(qnaService.selectAll(page));
+	public ResponseEntity<Map<String, Object>> selectAll(
+			@RequestParam(name="page", defaultValue="0") int page,
+			@RequestParam(name = "keyword", required = false) String keyword){
+		return ResponseEntity.ok(qnaService.selectAll(page, keyword));
 	}
 	
 	// 1개 조회
