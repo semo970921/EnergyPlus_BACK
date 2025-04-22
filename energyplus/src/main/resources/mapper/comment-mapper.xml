@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.ecolog.market.model.dao.MarketCommentMapper">
 <!-- 댓글 등록 -->
-  <insert id="insertComment" parameterType="MarketCommentDTO">
+  <insert id="insertComment" parameterType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
     INSERT INTO TB_MARKET_COMMENT (
       COMMENT_NO,
       MARKET_NO,
@@ -20,13 +20,13 @@
   </insert>
   
    <!-- 게시글 번호로 댓글 리스트 조회 -->
-	<select id="selectCommentsByMarketNo" resultType="MarketCommentDTO">
-	  SELECT C.COMMENT_NO AS commentNo,
-	         C.MARKET_NO AS marketNo,
-	         C.USER_ID AS userId,
-	         C.COMMENT_CONTENT AS commentContent,
-	         C.COMMENT_DATE AS commentDate,
-	         U.USER_NAME AS userName
+	<select id="selectCommentsByMarketNo" resultType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
+	  SELECT C.COMMENT_NO commentNo,
+	         C.MARKET_NO marketNo,
+	         C.USER_ID userId,
+	         C.COMMENT_CONTENT commentContent,
+	         C.COMMENT_DATE commentDate,
+	         U.USER_NAME userName
 	  FROM TB_MARKET_COMMENT C
 	  JOIN TB_USER U ON C.USER_ID = U.USER_ID
 	  WHERE C.MARKET_NO = #{marketNo}
