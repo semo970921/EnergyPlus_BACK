@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,7 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ApiServiceImpl implements ApiService {
 	
-	private final String SERVICE_KEY = "716a75484c6c736d37375768416176";
+	@Value("${api.public.service-key}")
+	private String serviceKey;
 	
 	private String apiRequest(String uriPath) {
 		URI uri = null;
@@ -37,7 +39,7 @@ public class ApiServiceImpl implements ApiService {
 	public String requestGetPublicBicycle() {
 		
 		StringBuilder sb = new StringBuilder("http://openapi.seoul.go.kr:8088");
-		sb.append("/" + SERVICE_KEY);
+		sb.append("/" + serviceKey);
 		sb.append("/json/tbCycleStationInfo/1/100");
 		
 		return apiRequest(sb.toString());

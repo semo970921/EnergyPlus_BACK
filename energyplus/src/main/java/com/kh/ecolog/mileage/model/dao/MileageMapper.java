@@ -1,9 +1,13 @@
 package com.kh.ecolog.mileage.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import com.kh.ecolog.mileage.model.dto.MileageDTO;
+import com.kh.ecolog.mileage.model.dto.MileageStoreDTO;
 import com.kh.ecolog.mileage.model.vo.Mileage;
 
 
@@ -14,6 +18,12 @@ public interface MileageMapper {
 	
 	MileageDTO detailMileage(@Param("mileageSeq") Long mileageSeq);
 	
-	void updateMileageStatus(@Param("mileageSeq") Long mileageSeq, @Param("status") String status);
+	List<MileageDTO> findAllMileage(RowBounds rb);
+	
+	void updateMileageStatus(@Param("mileageSeq") Long mileageSeq, @Param("mileageStatus") String status);
+	
+	
+	// 마일리지 사용처 
+	List<MileageStoreDTO> findAllStore();
 
 }

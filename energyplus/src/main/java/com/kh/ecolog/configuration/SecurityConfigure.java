@@ -31,9 +31,24 @@ public class SecurityConfigure {
         	.cors(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable) 
             .authorizeHttpRequests(auth -> 
-            auth
-            .requestMatchers("/members/**", "/markets/**", "/notices/**", "/mileages/**", "/apis/**", "/uploads/**", "/resources/**", "/css/**", "/images/**").permitAll()
-            .anyRequest().authenticated()
+                auth
+                .requestMatchers(HttpMethod.GET, "/markets/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll()
+                .requestMatchers(
+                    "/members/**",
+                    "/markets/**",
+                    "/notices/**",
+                    "/mileages/**",
+                    "/apis/**",
+                    "/uploads/**",
+                    "/resources/**",
+                    "/css/**",
+                    "/images/**",
+                    "/qnas/**",
+                    "/replys/**"
+                ).permitAll()
+                  .anyRequest().authenticated() 
             )
             .formLogin(AbstractHttpConfigurer::disable)
             .httpBasic(AbstractHttpConfigurer::disable);

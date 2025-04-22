@@ -33,6 +33,72 @@
 		 WHERE
 		        QNA_ID = #{qnaId}
 	</update>
+	
+	<delete id="deleteById" parameterType="long">
+		DELETE
+		  FROM
+		       TB_QNA
+		 WHERE
+		       QNA_ID = #{qnaId}
+	</delete>
+	
+	<select id="selectAll" resultType="QnaDTO">
+		SELECT
+			   QNA_ID as qnaId
+			 , QNA_TITLE as qnaTitle
+			 , QNA_DATE as qnaDate
+			 , QNA_STATUS as qnaStatus
+			 , USER_ID as userId
+		 FROM
+		       TB_QNA
+		ORDER
+		   BY
+		       QNA_ID DESC
+	</select>
+	
+	<select id="selectById" resultType="QnaDTO" parameterType="long">
+		SELECT
+		       QNA_ID as qnaId
+		     , QNA_TITLE as qnaTitle
+		     , QNA_CONTENT as qnaContent
+		     , QNA_DATE as qnaDate
+		     , USER_ID as userId
+		 from
+		      TB_QNA
+		WHERE
+			  QNA_ID = #{qnaId}
+	</select>
+	
+	
+	<!-- 페이징처리를 위한 게시글 총 개수 count -->
+	<select id="countAll" resultType="int">
+		SELECT COUNT(*) FROM TB_QNA
+	</select>
+	
+	<!-- 검색 기능 -->
+	<select id="searchQna" resultType="QnaDTO" parameterType="String">
+	  SELECT 
+		      QNA_ID as qnaId
+		    , USER_ID as userId
+		    , QNA_TITLE as qnaTitle
+		    , QNA_CONTENT as qnaContent
+		    , QNA_DATE as qnaDate
+		    , QNA_STATUS as qnaStatus
+	    FROM
+	  	      TB_QNA
+	   WHERE
+	   		  QNA_TITLE LIKE '%' || #{keyword} || '%'
+	   ORDER 
+	      BY  QNA_ID DESC
+	</select>
+	
+	<select id="countSearch" resultType="int" parameterType="String">
+	  SELECT COUNT(*)
+	    FROM
+	    	 TB_QNA
+	   WHERE 
+	  		 QNA_TITLE LIKE '%' || #{keyword} || '%'
+	</select>
 
 
 

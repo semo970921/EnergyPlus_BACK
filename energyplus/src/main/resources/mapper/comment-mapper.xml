@@ -33,9 +33,11 @@
   WHERE C.MARKET_NO = #{marketNo}
   ORDER BY C.COMMENT_DATE ASC
   </select>
+   
    <!-- 댓글 삭제 -->
   <delete id="deleteComment" parameterType="long">
     DELETE FROM TB_MARKET_COMMENT
     WHERE COMMENT_NO = #{commentNo}
   </delete>
- </mapper>
+</mapper>
+
