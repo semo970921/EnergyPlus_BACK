@@ -44,7 +44,9 @@ public class SecurityConfigure {
                     "/uploads/**",
                     "/resources/**",
                     "/css/**",
-                    "/images/**"
+                    "/images/**",
+                    "/qnas/**",
+                    "/replys/**"
                 ).permitAll()
                   .anyRequest().authenticated() 
             )
