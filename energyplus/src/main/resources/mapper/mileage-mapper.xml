@@ -46,6 +46,7 @@
 	
 	
 	<!-- 관리자 권한 -->
+	
 	<select id="findAllMileage"
 			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
 		SELECT

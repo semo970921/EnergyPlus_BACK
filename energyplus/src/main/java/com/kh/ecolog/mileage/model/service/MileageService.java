@@ -25,5 +25,4 @@ public interface MileageService {
 	public void updateMileageStatus(Long mileageSeq, String mileageStatus);
 	
 	
-	
 }
