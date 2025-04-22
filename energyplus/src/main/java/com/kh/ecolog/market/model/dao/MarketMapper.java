@@ -16,4 +16,5 @@ public interface MarketMapper {
 	void deleteImagesByMarketNo(Long marketNo);
 	void deleteMarket(Long marketNo);
 	MarketDTO selectMarketByNo(Long marketNo);
+	List<MarketImageDTO> selectImagesByMarketNo(Long marketNo);
 }

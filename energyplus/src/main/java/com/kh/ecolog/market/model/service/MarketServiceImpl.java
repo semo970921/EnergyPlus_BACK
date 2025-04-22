@@ -32,7 +32,6 @@ public class MarketServiceImpl implements MarketService  {
 
 	    images.forEach(file -> {
 	        String url = fileService.store(file);
-	        log.info(" 저장된 이미지 URL: {}", url);
 
 	        MarketImageDTO img = MarketImageDTO.builder()
 	                .marketNo(marketNo)
@@ -46,31 +45,50 @@ public class MarketServiceImpl implements MarketService  {
 	
 	@Override
 	public void insertMarket(MarketDTO dto, List<MultipartFile> images) {
-	    dto.setUserId(1L);
+	    setDefaultMarketInfo(dto);
 	    dto.setMarketStatus("N");
 	    dto.setMarketDate(new Date(System.currentTimeMillis()));
 
 	    marketMapper.insertMarket(dto);
-
-	    saveMarketImages(dto.getMarketNo(), images);  // 공통 처리
+	    handleImages(dto.getMarketNo(), images, false);
 	}
-	
+
 	@Override
 	public void updateMarket(MarketDTO dto, List<MultipartFile> images) {
-	    log.info("📦 넘어온 이미지 개수: {}", images != null ? images.size() : "null");
+	    dto.setUserId(1L); // ← 필요시 고정
 
 	    marketMapper.updateMarket(dto);
 
 	    if (images != null && !images.isEmpty()) {
 	        marketMapper.deleteImagesByMarketNo(dto.getMarketNo());
-	        saveMarketImages(dto.getMarketNo(), images);  // 공통 처리
+	        saveMarketImages(dto.getMarketNo(), images);
 	    }
 	}
 
+	// 공통 처리 함수들 ↓
+
+	private void setDefaultMarketInfo(MarketDTO dto) {
+	    dto.setUserId(1L);
+	}
+
+	private void handleImages(Long marketNo, List<MultipartFile> images, boolean isUpdate) {
+	    if (images != null && !images.isEmpty()) {
+	        if (isUpdate) {
+	            marketMapper.deleteImagesByMarketNo(marketNo);
+	        }
+	        saveMarketImages(marketNo, images);
+	    }
+	}
+	
+	@Override
+	public void deleteImagesByMarketNo(Long marketNo) {
+	    marketMapper.deleteImagesByMarketNo(marketNo);
+	}
+	
 	@Override
 	public void deleteMarket(Long marketNo) {
 		 // 1. 관련 이미지 먼저 삭제
-	    marketMapper.deleteMarketImagesByMarketNo(marketNo);
+		marketMapper.deleteImagesByMarketNo(marketNo);
 
 	    // 2. 게시글 삭제
 	    marketMapper.deleteMarket(marketNo);
@@ -84,7 +102,9 @@ public class MarketServiceImpl implements MarketService  {
 
 	@Override
 	public MarketDTO findMarketByNo(Long marketNo) {
-	    return marketMapper.selectMarketByNo(marketNo);
+		MarketDTO dto = marketMapper.selectMarketByNo(marketNo);
+		dto.setImageList(marketMapper.selectImagesByMarketNo(marketNo));
+	    return dto;
 	}
 
 
