@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.ecolog.file.service.FileService;
 import com.kh.ecolog.mileage.model.dao.MileageMapper;
 import com.kh.ecolog.mileage.model.dto.MileageDTO;
+import com.kh.ecolog.mileage.model.dto.MileageStoreDTO;
 import com.kh.ecolog.mileage.model.vo.Mileage;
 
 import lombok.RequiredArgsConstructor;
@@ -70,7 +71,16 @@ public class MileageServiceImpl implements MileageService {
 		
 		mileageMapper.updateMileageStatus(mileageSeq, mileageStatus);
 	}
-
+	
+	
+	// 마일리지 사용처
+	
+	@Override
+	public List<MileageStoreDTO> findAllStores() {
+		
+		return mileageMapper.findAllStore();
+	}
+	
 	
 	
 	

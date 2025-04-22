@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.ecolog.mileage.model.dto.MileageDTO;
+import com.kh.ecolog.mileage.model.dto.MileageStoreDTO;
 
 public interface MileageService {
 
@@ -25,5 +26,7 @@ public interface MileageService {
 	public void updateMileageStatus(Long mileageSeq, String mileageStatus);
 	
 	
+	/* 마일리지 사용처 */
+	List<MileageStoreDTO> findAllStores();
 	
 }

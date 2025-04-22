@@ -46,6 +46,7 @@
 	
 	
 	<!-- 관리자 권한 -->
+	
 	<select id="findAllMileage"
 			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
 		SELECT
@@ -69,6 +70,23 @@
 		WHERE 
 			MILEAGE_SEQ = #{mileageSeq}
 	</update>
+	
+	
+	
+	<!-- 마일리지 사용처 조회 -->
+	
+	<select id="findAllStore"
+			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+		SELECT
+			  MILEAGE_STORE_SEQ mileageStoreSeq
+			, MILEAGE_STORE_CATEGORY mileageStoreCategory
+			, MILEAGE_STORE_NAME mileageStoreName
+			, MILEAGE_STORE_PRICE mileageStorePrice
+		FROM
+			TB_MILEAGE_STORE
+		ORDER BY
+			mileageStoreSeq ASC
+	</select>
 	
 	
 
