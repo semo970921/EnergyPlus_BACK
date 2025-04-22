@@ -45,6 +45,21 @@
 	</select>
 	
 	
+	<!-- 관리자 권한 -->
+	<select id="findAllMileage"
+			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+		SELECT
+			  MILEAGE_SEQ mileageSeq
+			, MILEAGE_CATEGORY mileageCategory
+			, USER_ID userId
+			, CREATE_DATE createDate
+			, MILEAGE_STATUS mileageStatus
+		FROM
+			TB_MILEAGE
+		ORDER BY createDate DESC
+	</select>
+	
+	
 	<update id="updateMileageStatus"
 			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
 		UPDATE
