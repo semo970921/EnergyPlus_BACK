@@ -26,5 +26,5 @@ public class MarketDTO {
     private String marketStatusLabel;
     private String thumbnailUrl;
     private List<MarketImageDTO> imageList;
-    
+    private List<String> keepImageUrls;
 }

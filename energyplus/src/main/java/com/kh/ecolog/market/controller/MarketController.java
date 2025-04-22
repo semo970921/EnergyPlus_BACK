@@ -1,6 +1,7 @@
 package com.kh.ecolog.market.controller;
 
 import java.util.HashMap;
+import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,10 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/markets")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(
+	    origins = "http://localhost:5173",
+	    methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT}
+)
 public class MarketController {
 	private final MarketService marketService; 
 	
@@ -45,9 +49,10 @@ public class MarketController {
 	
 	@PutMapping("/update")
 	public ResponseEntity<String> updateMarket(
-	      @RequestPart("market") MarketDTO dto,
-	      @RequestPart(value = "images", required = false) List<MultipartFile> images
+	    @RequestPart("market") MarketDTO dto,
+	    @RequestPart(value = "images", required = false) List<MultipartFile> images
 	) {
+	    log.info("수정 요청 들어옴: {}", dto);
 	    marketService.updateMarket(dto, images);
 	    return ResponseEntity.ok("수정 성공!");
 	}
