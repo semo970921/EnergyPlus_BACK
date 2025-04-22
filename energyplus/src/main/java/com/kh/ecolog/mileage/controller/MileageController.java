@@ -1,5 +1,7 @@
 package com.kh.ecolog.mileage.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -45,10 +47,16 @@ public class MileageController {
 	    return ResponseEntity.ok(mileage);
 	}
 	
+	@GetMapping
+	public ResponseEntity<List<MileageDTO>> findAllMileage(@RequestParam(name="page", defaultValue="0") int page){
+		
+		return ResponseEntity.ok(mileageService.findAllMileage(page));
+	}
+	
 	@PutMapping("/{mileageSeq}/status")
-	public ResponseEntity<?> updateMileageStatus(@PathVariable Long mileageSeq, @RequestParam String status) {
+	public ResponseEntity<?> updateMileageStatus(@PathVariable Long mileageSeq, @RequestParam String mileageStatus) {
 	    
-	    mileageService.updateMileageStatus(mileageSeq, status);
+	    mileageService.updateMileageStatus(mileageSeq, mileageStatus);
 	    return ResponseEntity.ok("상태가 업데이트되었습니다.");
 	}
 	

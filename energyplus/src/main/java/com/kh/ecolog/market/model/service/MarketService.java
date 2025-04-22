@@ -10,14 +10,15 @@ import com.kh.ecolog.market.model.dto.MarketImageDTO;
 public interface MarketService {
 
 	void insertMarket(MarketDTO dto, List<MultipartFile> images);
-  
-	MarketDTO updateMarket(MarketDTO market, MultipartFile file);
 
 	List<MarketDTO> findAllMarkets();
 	
 	void updateMarket(MarketDTO dto, List<MultipartFile> images);
 
 	void deleteMarket(Long marketNo);
+	
+	void deleteImagesByMarketNo(Long marketNo);
 
+	MarketDTO findMarketByNo(Long marketNo);
 	
 }
