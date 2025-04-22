@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MarketCommentServiceImpl implements MarketCommentService  {
 	
-	private MarketCommentMapper commentMapper;
+	private final MarketCommentMapper commentMapper;
 
 	@Override
 	public void insertComment(MarketCommentDTO dto) {

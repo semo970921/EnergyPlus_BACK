@@ -1,6 +1,7 @@
 package com.kh.ecolog.market.model.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -55,14 +56,53 @@ public class MarketServiceImpl implements MarketService  {
 
 	@Override
 	public void updateMarket(MarketDTO dto, List<MultipartFile> images) {
-	    dto.setUserId(1L); // ← 필요시 고정
+	    dto.setUserId(1L); // 필요 시 고정
 
-	    marketMapper.updateMarket(dto);
+	    // 1. 유효한 새 이미지만 필터링
+	    List<MultipartFile> validImages = (images != null) 
+	        ? images.stream().filter(img -> img != null && !img.isEmpty()).toList()
+	        : new ArrayList<>();
 
-	    if (images != null && !images.isEmpty()) {
-	        marketMapper.deleteImagesByMarketNo(dto.getMarketNo());
-	        saveMarketImages(dto.getMarketNo(), images);
+	    // 2. 유지할 기존 이미지
+	    List<String> keepUrls = dto.getKeepImageUrls() != null 
+	        ? dto.getKeepImageUrls()
+	        : new ArrayList<>();
+
+	    // 3. 총 이미지 수 확인
+	    int totalCount = validImages.size() + keepUrls.size();
+	    if (totalCount != 3) {
+	        throw new IllegalArgumentException("수정 시 이미지는 총 3장이 있어야 합니다");
 	    }
+
+	    // 4. 기존 이미지 전부 삭제
+	    marketMapper.deleteImagesByMarketNo(dto.getMarketNo());
+
+	    // 5. 이미지 순서 초기화
+	    AtomicInteger order = new AtomicInteger(1);
+
+	    // 6. 기존 이미지 다시 저장
+	    keepUrls.forEach(url -> {
+	        MarketImageDTO image = MarketImageDTO.builder()
+	            .marketNo(dto.getMarketNo())
+	            .imgUrl(url)
+	            .imgOrder(order.getAndIncrement())
+	            .build();
+	        marketMapper.insertMarketImage(image);
+	    });
+
+	    // 7. 새 이미지 저장
+	    validImages.forEach(file -> {
+	        String url = fileService.store(file);
+	        MarketImageDTO image = MarketImageDTO.builder()
+	            .marketNo(dto.getMarketNo())
+	            .imgUrl(url)
+	            .imgOrder(order.getAndIncrement())
+	            .build();
+	        marketMapper.insertMarketImage(image);
+	    });
+
+	    // 8. 게시글 정보 업데이트
+	    marketMapper.updateMarket(dto);
 	}
 
 	// 공통 처리 함수들 ↓
