@@ -1,0 +1,14 @@
+package com.kh.ecolog.qna_reply.model.service;
+
+import java.util.List;
+
+import com.kh.ecolog.qna_reply.model.dto.QnaReplyDTO;
+
+public interface QnaReplyService {
+	
+	// 등록
+	void insertReply(QnaReplyDTO reply);
+	
+	// 조회
+	List<QnaReplyDTO> selectReplyList(Long replyId);
+}

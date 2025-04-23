@@ -1,10 +1,12 @@
 package com.kh.ecolog.qna.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,11 +30,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/qnas")
+@CrossOrigin(origins = "http://localhost:5173")
 public class QnaController {
 	
 	private final QnaService qnaService;
 	
-	// 등록
+	// 등록(완)
 	@PostMapping
 	public ResponseEntity<?> insert(@Valid @RequestBody QnaDTO qna){
 		qnaService.insert(qna);
@@ -43,9 +46,10 @@ public class QnaController {
 	
 	// 전체 조회
 	@GetMapping
-	public ResponseEntity<List<QnaDTO>> selectAll(
-			@RequestParam(name="page", defaultValue="0") int page){
-		return ResponseEntity.ok(qnaService.selectAll(page));
+	public ResponseEntity<Map<String, Object>> selectAll(
+			@RequestParam(name="page", defaultValue="0") int page,
+			@RequestParam(name = "keyword", required = false) String keyword){
+		return ResponseEntity.ok(qnaService.selectAll(page, keyword));
 	}
 	
 	// 1개 조회
@@ -56,24 +60,23 @@ public class QnaController {
 		return ResponseEntity.ok(qnaService.selectById(qnaId));
 	}
 	
-	// 수정
+	// 수정(완)
 	@PutMapping("/{id}")
 	public ResponseEntity<QnaDTO> update(
 								@PathVariable(name="id") Long qnaId,
-								QnaDTO qna){
+								@RequestBody QnaDTO qna){
 		log.info("{}, {}", qnaId, qna);
 		qna.setQnaId(qnaId);
 		return ResponseEntity.status(HttpStatus.CREATED)
 							 .body(qnaService.update(qna));
 	}
 	
-	// 삭제
+	// 삭제(완)
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteById(@PathVariable(name="id") Long qnaId){
 		qnaService.deleteById(qnaId);
 		return ResponseEntity.ok().build();
 	}
 	
-	// -----------아래부터는 댓글-----------
 
 }

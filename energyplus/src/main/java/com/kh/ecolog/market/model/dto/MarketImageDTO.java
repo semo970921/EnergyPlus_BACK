@@ -17,5 +17,6 @@ public class MarketImageDTO {
 	 	private Long marketImgId;   
 	    private Long marketNo;       
 	    private String imgUrl;     
-	    private int imgOrder;        
+	    private int imgOrder;    
+	   
 }

@@ -2,10 +2,12 @@ package com.kh.ecolog.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -43,6 +45,7 @@ public class SecurityConfigure {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
             .formLogin(config -> config.disable())
             .httpBasic(config -> config.disable())
@@ -55,9 +58,11 @@ public class SecurityConfigure {
                 .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll()
                 .requestMatchers(
                     "/members/**", "/markets/**", "/notices/**", "/apis/**",
-                    "/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**"
+                    "/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**",
+                    "/qnas/**", "/replys/**"
                 ).permitAll()
                 .anyRequest().authenticated()
+
             )
             .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -76,4 +81,5 @@ public class SecurityConfigure {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }

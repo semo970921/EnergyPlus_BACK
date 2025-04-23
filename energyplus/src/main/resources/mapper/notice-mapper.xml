@@ -49,5 +49,58 @@
         ORDER BY
         	NOTICE_DATE DESC
     </select>
+    
+    
+  
+	  <select id="findById" resultType="com.kh.ecolog.notice.model.dto.NoticeDTO" parameterType="long">
+		  SELECT 
+		    NOTICE_ID AS noticeId,
+		    NOTICE_TITLE AS noticeTitle,
+		    NOTICE_CONTENT AS noticeContent,
+		    NOTICE_DATE AS noticeDate,
+		    USER_ID AS userId
+		  FROM
+		  	TB_NOTICE
+		  WHERE
+		  	NOTICE_ID = #{noticeId}
+	</select>
+
+  
+  
+  
+  
+  
+  
+  
   
   </mapper>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

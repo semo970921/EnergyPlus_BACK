@@ -1,8 +1,9 @@
 package com.kh.ecolog.market.model.service;
 
-import java.awt.datatransfer.Clipboard;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,70 +24,127 @@ public class MarketServiceImpl implements MarketService  {
 	private final FileService fileService;
 	
 
+	private void saveMarketImages(Long marketNo, List<MultipartFile> images) {
+	    if (images == null || images.size() != 3) {
+	        throw new IllegalArgumentException("이미지는 3장 등록해야 합니다.");
+	    }
+
+	    AtomicInteger order = new AtomicInteger(1);
+
+	    images.forEach(file -> {
+	        String url = fileService.store(file);
+
+	        MarketImageDTO img = MarketImageDTO.builder()
+	                .marketNo(marketNo)
+	                .imgUrl(url)
+	                .imgOrder(order.getAndIncrement())
+	                .build();
+
+	        marketMapper.insertMarketImage(img);
+	    });
+	}
+	
 	@Override
 	public void insertMarket(MarketDTO dto, List<MultipartFile> images) {
-		
-		dto.setUserId(1L);
-		dto.setMarketStatus("N");
-		dto.setMarketDate(new java.sql.Date(System.currentTimeMillis()));
+	    setDefaultMarketInfo(dto);
+	    dto.setMarketStatus("N");
+	    dto.setMarketDate(new Date(System.currentTimeMillis()));
 
-		marketMapper.insertMarket(dto);
-	   
-	   Long marketNo = dto.getMarketNo();
-	   
-	   if(images == null || images.size() != 3) {
-		   throw new IllegalArgumentException("이미지는 3장 등록해야합니다.");
-	   }
-	   
-	   int order = 1;
-	   for (MultipartFile file : images ) {
-		   String imageUrl = fileService.store(file);
-		   
-		   MarketImageDTO img = MarketImageDTO.builder()
-				   				.marketNo(marketNo)
-				   				.imgUrl(imageUrl)
-				   				.imgOrder(order++)
-				   				.build();
-		   
-		marketMapper.insertMarketImage(img);
-	   }
-	    
+	    marketMapper.insertMarket(dto);
+	    handleImages(dto.getMarketNo(), images, false);
 	}
 
 	@Override
 	public void updateMarket(MarketDTO dto, List<MultipartFile> images) {
-	    // 1. 게시글 내용 업데이트
-	    marketMapper.updateMarket(dto);
+	    dto.setUserId(1L); // 필요 시 고정
 
-	    // 2. 이미지가 있을 경우에만 처리
-	    if (images != null && !images.isEmpty()) {
-	        // 기존 이미지 삭제
-	        marketMapper.deleteImagesByMarketNo(dto.getMarketNo());
+	    // 1. 유효한 새 이미지만 필터링
+	    List<MultipartFile> validImages = (images != null) 
+	        ? images.stream().filter(img -> img != null && !img.isEmpty()).toList()
+	        : new ArrayList<>();
 
-	        // 새 이미지 저장
-	        int order = 1;
-	        for (MultipartFile file : images) {
-	            String url = fileService.store(file);
+	    // 2. 유지할 기존 이미지
+	    List<String> keepUrls = dto.getKeepImageUrls() != null 
+	        ? dto.getKeepImageUrls()
+	        : new ArrayList<>();
 
-	            MarketImageDTO img = MarketImageDTO.builder()
-	                .marketNo(dto.getMarketNo())
-	                .imgUrl(url)
-	                .imgOrder(order++)
-	                .build();
-
-	            marketMapper.insertMarketImage(img);
-	        }
+	    // 3. 총 이미지 수 확인
+	    int totalCount = validImages.size() + keepUrls.size();
+	    if (totalCount != 3) {
+	        throw new IllegalArgumentException("수정 시 이미지는 총 3장이 있어야 합니다");
 	    }
+
+	    // 4. 기존 이미지 전부 삭제
+	    marketMapper.deleteImagesByMarketNo(dto.getMarketNo());
+
+	    // 5. 이미지 순서 초기화
+	    AtomicInteger order = new AtomicInteger(1);
+
+	    // 6. 기존 이미지 다시 저장
+	    keepUrls.forEach(url -> {
+	        MarketImageDTO image = MarketImageDTO.builder()
+	            .marketNo(dto.getMarketNo())
+	            .imgUrl(url)
+	            .imgOrder(order.getAndIncrement())
+	            .build();
+	        marketMapper.insertMarketImage(image);
+	    });
+
+	    // 7. 새 이미지 저장
+	    validImages.forEach(file -> {
+	        String url = fileService.store(file);
+	        MarketImageDTO image = MarketImageDTO.builder()
+	            .marketNo(dto.getMarketNo())
+	            .imgUrl(url)
+	            .imgOrder(order.getAndIncrement())
+	            .build();
+	        marketMapper.insertMarketImage(image);
+	    });
+
+	    // 8. 게시글 정보 업데이트
+	    marketMapper.updateMarket(dto);
 	}
 
+	// 공통 처리 함수들 ↓
+
+	private void setDefaultMarketInfo(MarketDTO dto) {
+	    dto.setUserId(1L);
+	}
+
+	private void handleImages(Long marketNo, List<MultipartFile> images, boolean isUpdate) {
+	    if (images != null && !images.isEmpty()) {
+	        if (isUpdate) {
+	            marketMapper.deleteImagesByMarketNo(marketNo);
+	        }
+	        saveMarketImages(marketNo, images);
+	    }
+	}
+	
+	@Override
+	public void deleteImagesByMarketNo(Long marketNo) {
+	    marketMapper.deleteImagesByMarketNo(marketNo);
+	}
+	
 	@Override
 	public void deleteMarket(Long marketNo) {
 		 // 1. 관련 이미지 먼저 삭제
-	    marketMapper.deleteMarketImagesByMarketNo(marketNo);
+		marketMapper.deleteImagesByMarketNo(marketNo);
 
 	    // 2. 게시글 삭제
 	    marketMapper.deleteMarket(marketNo);
 		
+	}
+
+	@Override
+	public List<MarketDTO> findAllMarkets() {
+	    return marketMapper.findAllMarkets();
+	}
+
+	@Override
+	public MarketDTO findMarketByNo(Long marketNo) {
+		MarketDTO dto = marketMapper.selectMarketByNo(marketNo);
+		dto.setImageList(marketMapper.selectImagesByMarketNo(marketNo));
+	    return dto;
 	}
 
 

@@ -1,5 +1,7 @@
 package com.kh.ecolog.mileage.model.vo;
 
+import java.sql.Date;
+
 import lombok.Builder;
 import lombok.Value;
 
@@ -14,6 +16,8 @@ public class Mileage {
 	private String mileageCategory;
 	private String mileageImg;
 	private String mileageStatus;
-	private Integer mileageScore;
+	private int mileageScore;
+	private String mileageReject;
+	private Date createDate;
 	
 }

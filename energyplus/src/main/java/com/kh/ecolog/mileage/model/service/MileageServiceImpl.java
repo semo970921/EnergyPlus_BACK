@@ -1,11 +1,16 @@
 package com.kh.ecolog.mileage.model.service;
 
+import java.util.List;
+
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.ecolog.file.service.FileService;
 import com.kh.ecolog.mileage.model.dao.MileageMapper;
 import com.kh.ecolog.mileage.model.dto.MileageDTO;
+import com.kh.ecolog.mileage.model.dto.MileageStoreDTO;
 import com.kh.ecolog.mileage.model.vo.Mileage;
 
 import lombok.RequiredArgsConstructor;
@@ -20,36 +25,63 @@ public class MileageServiceImpl implements MileageService {
 	private final FileService fileService;
 	
 	@Override
-	public void saveMileage(MileageDTO mileage, MultipartFile file) {
+	public ResponseEntity<?> saveMileage(MileageDTO mileage, MultipartFile file) {
 
 		Mileage requestData = null;
 		
-		if(file != null & !file.isEmpty()) {
-			
-			String filePath = fileService.store(file);
-			
-			log.info("파일 저장 완료 : {}", filePath);
-			
-			requestData = Mileage.builder()
-					.mileageTitle(mileage.getMileageTitle())
-					.mileageCategory(mileage.getMileageCategory())
-					.mileageContent(mileage.getMileageContent())
-					.mileageImg(filePath)
-					.build();
-			
-		} else {
-			
-			requestData = Mileage.builder()
-					.mileageTitle(mileage.getMileageTitle())
-					.mileageCategory(mileage.getMileageCategory())
-					.mileageContent(mileage.getMileageContent())
-					.build();
+		if(file == null || file.isEmpty()) {
+			return ResponseEntity.badRequest().body("인증사진을 첨부해주세요.");
 		}
+		
+		String filePath = fileService.store(file);
+		log.info("파일 저장 완료 : {}", filePath);
+		
+		requestData = Mileage.builder()
+				.userId(mileage.getUserId())
+				.mileageTitle(mileage.getMileageTitle())
+				.mileageCategory(mileage.getMileageCategory())
+				.mileageContent(mileage.getMileageContent())
+				.mileageImg(filePath)
+				.build();
 		
 		mileageMapper.saveMileage(requestData);
 		
+		return ResponseEntity.ok().body("신청이 완료되었습니다.");
 	}
 
+	@Override
+	public MileageDTO detailMileage(Long mileageSeq) {
+		
+	    return mileageMapper.detailMileage(mileageSeq);
+	}
+	
+	
+	// 관리자 권한
+	
+	@Override
+	public List<MileageDTO> findAllMileage(int pageNo) {
+		int size = 5;
+		RowBounds rowBounds = new RowBounds(pageNo * size, size);
+		
+		return mileageMapper.findAllMileage(rowBounds);
+	}
+
+	@Override
+	public void updateMileageStatus(Long mileageSeq, String mileageStatus) {
+		
+		mileageMapper.updateMileageStatus(mileageSeq, mileageStatus);
+	}
+	
+	
+	// 마일리지 사용처
+	
+	@Override
+	public List<MileageStoreDTO> findAllStores() {
+		
+		return mileageMapper.findAllStore();
+	}
+	
+	
 	
 	
 }
