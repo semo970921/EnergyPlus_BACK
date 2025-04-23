@@ -18,9 +18,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import io.jsonwebtoken.lang.Arrays;
+import com.kh.ecolog.configuration.filter.JwtFilter;
+
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class SecurityConfigure {
 
+    private final JwtFilter jwtFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -47,6 +49,8 @@ public class SecurityConfigure {
             .csrf(config -> config.disable())
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
+                // Auth 관련 경로 허용
+                .requestMatchers("/auth/**").permitAll() // 모든 인증 경로 허용
                 .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll()
                 .requestMatchers(
@@ -55,22 +59,21 @@ public class SecurityConfigure {
                 ).permitAll()
                 .anyRequest().authenticated()
             )
-            .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-           
+            .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
     
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList(new String[] {"http://localhost:5173"}));
-		configuration.setAllowedMethods(Arrays.asList(new String[] {"GET", "POST", "PUT", "DELETE", "OPTIONS"}));
-		configuration.setAllowedHeaders(Arrays.asList(new String[] {"Authorization", "Content-Type"}));
-		configuration.setAllowCredentials(true);
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-		
-	}
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }
