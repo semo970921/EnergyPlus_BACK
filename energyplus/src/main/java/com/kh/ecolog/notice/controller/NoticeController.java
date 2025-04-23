@@ -43,7 +43,8 @@ public class NoticeController {
 
 	// 전체 공지 목록 (페이징)
 	@GetMapping
-	public ResponseEntity<List<NoticeDTO>> findAll(@RequestParam(name = "page", defaultValue = "0") int page) {
+	public ResponseEntity<List<NoticeDTO>> findAll(
+			@RequestParam(name = "page", defaultValue = "0") int page) {
 		return ResponseEntity.ok(noticeService.findAll(page));
 	}
 
