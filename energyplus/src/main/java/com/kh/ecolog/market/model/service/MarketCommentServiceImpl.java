@@ -25,16 +25,18 @@ public class MarketCommentServiceImpl implements MarketCommentService  {
 	public List<MarketCommentDTO> selectCommentsByMarketNo(Long marketNo) {
 		return commentMapper.selectCommentsByMarketNo(marketNo);
 	}
-
+	
+	@Override
+	public void updateComment(MarketCommentDTO dto) {
+		commentMapper.updateComment(dto);
+		
+	}
+	
 	@Override
 	public void deleteComment(Long commentNo, Long userId) {
 		commentMapper.deleteComment(commentNo);
 		
 	}
 
-	@Override
-	public void updateComment(MarketCommentDTO dto) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }

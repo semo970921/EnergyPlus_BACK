@@ -1,11 +1,11 @@
 package com.kh.ecolog.market.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +42,12 @@ public class MarketCommentController {
 	    return ResponseEntity.ok(comments);
 	}
 	
+	@PutMapping
+	public ResponseEntity<?> updateComment(@RequestBody MarketCommentDTO dto) {
+		commentService.updateComment(dto);
+		return ResponseEntity.ok("댓글 수정 완료");
+	}
+	
 	@GetMapping("/delete/{marketCommentNo}")
 	public ResponseEntity<?> deleteComment(
 	    @PathVariable("marketCommentNo") Long marketCommentNo,
@@ -51,11 +57,8 @@ public class MarketCommentController {
 	    return ResponseEntity.ok("댓글 삭제 완료");
 	}
 	
-	@PutMapping
-	public ResponseEntity<?> updateComment(@RequestBody MarketCommentDTO dto) {
-		commentService.updateComment(dto);
-		return ResponseEntity.ok("댓글 수정 완료");
-	}
+	
+	
 
 
 }

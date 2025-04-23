@@ -1,40 +1,46 @@
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.kh.ecolog.market.model.dao.MarketCommentMapper">
-  <!-- 댓글 등록 -->
-  <insert id="insertComment" parameterType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
-  INSERT INTO TB_MARKET_COMMENT (
-    MARKET_COMMENT_NO,
-    MARKET_NO,
-    USER_ID,
-    MARKET_COMMENT_CONTENT,
-    MARKET_COMMENT_DATE
-  ) VALUES (
-    SEQ_MARKET_COMMENT_NO.NEXTVAL,
-    #{marketNo},
-    #{userId},
-    #{marketCommentContent},
-    SYSDATE
-  )
-</insert>
-   <!-- 게시글 번호로 댓글 리스트 조회 -->
-<select id="selectCommentsByMarketNo" resultType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
-  SELECT 
-    C.MARKET_COMMENT_NO AS marketCommentNo,
-    C.MARKET_NO AS marketNo,
-    C.USER_ID AS userId,
-    C.MARKET_COMMENT_CONTENT AS marketCommentContent,
-    C.MARKET_COMMENT_DATE AS marketCommentDate,
-    U.USER_NAME AS userName
-  FROM TB_MARKET_COMMENT C
-  JOIN TB_USER U ON C.USER_ID = U.USER_ID
-  WHERE C.MARKET_NO = #{marketNo}
-  ORDER BY C.MARKET_COMMENT_DATE ASC
-</select>
-   <!-- 댓글 삭제 -->
-  <delete id="deleteComment" parameterType="long">
-    DELETE FROM TB_MARKET_COMMENT
-    WHERE MARKET_COMMENT_NO = #{marketCommentNo}
-</delete>
- </mapper>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.market.model.dao.MarketCommentMapper">
+	<!-- 댓글 등록 -->
+	<insert id="insertComment"
+		parameterType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
+		INSERT INTO TB_MARKET_COMMENT (
+		MARKET_COMMENT_NO,
+		MARKET_NO,
+		USER_ID,
+		MARKET_COMMENT_CONTENT,
+		MARKET_COMMENT_DATE
+		) VALUES (
+		SEQ_MARKET_COMMENT_NO.NEXTVAL,
+		#{marketNo},
+		#{userId},
+		#{marketCommentContent},
+		SYSDATE
+		)
+	</insert>
+	<!-- 게시글 번호로 댓글 리스트 조회 -->
+	<select id="selectCommentsByMarketNo"
+		resultType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
+		SELECT
+		C.MARKET_COMMENT_NO AS marketCommentNo,
+		C.MARKET_NO AS marketNo,
+		C.USER_ID AS userId,
+		C.MARKET_COMMENT_CONTENT AS marketCommentContent,
+		C.MARKET_COMMENT_DATE AS marketCommentDate,
+		U.USER_NAME AS userName
+		FROM TB_MARKET_COMMENT C
+		JOIN TB_USER U ON C.USER_ID = U.USER_ID
+		WHERE C.MARKET_NO = #{marketNo}
+		ORDER BY C.MARKET_COMMENT_DATE DESC
+	</select>
+	<update id="updateComment"
+		parameterType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
+		UPDATE TB_MARKET_COMMENT
+		SET MARKET_COMMENT_CONTENT = #{marketCommentContent}
+		WHERE MARKET_COMMENT_NO = #{marketCommentNo}
+	</update>
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="long">
+		DELETE FROM TB_MARKET_COMMENT
+		WHERE MARKET_COMMENT_NO = #{marketCommentNo}
+	</delete>
+</mapper>
