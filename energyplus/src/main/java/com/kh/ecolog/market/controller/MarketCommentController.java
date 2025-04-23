@@ -35,15 +35,19 @@ public class MarketCommentController {
 	}
 	
 	@GetMapping("/{marketNo}")
-	public ResponseEntity<List<MarketCommentDTO>> getComments(@PathVariable Long marketNo) {
-		List<MarketCommentDTO> comments = commentService.selectCommentsByMarketNo(marketNo);
-		return ResponseEntity.ok(comments);
+	public ResponseEntity<List<MarketCommentDTO>> getComments(@PathVariable("marketNo") Long marketNo) {
+	    log.info("marketNo = {}", marketNo);  // 이거 찍히는지 확인
+	    List<MarketCommentDTO> comments = commentService.selectCommentsByMarketNo(marketNo);
+	    return ResponseEntity.ok(comments);
 	}
 	
-	@GetMapping("/delete/{commentNo}")
-	public ResponseEntity<?> deleteComment(@PathVariable Long commentNo, @RequestParam Long userId) {
-		commentService.deleteComment(commentNo, userId);
-		return ResponseEntity.ok("댓글 삭제 완료");
+	@GetMapping("/delete/{marketCommentNo}")
+	public ResponseEntity<?> deleteComment(
+	    @PathVariable("marketCommentNo") Long marketCommentNo,
+	    @RequestParam("userId") Long userId
+	) {
+	    commentService.deleteComment(marketCommentNo, userId);
+	    return ResponseEntity.ok("댓글 삭제 완료");
 	}
 	
 	@PutMapping

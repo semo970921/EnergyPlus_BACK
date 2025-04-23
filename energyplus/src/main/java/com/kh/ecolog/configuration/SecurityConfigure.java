@@ -27,17 +27,15 @@ public class SecurityConfigure {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-        	.cors(Customizer.withDefaults())
-            .csrf(AbstractHttpConfigurer::disable) 
-            .authorizeHttpRequests(auth -> 
-            auth
-            .requestMatchers("/members/**", "/markets/**", "/notices/**", "/mileages/**", "/apis/**", "/uploads/**", "/resources/**", "/css/**", "/images/**").permitAll()
-            .anyRequest().authenticated()
-            )
-            .formLogin(AbstractHttpConfigurer::disable)
-            .httpBasic(AbstractHttpConfigurer::disable);
-        
-        return http.build();
+    	 http
+         .cors(Customizer.withDefaults())
+         .csrf(AbstractHttpConfigurer::disable)
+         .authorizeHttpRequests(auth -> 
+             auth.anyRequest().permitAll()  // 모든 요청 다 허용
+         )
+         .formLogin(AbstractHttpConfigurer::disable)
+         .httpBasic(AbstractHttpConfigurer::disable);
+
+     return http.build();
     }
 }

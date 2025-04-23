@@ -3,6 +3,7 @@ package com.kh.ecolog.market.model.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.kh.ecolog.market.model.dto.MarketCommentDTO;
 
@@ -13,5 +14,5 @@ public interface MarketCommentMapper {
 	
 	List<MarketCommentDTO> selectCommentsByMarketNo(Long marketNo);
 	
-	void deleteComment(Long commentNo);
+	void deleteComment(@Param("marketCommentNo") Long marketCommentNo);
 }
