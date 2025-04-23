@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,30 +23,34 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comments")
+@RequestMapping("/markets/comments")
 @CrossOrigin(origins = "http://localhost:5173")
 public class MarketCommentController {
 	private final MarketCommentService commentService;
-	 // 댓글 등록
-    @PostMapping
-    public ResponseEntity<String> insertComment(@RequestBody MarketCommentDTO commentDto) {
-        commentService.insertComment(commentDto);
-        return ResponseEntity.ok("댓글 등록 성공!");
-    }
-
-    // 특정 게시글의 댓글 리스트 조회 (서비스 메서드에 맞춰 이름 수정)
-    @GetMapping("/{marketNo}")
-    public ResponseEntity<List<MarketCommentDTO>> getComments(@PathVariable Long marketNo) {
-        List<MarketCommentDTO> comments = commentService.selectCommentsByMarketNo(marketNo); // ← 여기 수정
-        return ResponseEntity.ok(comments);
-    }
-
-    // 댓글 삭제
-    @DeleteMapping("/{commentNo}")
-    public ResponseEntity<String> deleteComment(@PathVariable Long commentNo) {
-        commentService.deleteComment(commentNo, null); // userId는 현재 인증 안 쓰니 null 처리
-        return ResponseEntity.ok("댓글 삭제 성공!");
-    }
+	
+	@PostMapping
+	public ResponseEntity<?> insertComment(@RequestBody MarketCommentDTO dto) {
+		commentService.insertComment(dto);
+		return ResponseEntity.ok("댓글 등록 완료");
+	}
+	
+	@GetMapping("/{marketNo}")
+	public ResponseEntity<List<MarketCommentDTO>> getComments(@PathVariable Long marketNo) {
+		List<MarketCommentDTO> comments = commentService.selectCommentsByMarketNo(marketNo);
+		return ResponseEntity.ok(comments);
+	}
+	
+	@GetMapping("/delete/{commentNo}")
+	public ResponseEntity<?> deleteComment(@PathVariable Long commentNo, @RequestParam Long userId) {
+		commentService.deleteComment(commentNo, userId);
+		return ResponseEntity.ok("댓글 삭제 완료");
+	}
+	
+	@PutMapping
+	public ResponseEntity<?> updateComment(@RequestBody MarketCommentDTO dto) {
+		commentService.updateComment(dto);
+		return ResponseEntity.ok("댓글 수정 완료");
+	}
 
 
 }
