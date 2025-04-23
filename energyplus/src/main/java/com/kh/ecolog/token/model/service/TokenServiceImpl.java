@@ -1,21 +1,16 @@
 package com.kh.ecolog.token.model.service;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.kh.ecolog.auth.util.JWTUtil;
 import com.kh.ecolog.exception.InvalidTokenException;
 import com.kh.ecolog.token.model.dao.TokenMapper;
 import com.kh.ecolog.token.vo.RefreshToken;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -24,7 +19,6 @@ public class TokenServiceImpl implements TokenService {
 	private final JWTUtil jwtUtil;
 	private final TokenMapper tokenMapper;
 	
-
 	@Override
 	@Transactional
 	public Map<String, String> generateToken(String userEmail, Long userId) {
@@ -85,7 +79,6 @@ public class TokenServiceImpl implements TokenService {
 	}
 	
 	
-
 	@Override
 	@Transactional
 	public Map<String, String> refreshToken(String refreshToken) {
@@ -119,7 +112,6 @@ public class TokenServiceImpl implements TokenService {
 		}
 		
 	}
-
 	@Override
 	@Transactional
 	public void deleteUserToken(Long userId) {
@@ -127,5 +119,4 @@ public class TokenServiceImpl implements TokenService {
 		log.info("사용자 시퀀스넘버 삭제 : {} ", userId);
 		
 	}
-
 }
