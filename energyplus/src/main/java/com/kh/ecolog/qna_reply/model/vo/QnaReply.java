@@ -8,8 +8,8 @@ import lombok.Value;
 @Value
 @Builder
 public class QnaReply {
-	private long qnaReplyId;
-	private long qnaId;
+	private Long qnaReplyId;
+	private Long qnaId;
 	private String qnaReply;
 	private Date qnaReplyDate;
 }

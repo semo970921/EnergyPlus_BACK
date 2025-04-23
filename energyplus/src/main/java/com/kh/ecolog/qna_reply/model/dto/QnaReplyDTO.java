@@ -14,8 +14,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class QnaReplyDTO {
-	private long qnaReplyId;
-	private long qnaId;
+	private Long qnaReplyId;
+	private Long qnaId;
 	private String qnaReply;
 	private Date qnaReplyDate;
 }
