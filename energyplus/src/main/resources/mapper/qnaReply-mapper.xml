@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.qna_reply.model.dao.QnaReplyMapper">
+	
+	<insert id="insertReply">
+		INSERT
+		  INTO
+		       TB_QNA_REPLY
+		       (
+				  QNA_REPLY_ID
+				, QNA_ID
+				, QNA_REPLY
+				, QNA_REPLY_DATE
+			   )
+		VALUES
+		      (
+				  PK_QNA_REPLY_ID.NEXTVAL
+				, #{qnaId}
+				, #{qnaReply}
+				, SYSDATE
+			  )
+	</insert>
+	
+	<select id="selectReplyList" parameterType="long"
+			resultType="com.kh.ecolog.qna_reply.model.dto.QnaReplyDTO">
+		SELECT
+			   QNA_ID as qnaId
+			 , QNA_REPLY as qnaReply
+			 , QNA_REPLY_DATE as qnaReplyDate
+		 FROM
+		       TB_QNA_REPLY
+		WHERE
+		       QNA_ID = #{qnaId}
+	</select>
+	
+</mapper>
