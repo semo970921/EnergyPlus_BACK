@@ -1,5 +1,8 @@
 package com.kh.ecolog.mileage.model.service;
 
+import java.util.List;
+
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.ecolog.file.service.FileService;
 import com.kh.ecolog.mileage.model.dao.MileageMapper;
 import com.kh.ecolog.mileage.model.dto.MileageDTO;
+import com.kh.ecolog.mileage.model.dto.MileageStoreDTO;
 import com.kh.ecolog.mileage.model.vo.Mileage;
 
 import lombok.RequiredArgsConstructor;
@@ -50,18 +54,34 @@ public class MileageServiceImpl implements MileageService {
 		
 	    return mileageMapper.detailMileage(mileageSeq);
 	}
-
+	
+	
+	// 관리자 권한
+	
 	@Override
-	public void updateMileageStatus(Long mileageSeq, String status) {
+	public List<MileageDTO> findAllMileage(int pageNo) {
+		int size = 5;
+		RowBounds rowBounds = new RowBounds(pageNo * size, size);
 		
-		mileageMapper.updateMileageStatus(mileageSeq, status);
+		return mileageMapper.findAllMileage(rowBounds);
 	}
 
+	@Override
+	public void updateMileageStatus(Long mileageSeq, String mileageStatus) {
+		
+		mileageMapper.updateMileageStatus(mileageSeq, mileageStatus);
+	}
 	
-
-
 	
-
+	// 마일리지 사용처
+	
+	@Override
+	public List<MileageStoreDTO> findAllStores() {
+		
+		return mileageMapper.findAllStore();
+	}
+	
+	
 	
 	
 }

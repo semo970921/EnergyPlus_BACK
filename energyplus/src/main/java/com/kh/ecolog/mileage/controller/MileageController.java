@@ -1,8 +1,11 @@
 package com.kh.ecolog.mileage.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.ecolog.mileage.model.dto.MileageDTO;
+import com.kh.ecolog.mileage.model.dto.MileageStoreDTO;
 import com.kh.ecolog.mileage.model.service.MileageService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Validated
 @RequiredArgsConstructor
 @RequestMapping("/mileages")
+@CrossOrigin(origins="http://localhost:5173")
 public class MileageController {
 
 	private final MileageService mileageService;
@@ -45,11 +50,23 @@ public class MileageController {
 	    return ResponseEntity.ok(mileage);
 	}
 	
+	@GetMapping
+	public ResponseEntity<List<MileageDTO>> findAllMileage(@RequestParam(name="page", defaultValue="0") int page){
+		
+		return ResponseEntity.ok(mileageService.findAllMileage(page));
+	}
+	
 	@PutMapping("/{mileageSeq}/status")
-	public ResponseEntity<?> updateMileageStatus(@PathVariable Long mileageSeq, @RequestParam String status) {
+	public ResponseEntity<?> updateMileageStatus(@PathVariable Long mileageSeq, @RequestParam String mileageStatus) {
 	    
-	    mileageService.updateMileageStatus(mileageSeq, status);
+	    mileageService.updateMileageStatus(mileageSeq, mileageStatus);
 	    return ResponseEntity.ok("상태가 업데이트되었습니다.");
 	}
 	
+	
+	/* 마일리지 사용처 */
+	 @GetMapping("/stores")
+	    public List<MileageStoreDTO> getAllStores() {
+	        return mileageService.findAllStores();
+	    }
 }

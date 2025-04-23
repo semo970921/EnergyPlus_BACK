@@ -14,12 +14,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class QnaDTO {
-	private long qnaId;
-	private long userId;
+	private Long qnaId;
+	private Long userId;
 	private String qnaTitle;
 	private String qnaContent;
 	private Date qnaDate;
 	private String qnaStatus;
-	private String qnaReply;
-	private Date qnaReplyDate;
 }

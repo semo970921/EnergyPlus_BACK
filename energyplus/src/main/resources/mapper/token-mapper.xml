@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.token.model.dao.TokenMapper">
+
+	<insert id="saveToken">
+		INSERT
+			INTO
+			 TB_TOKEN 
+			 (
+				TOKEN_ID,
+				USER_ID,
+				REFRESH_TOKEN,
+				DEADLINE
+			 ) 
+			VALUES
+			(
+			    SEQ_TOKEN_ID.NEXTVAL,
+			    #{token.userId},
+			    #{token.token},
+			    #{token.deadline}
+			)
+	</insert>
+	
+	
+	<select id="findByToken" resultType="RefreshToken">
+		SELECT
+			TOKEN_ID AS tokenId,
+			USER_ID AS userId,
+			REFRESH_TOKEN AS token,
+			DEADLINE AS deadline
+		FROM
+			TB_TOKEN
+		WHERE
+			REFRESH_TOKEN = #{token}
+	</select>
+
+	
+	
+	<select id="findByUserId" resultType="RefreshToken">
+		SELECT
+			TOKEN_ID AS tokenId,
+			USER_ID AS userId,
+			REFRESH_TOKEN AS token,
+			DEADLINE AS deadline
+		FROM
+			TB_TOKEN
+		WHERE
+			USER_ID = #{userId}
+	</select>
+	
+	
+	<delete id="deleteExpiredRefreshToken">
+		DELETE
+			FROM
+				TB_TOKEN
+		WHERE
+			DEADLINE &lt; #{currentTime}	
+	</delete>
+	
+	
+	<delete id="deleteTokenByUserId">
+		DELETE
+			FROM
+				TB_TOKEN
+		WHERE
+			USER_ID = #{userId}
+	</delete>
+
+</mapper>
