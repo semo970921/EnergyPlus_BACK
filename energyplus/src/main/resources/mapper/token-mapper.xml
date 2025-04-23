@@ -14,12 +14,12 @@
 				REFRESH_TOKEN,
 				DEADLINE
 			 ) 
-		VALUES 
+			VALUES
 			(
-				SEQ_TOKEN_ID.NEXTVAL,
-				#{userId},
-				#{token},
-				#{deadline}
+			    SEQ_TOKEN_ID.NEXTVAL,
+			    #{token.userId},
+			    #{token.token},
+			    #{token.deadline}
 			)
 	</insert>
 	

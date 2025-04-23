@@ -24,5 +24,19 @@ public class GlobalExceptionHandler {
 		
 		return new ResponseEntity<>("토큰오류 : "+e.getMessage(), HttpStatus.UNAUTHORIZED);
 	}
+	
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException e) {
+        log.error("사용자 없음: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .body(Map.of("error", e.getMessage()));
+    }
+    
+    @ExceptionHandler(CustomAuthenticationException.class)
+    public ResponseEntity<?> handleCustomAuthenticationException(CustomAuthenticationException e) {
+        log.error("인증 실패: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                            .body(Map.of("error", e.getMessage()));
+    }
 
 }
