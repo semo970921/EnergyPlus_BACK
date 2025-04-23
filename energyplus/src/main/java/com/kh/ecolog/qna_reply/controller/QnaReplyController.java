@@ -36,10 +36,15 @@ public class QnaReplyController {
 	
 	@GetMapping
 	public ResponseEntity<List<QnaReplyDTO>> selectReplyList(
-			@RequestParam(name="qnaId") Long qnaId){
+			@RequestParam(name="qnaId") String qnaId){
 		//log.info("{}", qnaId);
-		QnaReplyDTO reply = qnaReplyService.selectReplyList(qnaId);
-		return ResponseEntity.ok(qnaReplyService.selectReplyList(Long.parseLong(qnaId)));
+		List<QnaReplyDTO> reply = qnaReplyService.selectReplyList(Long.parseLong(qnaId));
+		
+		if (reply == null || reply.isEmpty()) {
+	        return ResponseEntity.noContent().build(); // 댓글이 없을 때
+	    } else {
+	        return ResponseEntity.ok(reply); // 댓글이 있을 때
+	    }
 	}
 	
 }
