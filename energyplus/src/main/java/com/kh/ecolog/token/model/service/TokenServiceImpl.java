@@ -1,21 +1,16 @@
 package com.kh.ecolog.token.model.service;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.kh.ecolog.auth.util.JWTUtil;
 import com.kh.ecolog.exception.InvalidTokenException;
 import com.kh.ecolog.token.model.dao.TokenMapper;
 import com.kh.ecolog.token.vo.RefreshToken;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -24,23 +19,21 @@ public class TokenServiceImpl implements TokenService {
 	private final JWTUtil jwtUtil;
 	private final TokenMapper tokenMapper;
 	
-
 	@Override
 	@Transactional
 	public Map<String, String> generateToken(String userEmail, Long userId) {
 		
 		// 액세스토큰과 리프레시토큰 생성
-		Map<String, String> tokens = createTokens(userEmail);
+		Map<String, String> tokens = createTokens(userEmail, userId);
 		
 		// 기존의 리프레시토큰 삭제
 		tokenMapper.deleteTokenByUserId(userId);
 		
 		// 리프레시토큰을 DB에 저장
-		saveRefreshToken(tokens.get("refreshToken"),userId);
+		saveRefreshToken(tokens.get("refreshToken"), userId);
 		
 		// 만료된 토큰 삭제
 		tokenMapper.deleteExpiredRefreshToken(System.currentTimeMillis());
-		
 		
 		return tokens;
 	}
@@ -48,7 +41,7 @@ public class TokenServiceImpl implements TokenService {
 	/**
 	 * 리프레시토큰을 DB에 저장
 	 * @param refreshToken
-	 * @param ussesrId
+	 * @param userId
 	 */
 	private void saveRefreshToken(String refreshToken, Long userId) {
 		
@@ -70,12 +63,13 @@ public class TokenServiceImpl implements TokenService {
 	/**
 	 * 액세스토큰과 리프레시토큰 생성
 	 * @param userEmail
+	 * @param userId
 	 * @return
 	 */
-	private Map<String, String> createTokens(String userEmail){
+	private Map<String, String> createTokens(String userEmail, Long userId){
 		
-		String accessToken = jwtUtil.getAccessToken(userEmail);
-		String refreshToken = jwtUtil.getRefreshToken(userEmail);
+		String accessToken = jwtUtil.getAccessToken(userEmail, userId);
+		String refreshToken = jwtUtil.getRefreshToken(userEmail, userId);
 		
 		Map<String, String> tokens = new HashMap<String, String>();
 		tokens.put("accessToken", accessToken);
@@ -85,16 +79,15 @@ public class TokenServiceImpl implements TokenService {
 	}
 	
 	
-
 	@Override
 	@Transactional
 	public Map<String, String> refreshToken(String refreshToken) {
 		
-		
 		try {
 			// 리프레시토큰 검증
 			Claims claims = jwtUtil.parseJwt(refreshToken);
-			String userEmail = claims.getSubject();
+			Long userId = Long.parseLong(claims.getSubject());
+			String userEmail = jwtUtil.getUserEmailFromToken(refreshToken);
 			
 			// DB에서 리프레시토큰 조회
 			RefreshToken tokenEntity = tokenMapper.findByToken(refreshToken);
@@ -109,8 +102,7 @@ public class TokenServiceImpl implements TokenService {
 				throw new InvalidTokenException("만료된 리프레시 초큰입니다.");
 			}
 			
-			return generateToken(userEmail, tokenEntity.getUserId());
-			
+			return generateToken(userEmail, userId);
 			
 		} catch (ExpiredJwtException e) {
 			throw new InvalidTokenException("만료된 리프레시토큰 입니다.");
@@ -119,7 +111,6 @@ public class TokenServiceImpl implements TokenService {
 		}
 		
 	}
-
 	@Override
 	@Transactional
 	public void deleteUserToken(Long userId) {
@@ -127,5 +118,4 @@ public class TokenServiceImpl implements TokenService {
 		log.info("사용자 시퀀스넘버 삭제 : {} ", userId);
 		
 	}
-
 }
