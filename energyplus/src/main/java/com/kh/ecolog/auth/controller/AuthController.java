@@ -7,12 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.ecolog.auth.model.dto.LoginDTO;
 import com.kh.ecolog.auth.model.vo.CustomUserDetails;
 import com.kh.ecolog.auth.service.AuthService;
+import com.kh.ecolog.auth.util.JWTUtil;
 import com.kh.ecolog.token.model.service.TokenService;
 
 import jakarta.validation.Valid;
@@ -27,6 +29,7 @@ public class AuthController {
 
     private final AuthService authService;
     private final TokenService tokenService;
+    private final JWTUtil jwtUtil;
     
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO){
@@ -59,14 +62,23 @@ public class AuthController {
         }
     }
     
+    
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@AuthenticationPrincipal CustomUserDetails userDetails){
-        if (userDetails == null) {
-            return ResponseEntity.badRequest().body(Map.of("message", "인증된 사용자가 아닙니다."));
+    public ResponseEntity<?> logout(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity.badRequest().body(Map.of("message", "유효한 인증 정보가 없습니다."));
         }
         
-        authService.logout(userDetails.getUserId());
-        
-        return ResponseEntity.ok(Map.of("message", "로그아웃 되었습니다."));
+        try {
+            String token = authorizationHeader.substring(7);
+            Long userId = jwtUtil.getUserIdFromToken(token);
+            
+            authService.logout(userId);
+            
+            return ResponseEntity.ok(Map.of("message", "로그아웃 되었습니다."));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                .body(Map.of("error", "로그아웃 처리 중 오류가 발생했습니다."));
+        }
     }
 }
