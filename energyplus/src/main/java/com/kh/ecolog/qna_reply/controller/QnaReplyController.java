@@ -36,9 +36,9 @@ public class QnaReplyController {
 	
 	@GetMapping
 	public ResponseEntity<List<QnaReplyDTO>> selectReplyList(
-			@RequestParam(name="qnaId") Long qnaId){
+			@RequestParam(name="qnaId") String qnaId){
 		//log.info("{}", qnaId);
-		QnaReplyDTO reply = qnaReplyService.selectReplyList(qnaId);
+		
 		return ResponseEntity.ok(qnaReplyService.selectReplyList(Long.parseLong(qnaId)));
 	}
 	
