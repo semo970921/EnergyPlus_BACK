@@ -1,0 +1,62 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+	<mapper namespace="com.kh.ecolog.challenge.model.dao.ChallengeMapper">
+	
+	  <!-- 챌린지 목록 -->
+	  <select id="selectChallengeList" resultType="com.kh.ecolog.challenge.model.dto.ChallengeDTO">
+	    SELECT 
+	      c.CHALLENGE_SEQ AS challengeSeq,
+	      c.CHALLENGE_TITLE AS challengeTitle,
+	      c.CHALLENGE_CONTENT AS challengeContent,
+	      c.CHALLENGE_STATUS AS challengeStatus,
+	      c.USER_ID AS userId,
+	      c.ENROLL_DATE AS enrollDate,
+	      u.USER_NAME AS userName
+	    FROM 
+	      TB_CHALLENGE c
+	     JOIN
+	     	TB_USER u ON c.USER_ID = u.USER_ID
+	    ORDER BY 
+	      c.CHALLENGE_SEQ DESC
+	  </select>
+	
+	  <!-- 챌린지 상세 -->
+	  <select id="selectChallengeDetail" parameterType="long"
+	          resultType="com.kh.ecolog.challenge.model.dto.ChallengeDTO">
+	    SELECT 
+	      c.CHALLENGE_SEQ AS challengeSeq,
+	      c.CHALLENGE_TITLE AS challengeTitle,
+	      c.CHALLENGE_CONTENT AS challengeContent,
+	      c.CHALLENGE_STATUS AS challengeStatus,
+	      c.USER_ID AS userId,
+	      c.ENROLL_DATE AS enrollDate,
+	      u.USER_NAME AS userName
+	    FROM 
+	      TB_CHALLENGE c
+	    JOIN
+	      TB_USER u ON c.USER_ID = u.USER_ID
+	    WHERE 
+	      c.CHALLENGE_SEQ = #{challengeSeq}
+	  </select>
+	
+	  <!-- 챌린지 등록 -->
+	  <insert id="insertChallenge" parameterType="com.kh.ecolog.challenge.model.dto.ChallengeDTO">
+	    INSERT INTO TB_CHALLENGE (
+	      CHALLENGE_SEQ,
+	      CHALLENGE_TITLE,
+	      CHALLENGE_CONTENT,
+	      CHALLENGE_STATUS,
+	      USER_ID
+	    )
+	    VALUES (
+	      SEQ_CHALLENGE.NEXTVAL,
+	      #{challengeTitle},
+	      #{challengeContent},
+	      #{challengeStatus},
+	      #{userId}
+	    )
+	  </insert>
+	
+	</mapper>
