@@ -24,4 +24,7 @@ public interface QnaReplyMapper {
 	Long findQnaIdByReplyId(Long replyId);
 	
 	List<QnaReplyDTO> selectReplyList(Long qnaId);
+	
+	// 수정
+	int update(QnaReplyDTO reply);
 }

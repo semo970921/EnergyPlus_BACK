@@ -75,5 +75,11 @@ public class QnaReplyServiceImpl implements QnaReplyService {
 		
 		return qnaReplyMapper.selectReplyList(qnaId);
 	}
+	
+	@Override
+	public QnaReplyDTO update(QnaReplyDTO reply) {
+		qnaReplyMapper.update(reply);
+		return reply;
+	}
 
 }
