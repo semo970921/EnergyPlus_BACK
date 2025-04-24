@@ -37,11 +37,13 @@ public class JWTUtil {
 	/**
 	 * 액세스 토큰 생성 (30분 유효)
 	 * @param userEmail
+	 * @param userId
 	 * @return
 	 */
-	public String getAccessToken(String userEmail) {
+	public String getAccessToken(String userEmail, Long userId) {
 		return Jwts.builder()
-				   .subject(userEmail)
+				   .subject(userId.toString())
+				   .claim("userEmail", userEmail)
 				   .issuedAt(new Date())
 				   .expiration(new Date(System.currentTimeMillis() + 3600000L / 2))
 				   .signWith(key)
@@ -52,11 +54,13 @@ public class JWTUtil {
 	/**
 	 * 리프레시 토큰 생성 (30일 유효)
 	 * @param userEmail
+	 * @param userId
 	 * @return
 	 */
-	public String getRefreshToken(String userEmail) {
+	public String getRefreshToken(String userEmail, Long userId) {
 		return Jwts.builder()
-				   .subject(userEmail)
+				   .subject(userId.toString())
+				   .claim("userEmail", userEmail)
 				   .issuedAt(new Date())
 				   .expiration(new Date(System.currentTimeMillis() + 3600000L * 24 * 30))
 				   .signWith(key)		   
@@ -88,6 +92,26 @@ public class JWTUtil {
     public Long getExpirationTime(String token) {
         Claims claims = parseJwt(token);
         return claims.getExpiration().getTime();
+    }
+    
+    /**
+     * 토큰에서 사용자 ID 추출
+     * @param token 토큰
+     * @return 사용자 ID
+     */
+    public Long getUserIdFromToken(String token) {
+        Claims claims = parseJwt(token);
+        return Long.parseLong(claims.getSubject());
+    }
+    
+    /**
+     * 토큰에서 사용자 이메일 추출
+     * @param token 토큰
+     * @return 사용자 이메일
+     */
+    public String getUserEmailFromToken(String token) {
+        Claims claims = parseJwt(token);
+        return claims.get("userEmail", String.class);
     }
 	
 
