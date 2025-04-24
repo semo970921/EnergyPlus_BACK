@@ -62,6 +62,7 @@
 		     , QNA_TITLE as qnaTitle
 		     , QNA_CONTENT as qnaContent
 		     , QNA_DATE as qnaDate
+		     , QNA_STATUS as qnaStatus
 		     , USER_ID as userId
 		 from
 		      TB_QNA

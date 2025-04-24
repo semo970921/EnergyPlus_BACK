@@ -27,6 +27,7 @@
 			resultType="com.kh.ecolog.qna_reply.model.dto.QnaReplyDTO">
 		SELECT
 			   QNA_ID as qnaId
+			 , QNA_REPLY_ID as qnaReplyId
 			 , QNA_REPLY as qnaReply
 			 , QNA_REPLY_DATE as qnaReplyDate
 		 FROM
@@ -34,5 +35,57 @@
 		WHERE
 		       QNA_ID = #{qnaId}
 	</select>
+	
+	<delete id="deleteById" parameterType="long">
+		DELETE
+		  FROM
+		       TB_QNA_REPLY
+		 WHERE
+		       QNA_REPLY_ID = #{qnaReplyId}
+	</delete>
+	
+	<!--TB_QNA의 QNA_STATUS 현황 수정-->
+	<update id="updateQnaStatusToY" parameterType="long">
+		UPDATE
+		       TB_QNA
+		   SET
+		   	   QNA_STATUS = 'Y'
+		 WHERE
+		       QNA_ID = #{qnaId}
+	</update>
+	
+	<!-- 댓글 ID로 QNA_ID 가져오기-->
+	<select id="findQnaIdByReplyId" parameterType="long" resultType="long">
+		SELECT
+		       QNA_ID
+		  FROM
+		       TB_QNA_REPLY
+		 WHERE
+		       QNA_REPLY_ID = #{replyId}
+	</select>
+	
+	<!-- 특정 QNA에 남은 댓글 수 -->
+	<select id="countByQnaId" parameterType="long" resultType="int">
+	    SELECT COUNT(*)
+	      FROM 
+	           TB_QNA_REPLY
+	     WHERE 
+	           QNA_ID = #{qnaId}
+	</select>
+	
+	<update id="updateQnaStatusToN" parameterType="long">
+		UPDATE
+		       TB_QNA
+		   SET
+		   	   QNA_STATUS = 'N'
+		 WHERE
+		       QNA_ID = #{qnaId}
+	</update>
+	
+	
+	
+	
+	
+	
 	
 </mapper>
