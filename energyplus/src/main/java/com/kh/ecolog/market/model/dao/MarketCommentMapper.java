@@ -17,4 +17,6 @@ public interface MarketCommentMapper {
 	void updateComment(MarketCommentDTO comment);
 	
 	void deleteComment(@Param("marketCommentNo") Long marketCommentNo);
+
+	MarketCommentDTO selectCommentByNo(Long commentNo);
 }

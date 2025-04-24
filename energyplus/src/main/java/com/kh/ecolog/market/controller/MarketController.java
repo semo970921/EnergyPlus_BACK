@@ -38,13 +38,14 @@ import lombok.extern.slf4j.Slf4j;
 //)
 public class MarketController {
 	private final MarketService marketService; 
-	private final JWTUtil jwtUtil;
-	
-	private Long userIdFromToken(String authHeader) {
-	    String token = authHeader.replace("Bearer", "").trim();
-	    return jwtUtil.getUserIdFromToken(token);
-	}
-	
+
+	/*
+	 * private final JWTUtil jwtUtil;
+	 * 
+	 * private Long userIdFromToken(String authHeader) { String token =
+	 * authHeader.replace("Bearer", "").trim(); return
+	 * jwtUtil.getUserIdFromToken(token); }
+	 */
 	@PostMapping("/write")
 	public ResponseEntity<?> insertMarket(
 			
@@ -59,7 +60,6 @@ public class MarketController {
 		    dto.setMarketTitle(marketTitle);
 		    dto.setMarketContent(marketContent);
 		    dto.setMarketPrice(marketPrice);
-		    dto.setUserId(1L);
 		    List<MultipartFile> imgs = Arrays.asList(images);
 		    marketService.insertMarket(dto, imgs);
 
@@ -75,9 +75,6 @@ public class MarketController {
 	    @RequestPart("market") MarketDTO dto,
 	    @RequestPart(value = "images", required = false) List<MultipartFile> images
 	) {
-	    Long userId = userIdFromToken(authHeader); // 토큰에서 userId 뽑기
-	    dto.setUserId(userId); // DTO에 넣기!
-
 	    marketService.updateMarket(dto, images); // 서비스 호출
 	    return ResponseEntity.ok("수정 성공!");
 	}
@@ -89,8 +86,6 @@ public class MarketController {
 	    @RequestHeader("Authorization") String authHeader,
 	    @PathVariable("marketNo") Long marketNo
 	) {
-	    Long userId = userIdFromToken(authHeader); // 이거 추가!
-	    marketService.deleteMarket(marketNo, userId); // 서비스에 넘겨줌
 	    return ResponseEntity.ok("삭제 성공!");
 	}
 	

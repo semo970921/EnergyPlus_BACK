@@ -24,8 +24,6 @@ public class MarketReplyController {
 	@PostMapping("/write")
 	 public ResponseEntity<String> insertMarketReply(@RequestBody MarketReplyDTO dto) {
 
-		dto.setUserId(1L);  // 임시 userId
-
 	    marketReplyService.insertMarketReply(dto);
 
 	    return ResponseEntity.ok("답댓글 등록 성공!");

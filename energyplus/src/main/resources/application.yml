@@ -40,4 +40,4 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     jdbc-type-for-null: VARCHAR
   mapper-locations: classpath:mapper/**/*.xml
-  type-aliases-package: com.kh.ecolog.qna.model.vo, com.kh.ecolog.qna.model.dto, com.kh.ecolog.notice.model.dto, com.kh.ecolog.token.vo, com.kh.ecolog.challenge.model.dto, com.kh.ecolog.member.model.dto
+  type-aliases-package: com.kh.ecolog.qna.model.vo, com.kh.ecolog.qna.model.dto, com.kh.ecolog.notice.model.dto, com.kh.ecolog.token.vo, com.kh.ecolog.challenge.model.dto, com.kh.ecolog.member.model.dto,  com.kh.ecolog.market.model.dto
