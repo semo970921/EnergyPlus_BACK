@@ -56,7 +56,9 @@ public class JwtFilter extends OncePerRequestFilter {
         
         try {
             Claims claims = jwtUtil.parseJwt(token);
-            String userEmail = claims.getSubject();
+
+            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userEmail = jwtUtil.getUserEmailFromToken(token);
             
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = usrDetailsService.loadUserByUsername(userEmail);
@@ -68,19 +70,19 @@ public class JwtFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 
-                log.debug("사용자 인증 성공: {}", userEmail);
+                log.debug("사용자 인증 성공: {}, 사용자 ID: {}", userEmail, userId);
             }
             
         } catch (ExpiredJwtException e) {
             log.warn("만료된 JWT 토큰: {}", e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("토큰이 만료되었습니다. 다시 로그인해주세요.");
-            return;
-        } catch (Exception e) {
+            return;            
+        } catch(Exception e) {
             log.error("JWT 처리 중 오류 발생: {}", e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("유효하지 않은 토큰입니다.");
-            return;
+            return;      	
         }
         
         // 다음 필터로 진행
