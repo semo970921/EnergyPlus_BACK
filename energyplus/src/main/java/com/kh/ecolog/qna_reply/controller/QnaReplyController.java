@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,6 +43,17 @@ public class QnaReplyController {
 	public ResponseEntity<?> deleteById(@PathVariable(name="id") Long replyId){
 		qnaReplyService.deleteById(replyId);
 		return ResponseEntity.ok().build();
+	}
+	
+	// 댓글 수정
+	@PutMapping("/{id}")
+	public ResponseEntity<QnaReplyDTO> update(
+									@PathVariable(name="id") Long replyId,
+									@RequestBody QnaReplyDTO reply) {
+		log.info("{}, {}", replyId, reply);
+		reply.setQnaReplyId(replyId);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(qnaReplyService.update(reply));
 	}
 	
 	// 댓글 조회

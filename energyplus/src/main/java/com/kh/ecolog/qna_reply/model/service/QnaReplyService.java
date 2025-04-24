@@ -14,4 +14,7 @@ public interface QnaReplyService {
 	
 	// 조회
 	List<QnaReplyDTO> selectReplyList(Long replyId);
+	
+	// 수정
+	QnaReplyDTO update(QnaReplyDTO reply);
 }

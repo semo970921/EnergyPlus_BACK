@@ -82,7 +82,17 @@
 		       QNA_ID = #{qnaId}
 	</update>
 	
-	
+	<!-- 댓글 수정 -->
+	<update id="update"
+			parameterType="com.kh.ecolog.qna_reply.model.dto.QnaReplyDTO">
+		UPDATE
+			   TB_QNA_REPLY
+		   SET
+		       QNA_REPLY = #{qnaReply}
+		     , QNA_REPLY_DATE = SYSDATE
+		 WHERE
+		       QNA_REPLY_ID = #{qnaReplyId}
+	</update>
 	
 	
 	

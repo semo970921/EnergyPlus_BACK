@@ -39,7 +39,7 @@ public class QnaController {
 	@PostMapping
 	public ResponseEntity<?> insert(@Valid @RequestBody QnaDTO qna){
 		qnaService.insert(qna);
-		log.info("넘어옴? {}", qna);
+		//log.info("넘어옴? {}", qna);
 		//return null;
 		return ResponseEntity.ok().build();
 	}
@@ -65,7 +65,7 @@ public class QnaController {
 	public ResponseEntity<QnaDTO> update(
 								@PathVariable(name="id") Long qnaId,
 								@RequestBody QnaDTO qna){
-		log.info("{}, {}", qnaId, qna);
+		//log.info("{}, {}", qnaId, qna);
 		qna.setQnaId(qnaId);
 		return ResponseEntity.status(HttpStatus.CREATED)
 							 .body(qnaService.update(qna));
