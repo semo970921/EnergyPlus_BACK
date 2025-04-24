@@ -57,6 +57,8 @@ public class MarketController {
 	    return ResponseEntity.ok("수정 성공!");
 	}
 	
+	// 게시글 삭제
+	
 	@DeleteMapping("/delete/{marketNo}")
 	public ResponseEntity<String> deleteMarket(@PathVariable("marketNo") Long marketNo) {
 	    marketService.deleteMarket(marketNo);
@@ -78,4 +80,7 @@ public class MarketController {
 	    MarketDTO dto = marketService.findMarketByNo(marketNo);
 	    return ResponseEntity.ok(dto);
 	}
+	
+
+	
 }
