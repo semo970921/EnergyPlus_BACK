@@ -61,7 +61,7 @@ public class MarketController {
 	    @ModelAttribute MarketDTO dto,
 	    @RequestPart(value = "images", required = false) List<MultipartFile> images
 	) {
-		setTempUserId(dto);  // 임의 유저아이디
+		setTempUserId(dto);  // 임의 유저아이디s
 		
 	    marketService.updateMarket(dto, images);
 	    return ResponseEntity.ok("수정 성공!");
