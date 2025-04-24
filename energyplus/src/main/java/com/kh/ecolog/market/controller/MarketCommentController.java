@@ -1,11 +1,11 @@
 package com.kh.ecolog.market.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,15 +36,10 @@ public class MarketCommentController {
 	}
 	
 	@GetMapping("/{marketNo}")
-	public ResponseEntity<List<MarketCommentDTO>> getComments(@PathVariable Long marketNo) {
-		List<MarketCommentDTO> comments = commentService.selectCommentsByMarketNo(marketNo);
-		return ResponseEntity.ok(comments);
-	}
-	
-	@GetMapping("/delete/{commentNo}")
-	public ResponseEntity<?> deleteComment(@PathVariable Long commentNo, @RequestParam Long userId) {
-		commentService.deleteComment(commentNo, userId);
-		return ResponseEntity.ok("댓글 삭제 완료");
+	public ResponseEntity<List<MarketCommentDTO>> getComments(@PathVariable("marketNo") Long marketNo) {
+	    log.info("marketNo = {}", marketNo);  // 이거 찍히는지 확인
+	    List<MarketCommentDTO> comments = commentService.selectCommentsByMarketNo(marketNo);
+	    return ResponseEntity.ok(comments);
 	}
 	
 	@PutMapping
@@ -52,6 +47,18 @@ public class MarketCommentController {
 		commentService.updateComment(dto);
 		return ResponseEntity.ok("댓글 수정 완료");
 	}
+	
+	@GetMapping("/delete/{marketCommentNo}")
+	public ResponseEntity<?> deleteComment(
+	    @PathVariable("marketCommentNo") Long marketCommentNo,
+	    @RequestParam("userId") Long userId
+	) {
+	    commentService.deleteComment(marketCommentNo, userId);
+	    return ResponseEntity.ok("댓글 삭제 완료");
+	}
+	
+	
+	
 
 
 }

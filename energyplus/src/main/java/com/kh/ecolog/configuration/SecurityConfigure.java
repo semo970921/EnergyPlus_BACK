@@ -45,7 +45,6 @@ public class SecurityConfigure {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
             .formLogin(config -> config.disable())
             .httpBasic(config -> config.disable())
