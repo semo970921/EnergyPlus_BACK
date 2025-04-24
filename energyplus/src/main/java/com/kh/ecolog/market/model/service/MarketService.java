@@ -23,4 +23,5 @@ public interface MarketService {
 
 	MarketDTO findMarketByNo(Long marketNo);
 	
+	
 }

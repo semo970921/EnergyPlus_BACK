@@ -38,21 +38,21 @@ public class MarketController {
 	
 	@PostMapping("/write")
 	public ResponseEntity<?> insertMarket(
-	    @RequestPart("market") MarketDTO dto,
+	    @ModelAttribute MarketDTO dto,  // FormData 각 필드로 받음
 	    @RequestPart("images") List<MultipartFile> images) {
+	    
 	    marketService.insertMarket(dto, images);
 	    Map<String, Object> res = new HashMap<>();
 	    res.put("message", "글 등록 성공!");
-	    res.put("marketNo", dto.getMarketNo()); // 응답에 marketNo 포함
+	    res.put("marketNo", dto.getMarketNo());
 	    return ResponseEntity.ok(res);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<String> updateMarket(
-	    @RequestPart("market") MarketDTO dto,
+	    @ModelAttribute MarketDTO dto,
 	    @RequestPart(value = "images", required = false) List<MultipartFile> images
 	) {
-	    log.info("수정 요청 들어옴: {}", dto);
 	    marketService.updateMarket(dto, images);
 	    return ResponseEntity.ok("수정 성공!");
 	}
