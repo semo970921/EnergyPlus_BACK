@@ -1,5 +1,6 @@
 package com.kh.ecolog.qna_reply.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -38,7 +39,12 @@ public class QnaReplyServiceImpl implements QnaReplyService {
 
 	@Override
 	public List<QnaReplyDTO> selectReplyList(Long qnaId) {
-		qnaService.selectById(qnaId);
+		try {
+	        qnaService.selectById(qnaId); // 존재 확인용
+	    } catch (RuntimeException e) {
+	        return new ArrayList(); // 게시글이 없으면 댓글도 없음
+	    }
+		
 		return qnaReplyMapper.selectReplyList(qnaId);
 	}
 
