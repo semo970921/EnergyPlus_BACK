@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.kh.ecolog.market.model.dao.MarketReplyMapper">
+  <insert id="insertMarketReply" parameterType="MarketReplyDTO">
+        INSERT INTO TB_MARKET_REPLY (
+            REPLY_NO, REPLY_DATE, REPLY_CONTENT, MARKET_COMMENT_NO, USER_ID
+        ) VALUES (
+            SEQ_MARKET_REPLY.NEXTVAL, SYSDATE, #{replyContent}, #{marketCommentNo}, #{userId}
+        )
+    </insert>
+ </mapper>

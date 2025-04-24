@@ -31,15 +31,23 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/markets")
 @CrossOrigin(
 	    origins = "http://localhost:5173",
-	    methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT}
-)
+	    allowedHeaders = "*",
+	    methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS}
+	)
 public class MarketController {
+	
 	private final MarketService marketService; 
+	
+	private void setTempUserId(MarketDTO dto) {
+	    dto.setUserId(1L);  // 임시 userId
+	}
 	
 	@PostMapping("/write")
 	public ResponseEntity<?> insertMarket(
 	    @ModelAttribute MarketDTO dto,  // FormData 각 필드로 받음
 	    @RequestPart("images") List<MultipartFile> images) {
+		
+		setTempUserId(dto);  // 임의 유저아이디
 	    
 	    marketService.insertMarket(dto, images);
 	    Map<String, Object> res = new HashMap<>();
@@ -53,6 +61,8 @@ public class MarketController {
 	    @ModelAttribute MarketDTO dto,
 	    @RequestPart(value = "images", required = false) List<MultipartFile> images
 	) {
+		setTempUserId(dto);  // 임의 유저아이디
+		
 	    marketService.updateMarket(dto, images);
 	    return ResponseEntity.ok("수정 성공!");
 	}
@@ -61,7 +71,10 @@ public class MarketController {
 	
 	@DeleteMapping("/delete/{marketNo}")
 	public ResponseEntity<String> deleteMarket(@PathVariable("marketNo") Long marketNo) {
-	    marketService.deleteMarket(marketNo);
+
+	    Long tempUserId = 1L;  // 임시 userId
+	    marketService.deleteMarket(marketNo, tempUserId);  // userId 전달!
+
 	    return ResponseEntity.ok("삭제 성공!");
 	}
 	
