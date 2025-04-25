@@ -30,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/qnas")
-@CrossOrigin(origins = "http://localhost:5173")
 public class QnaController {
 	
 	private final QnaService qnaService;
@@ -39,8 +38,6 @@ public class QnaController {
 	@PostMapping
 	public ResponseEntity<?> insert(@Valid @RequestBody QnaDTO qna){
 		qnaService.insert(qna);
-		//log.info("넘어옴? {}", qna);
-		//return null;
 		return ResponseEntity.ok().build();
 	}
 	

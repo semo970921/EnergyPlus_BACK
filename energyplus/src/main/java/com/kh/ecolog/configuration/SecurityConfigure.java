@@ -55,10 +55,11 @@ public class SecurityConfigure {
                 .requestMatchers("/auth/**").permitAll() // 모든 인증 경로 허용
                 .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll()
+                .requestMatchers("/promise/me").authenticated()
                 .requestMatchers(
                     "/members/**", "/markets/**", "/notices/**", "/apis/**",
                     "/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**",
-                    "/qnas/**", "/replys/**", "/challenges/**", "/test/**"
+                    "/qnas/**", "/replys/**", "/challenges/**", "/test/**" , "/promise/**"
                 ).permitAll()
                 .anyRequest().authenticated()
 
