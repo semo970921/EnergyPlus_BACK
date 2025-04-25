@@ -29,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @Validated
 @RequiredArgsConstructor
 @RequestMapping("/notices")
-@CrossOrigin(origins = "http://localhost:5173")
 public class NoticeController {
 	
 	private final NoticeService noticeService;
