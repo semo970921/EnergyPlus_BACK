@@ -59,7 +59,7 @@ public class SecurityConfigure {
                 .requestMatchers(
                     "/members/**", "/markets/**", "/notices/**", "/apis/**",
                     "/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**",
-                    "/qnas/**", "/replys/**", "/challenges/**", "/test/**" , "/promise/**"
+                    "/qnas/**", "/replys/**", "/challenges/**", "/test/**", "/promise/**" , "/api/verification/**"
                 ).permitAll()
                 .anyRequest().authenticated()
 
