@@ -10,5 +10,9 @@ public interface MarketReplyService {
 	void insertMarketReply(MarketReplyDTO dto);
 	
 	List<MarketReplyDTO> selectRepliesByCommentNo(Long marketCommentNo);
+	
+	void updateMarketReply(MarketReplyDTO dto);
+	
+	void deleteMarketReply(Long replyNo, Long currentUserId);
 
 }

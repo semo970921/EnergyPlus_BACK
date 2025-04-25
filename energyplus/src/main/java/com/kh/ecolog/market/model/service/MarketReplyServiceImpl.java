@@ -23,8 +23,8 @@ public class MarketReplyServiceImpl implements MarketReplyService {
 	public void insertMarketReply(MarketReplyDTO dto) {
 		
 		Long userId = SecurityUtil.getCurrentUserId();
-		
 	    dto.setUserId(userId);
+	    
 		marketReplyMapper.insertMarketReply(dto);
 		
 	}
@@ -33,5 +33,27 @@ public class MarketReplyServiceImpl implements MarketReplyService {
 	public List<MarketReplyDTO> selectRepliesByCommentNo(Long marketCommentNo) {
 		 return marketReplyMapper.selectRepliesByCommentNo(marketCommentNo);
 	}
+	@Override
+	public void updateMarketReply(MarketReplyDTO dto) {
+		 Long userId = SecurityUtil.getCurrentUserId();
+		 dto.setUserId(userId);
+		  marketReplyMapper.updateMarketReply(dto);
+		
+	}
+	@Override
+	public void deleteMarketReply(Long replyNo, Long userId) {
+
+		if(userId == null) {
+			throw new RuntimeException("대댓글이 존재하지않습니다.");
+		}
+		if (!userId.equals(userId) ) {
+		throw new RuntimeException("삭제권한이 없습니다");
+		}
+		
+		marketReplyMapper.deleteMarketReply(replyNo);
+	}
+
+	
+		
 
 }
