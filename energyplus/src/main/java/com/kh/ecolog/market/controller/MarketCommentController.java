@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/markets/comments")
-@CrossOrigin(origins = "http://localhost:5173")
 public class MarketCommentController {
 	private final MarketCommentService commentService;
 	
@@ -48,13 +48,10 @@ public class MarketCommentController {
 		return ResponseEntity.ok("댓글 수정 완료");
 	}
 	
-	@GetMapping("/delete/{marketCommentNo}")
-	public ResponseEntity<?> deleteComment(
-	    @PathVariable("marketCommentNo") Long marketCommentNo,
-	    @RequestParam("userId") Long userId
-	) {
-	    commentService.deleteComment(marketCommentNo, userId);
-	    return ResponseEntity.ok("댓글 삭제 완료");
+	@DeleteMapping("/{commentNo}")
+	public ResponseEntity<String> deleteComment(@PathVariable("commentNo") Long commentNo) {
+	    commentService.deleteComment(commentNo);
+	    return ResponseEntity.ok("댓글 삭제 완료!");
 	}
 	
 	

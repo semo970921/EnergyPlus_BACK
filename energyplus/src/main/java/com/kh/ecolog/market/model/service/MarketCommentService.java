@@ -18,7 +18,8 @@ public interface MarketCommentService {
 		void updateComment(MarketCommentDTO dto);
 	
 	// 댓글 삭제 
-	void deleteComment(@Param("marketCommentNo") Long marketCommentNo, @Param("userId") Long userId);
+	void deleteComment(Long commentNo);
+
 	
 	
 	
