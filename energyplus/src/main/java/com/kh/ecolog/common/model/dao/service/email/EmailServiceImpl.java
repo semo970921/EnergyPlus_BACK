@@ -2,12 +2,11 @@ package com.kh.ecolog.common.model.dao.service.email;
 
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,24 +21,26 @@ public class EmailServiceImpl implements EmailService {
 	@Value("${spring.mail.username}")
 	private String senderEmail;
 
+	/**
+	 * 이메일 발송
+	 */
 	@Override
 	public void sendEmail(String to, String subject, String content) {
 		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			SimpleMailMessage message = new SimpleMailMessage();
 			
-			helper.setFrom(senderEmail);
-			helper.setTo(to);
-			helper.setSubject(subject);
-			helper.setText(content, true);
+			message.setFrom(senderEmail);
+			message.setTo(to);
+			message.setSubject(subject);
+			message.setText(content);
 			
 			mailSender.send(message);
 			
 			log.info("이메일 발송 성공 : 수신자 = {}", to);
 			
-		}catch(MessagingException e) {
+		}catch(Exception e) {
 			log.error("이메일 발송 실패 : {}", e.getMessage());
-			throw new RuntimeException("이메일 발송에 실패했습니다.", e);
+			throw new RuntimeException("이메일 발송에 실패하셨습니다.",e);
 		}
 		
 	}
