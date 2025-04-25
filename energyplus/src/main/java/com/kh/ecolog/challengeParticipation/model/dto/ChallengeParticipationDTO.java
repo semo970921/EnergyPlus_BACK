@@ -19,9 +19,9 @@ public class ChallengeParticipationDTO {
 	 private Long participationSeq;  
 	 private Long challengeSeq; 
 	 private Integer mileageRewarded;
-	 private Date rewardedDate;     
-	 private Date participationDate;  
+	 private Date rewardedDate;
 	 private String participationImg;
 	 private String participationStatus;
-	 private String rejectReason; 
+	 private String rejectReason;
+	
 }
