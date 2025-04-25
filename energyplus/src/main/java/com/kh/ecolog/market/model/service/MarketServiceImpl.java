@@ -5,9 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.ecolog.auth.model.vo.CustomUserDetails;
+import com.kh.ecolog.auth.service.AuthService;
+import com.kh.ecolog.common.util.SecurityUtil;
 import com.kh.ecolog.file.service.FileService;
 import com.kh.ecolog.market.model.dao.MarketMapper;
 import com.kh.ecolog.market.model.dto.MarketDTO;
@@ -22,9 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 public class MarketServiceImpl implements MarketService  {
 	private final MarketMapper marketMapper;
 	private final FileService fileService;
-	
 
 	private void saveMarketImages(Long marketNo, List<MultipartFile> images) {
+		
 	    if (images == null || images.size() != 3) {
 	        throw new IllegalArgumentException("이미지는 3장 등록해야 합니다.");
 	    }
@@ -46,7 +51,13 @@ public class MarketServiceImpl implements MarketService  {
 	
 	@Override
 	public void insertMarket(MarketDTO dto, List<MultipartFile> images) {
-	    setDefaultMarketInfo(dto);
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
+	    
+	    Long userId = user.getUserId();
+	    dto.setUserId(userId);
+	    
 	    dto.setMarketStatus("N");
 	    dto.setMarketDate(new Date(System.currentTimeMillis()));
 
@@ -56,7 +67,9 @@ public class MarketServiceImpl implements MarketService  {
 
 	@Override
 	public void updateMarket(MarketDTO dto, List<MultipartFile> images) {
-	    dto.setUserId(1L); // 필요 시 고정
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
 
 	    // 1. 유효한 새 이미지만 필터링
 	    List<MultipartFile> validImages = (images != null) 
@@ -105,11 +118,6 @@ public class MarketServiceImpl implements MarketService  {
 	    marketMapper.updateMarket(dto);
 	}
 
-	// 공통 처리 함수들 ↓
-
-	private void setDefaultMarketInfo(MarketDTO dto) {
-	    dto.setUserId(1L);
-	}
 
 	private void handleImages(Long marketNo, List<MultipartFile> images, boolean isUpdate) {
 	    if (images != null && !images.isEmpty()) {
@@ -126,8 +134,18 @@ public class MarketServiceImpl implements MarketService  {
 	}
 	
 	@Override
-	public void deleteMarket(Long marketNo) {
-		 // 1. 관련 이미지 먼저 삭제
+	public void deleteMarket(Long marketNo, Long userId) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
+		
+		// 1. 글 작성자 확인
+	    MarketDTO market = marketMapper.selectMarketByNo(marketNo);
+	    if (!market.getUserId().equals(userId)) {
+	        throw new SecurityException("작성자만 삭제할 수 있습니다.");
+	    }
+	    
+	    
 		marketMapper.deleteImagesByMarketNo(marketNo);
 
 	    // 2. 게시글 삭제
@@ -146,7 +164,6 @@ public class MarketServiceImpl implements MarketService  {
 		dto.setImageList(marketMapper.selectImagesByMarketNo(marketNo));
 	    return dto;
 	}
-
 
 	
 	

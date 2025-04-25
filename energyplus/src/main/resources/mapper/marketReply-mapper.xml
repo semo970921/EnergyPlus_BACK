@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.kh.ecolog.market.model.dao.MarketReplyMapper">
+  <insert id="insertMarketReply" parameterType="com.kh.ecolog.market.model.dto.MarketReplyDTO">
+        INSERT INTO TB_MARKET_REPLY (
+        REPLY_NO,
+        MARKET_COMMENT_NO,
+        USER_ID,
+        REPLY_CONTENT,
+        REPLY_DATE
+    ) VALUES (
+        SEQ_MARKET_REPLY.NEXTVAL,
+        #{marketCommentNo},
+        #{userId},
+        #{replyContent},
+        SYSDATE
+    )
+    </insert>
+    
+    
+    <select id="selectRepliesByCommentNo" resultType="com.kh.ecolog.market.model.dto.MarketReplyDTO">
+	  SELECT 
+	    R.REPLY_NO AS replyNo,
+	    R.MARKET_COMMENT_NO AS marketCommentNo,
+	    R.USER_ID AS userId,
+	    R.REPLY_CONTENT AS replyContent,
+	    R.REPLY_DATE AS replyDate,
+	    U.USER_NAME AS userName
+	  FROM TB_MARKET_REPLY R
+	  JOIN TB_USER U ON R.USER_ID = U.USER_ID
+	  WHERE R.MARKET_COMMENT_NO = #{marketCommentNo}
+	  ORDER BY R.REPLY_DATE ASC
+	</select>
+ </mapper>
