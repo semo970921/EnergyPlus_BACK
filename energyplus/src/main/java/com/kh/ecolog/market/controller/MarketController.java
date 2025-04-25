@@ -32,10 +32,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/markets")
-//@CrossOrigin(
-//	    origins = "http://localhost:5173",
-//	    methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT}
-//)
 public class MarketController {
 	private final MarketService marketService; 
 

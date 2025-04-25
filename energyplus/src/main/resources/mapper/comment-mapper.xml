@@ -38,6 +38,18 @@
 		SET MARKET_COMMENT_CONTENT = #{marketCommentContent}
 		WHERE MARKET_COMMENT_NO = #{marketCommentNo}
 	</update>
+	
+	<!-- 댓글 단일 조회 (삭제 전 작성자 확인용) -->
+	<select id="selectCommentByNo" resultType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
+	    SELECT
+	    MARKET_COMMENT_NO AS marketCommentNo,
+	    MARKET_NO AS marketNo,
+	    USER_ID AS userId,
+	    MARKET_COMMENT_CONTENT AS marketCommentContent,
+	    MARKET_COMMENT_DATE AS marketCommentDate
+	    FROM TB_MARKET_COMMENT
+	    WHERE MARKET_COMMENT_NO = #{commentNo}
+	</select>
 	<!-- 댓글 삭제 -->
 	<delete id="deleteComment" parameterType="long">
 		DELETE FROM TB_MARKET_COMMENT

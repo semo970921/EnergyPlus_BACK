@@ -1,10 +1,13 @@
 package com.kh.ecolog.market.model.service;
 
+import java.util.List;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.kh.ecolog.auth.model.vo.CustomUserDetails;
+import com.kh.ecolog.common.util.SecurityUtil;
 import com.kh.ecolog.market.model.dao.MarketReplyMapper;
 import com.kh.ecolog.market.model.dto.MarketReplyDTO;
 
@@ -19,12 +22,16 @@ public class MarketReplyServiceImpl implements MarketReplyService {
 	@Override
 	public void insertMarketReply(MarketReplyDTO dto) {
 		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
-	    
-	    dto.setUserId(user.getUserId());
-		 marketReplyMapper.insertMarketReply(dto);
+		Long userId = SecurityUtil.getCurrentUserId();
 		
+	    dto.setUserId(userId);
+		marketReplyMapper.insertMarketReply(dto);
+		
+	}
+
+	@Override
+	public List<MarketReplyDTO> selectRepliesByCommentNo(Long marketCommentNo) {
+		 return marketReplyMapper.selectRepliesByCommentNo(marketCommentNo);
 	}
 
 }

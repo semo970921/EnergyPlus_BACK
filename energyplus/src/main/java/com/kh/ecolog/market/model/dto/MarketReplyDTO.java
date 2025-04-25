@@ -15,8 +15,9 @@ import lombok.ToString;
 @ToString
 public class MarketReplyDTO {
 	private Long replyNo;
-	private Date replydDate; 
+	private Date replyDate; 
 	private String replyContent;
 	private Long marketCommentNo;
 	private Long userId;
+	private String userName;
 }
