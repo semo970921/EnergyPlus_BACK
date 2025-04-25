@@ -1,4 +1,4 @@
-package com.kh.ecolog.common.model.dao.service;
+package com.kh.ecolog.common.model.dao.service.verification;
 
 public interface VerificationService {
 
