@@ -44,4 +44,10 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public boolean isEmailDuplicated(String email) {
+		
+		return memberMapper.existsByEmail(email)>0;
+	}
+
 }

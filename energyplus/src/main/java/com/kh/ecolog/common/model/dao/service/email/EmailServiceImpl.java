@@ -47,20 +47,17 @@ public class EmailServiceImpl implements EmailService {
 
 	@Override
 	public void sendSignUpVerificationEmail(String to, String verificationCode) {
-		String subject = "[에너지생활 플러스] 회원가입 이메일 인증";
-		String content = 
-                "<div style='margin:20px;'>" +
-                        "<h2>에너지생활 플러스 회원가입을 환영합니다!</h2>" +
-                        "<p>회원가입을 완료하기 위한 이메일 인증 코드입니다:</p>" +
-                        "<div style='background-color:#f8f9fa; padding:10px; font-size:24px; " +
-                            "font-weight:bold; text-align:center; letter-spacing:5px;'>" +
-                            verificationCode +
-                        "</div>" +
-                        "<p>인증 코드는 30분 동안 유효합니다.</p>" +
-                        "<p>본인이 요청하지 않았다면 이 이메일을 무시하셔도 됩니다.</p>" +
-                        "<p>감사합니다.<br>Ecolog 팀</p>" +
-                    "</div>";
-		sendEmail(to, subject, content);
+	    String subject = "[에너지생활 플러스] 회원가입 이메일 인증";
+	    String content = 
+	            "에너지생활 플러스 회원가입을 환영합니다!\n\n" +
+	            "회원가입을 완료하기 위한 이메일 인증 코드입니다:\n\n" +
+	            verificationCode + "\n\n" +
+	            "인증 코드는 30분 동안 유효합니다.\n\n" +
+	            "본인이 요청하지 않았다면 이 이메일을 무시하셔도 됩니다.\n\n" +
+	            "감사합니다.\n" +
+	            "Ecolog 팀";
+	    
+	    sendEmail(to, subject, content);
 	}
 	
 
