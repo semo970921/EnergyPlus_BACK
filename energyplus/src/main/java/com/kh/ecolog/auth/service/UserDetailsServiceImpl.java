@@ -33,6 +33,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         throw new UserNotFoundException("존재하지 않는 사용자입니다.");
     }
     
+    if ("N".equals(user.getStatus())) {
+        log.warn("탈퇴한 회원: {}", username);
+        throw new UserNotFoundException("탈퇴한 회원입니다.");
+    }
+    
     // CustomUserDetails 객체 생성 및 반환
     return CustomUserDetails.builder()
             .userId(user.getUserId())
