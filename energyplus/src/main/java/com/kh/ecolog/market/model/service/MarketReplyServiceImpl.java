@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.kh.ecolog.auth.model.vo.CustomUserDetails;
-import com.kh.ecolog.common.util.SecurityUtil;
+import com.kh.ecolog.auth.util.SecurityUtil;
 import com.kh.ecolog.market.model.dao.MarketReplyMapper;
 import com.kh.ecolog.market.model.dto.MarketReplyDTO;
 
@@ -34,23 +34,54 @@ public class MarketReplyServiceImpl implements MarketReplyService {
 
 	@Override
 	public List<MarketReplyDTO> selectRepliesByCommentNo(Long marketCommentNo) {
-		 return marketReplyMapper.selectRepliesByCommentNo(marketCommentNo);
+	    List<MarketReplyDTO> replies = marketReplyMapper.selectRepliesByCommentNo(marketCommentNo);
+
+	    Long currentUserId = null;
+	    try {
+	        currentUserId = SecurityUtil.getCurrentUserId();
+	    } catch (Exception e) {
+	        // 로그인 안 했을 경우
+	    }
+
+	    if (currentUserId != null) {
+	        for (MarketReplyDTO reply : replies) {
+	            reply.setIsMine(reply.getUserId().equals(currentUserId));
+	        }
+	    }
+
+	    return replies;
 	}
 	@Override
 	public void updateMarketReply(MarketReplyDTO dto) {
-		 Long userId = SecurityUtil.getCurrentUserId();
-		 dto.setUserId(userId);
-		  marketReplyMapper.updateMarketReply(dto);
-		
+	    // 로그인한 사용자 ID를 가져옵니다.
+	    Long userId = SecurityUtil.getCurrentUserId();
+	    
+	    // 요청된 대댓글에 작성된 사용자 ID를 확인합니다.
+	    Long writerUserId = marketReplyMapper.findMarketReplyWriter(dto.getReplyNo());
+
+	    // 대댓글이 존재하지 않거나, 권한이 없으면 예외를 던집니다.
+	    if (writerUserId == null) {
+	        throw new RuntimeException("대댓글이 존재하지 않습니다.");
+	    }
+
+	    if (!writerUserId.equals(userId)) {
+	        throw new RuntimeException("수정 권한이 없습니다.");
+	    }
+
+	    // 대댓글 수정
+	    dto.setUserId(userId); // 수정하려는 사용자의 ID를 설정
+	    marketReplyMapper.updateMarketReply(dto);
 	}
 	@Override
 	public void deleteMarketReply(MarketReplyDTO dto) {
-	    Long replyNo = dto.getReplyNo();
-	    Long userId = dto.getUserId();   
+	    // 로그인한 사용자 ID를 가져옵니다.
+	    Long userId = SecurityUtil.getCurrentUserId();
+	    
+	    // 요청된 대댓글에 작성된 사용자 ID를 확인합니다.
+	    Long writerUserId = marketReplyMapper.findMarketReplyWriter(dto.getReplyNo());
 
-	    Long writerUserId = marketReplyMapper.findMarketReplyWriter(replyNo);
-
-	    if(writerUserId == null) {
+	    // 대댓글이 존재하지 않거나, 권한이 없으면 예외를 던집니다.
+	    if (writerUserId == null) {
 	        throw new RuntimeException("대댓글이 존재하지 않습니다.");
 	    }
 
@@ -58,7 +89,8 @@ public class MarketReplyServiceImpl implements MarketReplyService {
 	        throw new RuntimeException("삭제 권한이 없습니다.");
 	    }
 
-	    marketReplyMapper.deleteMarketReply(replyNo);
+	    // 대댓글 삭제
+	    marketReplyMapper.deleteMarketReply(dto.getReplyNo());
 	}
 
 	

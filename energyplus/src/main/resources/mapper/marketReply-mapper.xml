@@ -42,7 +42,7 @@
 	      AND USER_ID = #{userId} <!-- 본인만 수정 가능 -->
 	</update>
 	<delete id="deleteMarketReply" parameterType="Long">
-		DELETE FORM TB_MARKET_REPLY WHERE REPLY_NO = #{replyNo}
+    	DELETE FROM TB_MARKET_REPLY WHERE REPLY_NO = #{replyNo}
 	</delete>
 	
 	<select id="findMarketReplyWriter" parameterType="Long" resultType="Long">

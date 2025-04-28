@@ -14,7 +14,7 @@
         MARKET_STATUS marketStatus,
         MARKET_PRICE marketPrice
     </sql>
-
+	
     <!-- 게시글 등록 -->
     <insert id="insertMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
         <selectKey keyProperty="marketNo" resultType="long" order="BEFORE">
@@ -37,6 +37,10 @@
             SEQ_MARKET_IMG_ID.NEXTVAL, #{marketNo}, #{imgUrl}, #{imgOrder}
         )
     </insert>
+    
+    <select id="findMarketWriter" parameterType="Long" resultType="Long">
+	  SELECT USER_ID FROM TB_MARKET WHERE MARKET_NO = #{marketNo}
+	</select>
 
     <!-- 게시글 수정 -->
     <update id="updateMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">

@@ -20,4 +20,5 @@ public class MarketReplyDTO {
 	private Long marketCommentNo;
 	private Long userId;
 	private String userName;
+	private Boolean isMine;
 }

@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtFilter extends OncePerRequestFilter {
     
     private final JWTUtil jwtUtil;
-    private final UserDetailsService usrDetailsService;
+    private final UserDetailsService userDetailsService;
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, 
@@ -61,7 +61,7 @@ public class JwtFilter extends OncePerRequestFilter {
             String userEmail = jwtUtil.getUserEmailFromToken(token);
             
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = usrDetailsService.loadUserByUsername(userEmail);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
                 
                 UsernamePasswordAuthenticationToken authentication = 
                     new UsernamePasswordAuthenticationToken(

@@ -21,4 +21,5 @@ public class MarketCommentDTO {
 	private Date marketCommentDate;
 	
 	private String userName;
+	private Boolean isMine;
 }

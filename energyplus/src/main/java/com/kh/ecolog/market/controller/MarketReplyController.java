@@ -2,6 +2,7 @@ package com.kh.ecolog.market.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.ecolog.common.util.SecurityUtil;
+import com.kh.ecolog.auth.util.SecurityUtil;
 import com.kh.ecolog.market.model.dto.MarketDTO;
 import com.kh.ecolog.market.model.dto.MarketReplyDTO;
 import com.kh.ecolog.market.model.service.MarketReplyService;
@@ -42,22 +43,27 @@ public class MarketReplyController {
 		List<MarketReplyDTO> replies = marketReplyService.selectRepliesByCommentNo(marketCommentNo);
 		return ResponseEntity.ok(replies);
 	}
-	@PutMapping("/reply-update")
+	@PutMapping("/update")
 	public ResponseEntity<String> updateReply(@RequestBody MarketReplyDTO dto) {
-	    marketReplyService.updateMarketReply(dto);
-	    return ResponseEntity.ok("대댓글 수정 완료!");
+	    try {
+	        marketReplyService.updateMarketReply(dto);
+	        return ResponseEntity.ok("대댓글 수정 완료!");
+	    } catch (RuntimeException e) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+	    }
 	}
+	
+	
 	@DeleteMapping("/{replyNo}")
 	public ResponseEntity<String> deleteMarketReply(@PathVariable Long replyNo) {
-	    Long userId = SecurityUtil.getCurrentUserId();
-
-	    MarketReplyDTO dto = new MarketReplyDTO();
-	    dto.setReplyNo(replyNo); // DTO 이름 그대로
-	    dto.setUserId(userId);   // DTO 이름 그대로
-
-	    marketReplyService.deleteMarketReply(dto);
-
-	    return ResponseEntity.ok("대댓글 삭제 완료!");
+	    try {
+	        MarketReplyDTO dto = new MarketReplyDTO();
+	        dto.setReplyNo(replyNo);
+	        marketReplyService.deleteMarketReply(dto);
+	        return ResponseEntity.ok("대댓글 삭제 완료!");
+	    } catch (RuntimeException e) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+	    }
 	}
 	
 	

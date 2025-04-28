@@ -1,11 +1,16 @@
 package com.kh.ecolog.market.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,11 +25,12 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.ecolog.auth.model.vo.CustomUserDetails;
 import com.kh.ecolog.auth.util.JWTUtil;
 import com.kh.ecolog.market.model.dto.MarketDTO;
 import com.kh.ecolog.market.model.service.MarketService;
 
-import io.jsonwebtoken.lang.Arrays;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,13 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MarketController {
 	private final MarketService marketService; 
 
-	/*
-	 * private final JWTUtil jwtUtil;
-	 * 
-	 * private Long userIdFromToken(String authHeader) { String token =
-	 * authHeader.replace("Bearer", "").trim(); return
-	 * jwtUtil.getUserIdFromToken(token); }
-	 */
+
 	@PostMapping("/write")
 	public ResponseEntity<?> insertMarket(
 			
@@ -74,7 +74,6 @@ public class MarketController {
 	    marketService.updateMarket(dto, images); // 서비스 호출
 	    return ResponseEntity.ok("수정 성공!");
 	}
-	
 	// 게시글 삭제
 	
 	@DeleteMapping("/delete/{marketNo}")
