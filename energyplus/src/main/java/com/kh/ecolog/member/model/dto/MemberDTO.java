@@ -44,4 +44,6 @@ public class MemberDTO {
 	
 	private  String role;
 	
+	private String status;
+	
 }
