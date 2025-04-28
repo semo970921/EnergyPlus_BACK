@@ -1,8 +1,8 @@
-package com.kh.ecolog.qna_reply.model.service;
+package com.kh.ecolog.qnareply.model.service;
 
 import java.util.List;
 
-import com.kh.ecolog.qna_reply.model.dto.QnaReplyDTO;
+import com.kh.ecolog.qnareply.model.dto.QnaReplyDTO;
 
 public interface QnaReplyService {
 	

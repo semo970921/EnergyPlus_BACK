@@ -1,4 +1,4 @@
-package com.kh.ecolog.qna_reply.model.service;
+package com.kh.ecolog.qnareply.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.ecolog.qna.model.service.QnaService;
-import com.kh.ecolog.qna_reply.model.dao.QnaReplyMapper;
-import com.kh.ecolog.qna_reply.model.dto.QnaReplyDTO;
-import com.kh.ecolog.qna_reply.model.vo.QnaReply;
+import com.kh.ecolog.qnareply.model.dao.QnaReplyMapper;
+import com.kh.ecolog.qnareply.model.dto.QnaReplyDTO;
+import com.kh.ecolog.qnareply.model.vo.QnaReply;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

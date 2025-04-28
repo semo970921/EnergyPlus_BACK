@@ -1,4 +1,4 @@
-package com.kh.ecolog.qna_reply.controller;
+package com.kh.ecolog.qnareply.controller;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.ecolog.qna_reply.model.dto.QnaReplyDTO;
-import com.kh.ecolog.qna_reply.model.service.QnaReplyService;
+import com.kh.ecolog.qnareply.model.dto.QnaReplyDTO;
+import com.kh.ecolog.qnareply.model.service.QnaReplyService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

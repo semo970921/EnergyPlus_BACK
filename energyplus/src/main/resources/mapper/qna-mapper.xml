@@ -13,6 +13,7 @@
 				, USER_ID
 				, QNA_TITLE
 				, QNA_CONTENT
+				, QNA_DATE
 			   )
 		VALUES
 		      (
@@ -20,6 +21,7 @@
 				, #{userId}
 				, #{qnaTitle}
 				, #{qnaContent}
+				, SYSDATE
 			  )
 	</insert>
 	
@@ -51,6 +53,8 @@
 			 , USER_ID as userId
 		 FROM
 		       TB_QNA
+		WHERE
+			   USER_ID = #{userId}
 		ORDER
 		   BY
 		       QNA_ID DESC
@@ -73,11 +77,15 @@
 	
 	<!-- 페이징처리를 위한 게시글 총 개수 count -->
 	<select id="countAll" resultType="int">
-		SELECT COUNT(*) FROM TB_QNA
+		SELECT COUNT(*) 
+		  FROM 
+		       TB_QNA
+		 WHERE
+			   USER_ID = #{userId}
 	</select>
 	
 	<!-- 검색 기능 -->
-	<select id="searchQna" resultType="QnaDTO" parameterType="String">
+	<select id="searchQna" resultType="QnaDTO" parameterType="map">
 	  SELECT 
 		      QNA_ID as qnaId
 		    , USER_ID as userId
@@ -88,20 +96,21 @@
 	    FROM
 	  	      TB_QNA
 	   WHERE
+			  USER_ID = #{userId}
+	     AND
 	   		  QNA_TITLE LIKE '%' || #{keyword} || '%'
 	   ORDER 
 	      BY  QNA_ID DESC
 	</select>
 	
-	<select id="countSearch" resultType="int" parameterType="String">
+	<select id="countSearch" resultType="int" parameterType="map">
 	  SELECT COUNT(*)
 	    FROM
 	    	 TB_QNA
-	   WHERE 
+	   WHERE
+			 USER_ID = #{userId}
+		 AND
 	  		 QNA_TITLE LIKE '%' || #{keyword} || '%'
 	</select>
-
-
-
 
 </mapper>

@@ -7,6 +7,8 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
+import com.kh.ecolog.auth.model.vo.CustomUserDetails;
+import com.kh.ecolog.auth.service.AuthService;
 import com.kh.ecolog.qna.model.dao.QnaMapper;
 import com.kh.ecolog.qna.model.dto.QnaDTO;
 import com.kh.ecolog.qna.model.vo.Qna;
@@ -20,23 +22,28 @@ import lombok.extern.slf4j.Slf4j;
 public class QnaServiceImpl implements QnaService {
 	
 	private final QnaMapper	qnaMapper;
+	private final AuthService authService;
 
 	@Override
 	public void insert(QnaDTO qna) {
-		// 유저 아이디 임의 지정
-		Long userId = 1L;
+		// 로그인한 사용자만
+		CustomUserDetails user = authService.getUserDetails();
+		Long userId = user.getUserId();
 		
 		Qna requestData = Qna.builder()
 						 .qnaTitle(qna.getQnaTitle())
 						 .qnaContent(qna.getQnaContent())
-//						 .userId(qna.getUserId())
-						 .userId(userId)
+						 .userId(userId) // 로그인한 사용자 ID 세팅
 						 .build();
 		qnaMapper.insert(requestData);
 	}
 
 	@Override
 	public Map<String, Object> selectAll(int pageNo, String keyword) {
+		// 로그인한 사용자만
+		CustomUserDetails user = authService.getUserDetails();
+		Long userId = user.getUserId();
+		
 		int size = 5; // 페이지 당 5
 		RowBounds rowBounds = new RowBounds(pageNo * size, size);
 		
@@ -44,11 +51,17 @@ public class QnaServiceImpl implements QnaService {
 	    int totalCount;
 
 	    if (keyword == null || keyword.trim().isEmpty()) {
-	        list = qnaMapper.selectAll(rowBounds);
-	        totalCount = qnaMapper.countAll();
+	    	// 조건에 userId를 넣어주기
+	        list = qnaMapper.selectAll(userId, rowBounds);
+	        totalCount = qnaMapper.countAll(userId);
 	    } else {
-	        list = qnaMapper.searchQna(keyword, rowBounds);
-	        totalCount = qnaMapper.countSearch(keyword);
+	    	// Map으로 userId, keyword 묶어서 넘기기
+	    	Map<String, Object> param = new HashMap();
+	    	param.put("userId", userId);
+	    	param.put("keyword", keyword);
+	    	
+	        list = qnaMapper.searchQna(param, rowBounds);
+	        totalCount = qnaMapper.countSearch(param);
 	    }
 		
 		Map<String, Object> result = new HashMap();

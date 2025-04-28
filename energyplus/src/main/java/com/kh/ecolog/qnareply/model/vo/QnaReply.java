@@ -1,4 +1,4 @@
-package com.kh.ecolog.qna_reply.model.vo;
+package com.kh.ecolog.qnareply.model.vo;
 
 import java.sql.Date;
 
