@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberServiceImpl implements MemberService {
 	
 	private final MemberMapper memberMapper;
-	private final PasswordEncoder passwordEncoder; // 비밃번호 암호화를 위한 의존성 주입
+	private final PasswordEncoder passwordEncoder; // 비밀번호, 전화번호 암호화를 위한 의존성 주입
 
 	@Override
 	public void signUp(MemberDTO member) {
@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
 								   .userEmail(member.getUserEmail())
 								   .userPassword(passwordEncoder.encode(member.getUserPassword()))
 								   .userName(member.getUserName())
-								   .userPhone(member.getUserPhone())
+								   .userPhone(member.getUserPhone() != null ? passwordEncoder.encode(member.getUserPhone()) : null)
 								   .role("ROLE_USER")
 								   .build();
 		
