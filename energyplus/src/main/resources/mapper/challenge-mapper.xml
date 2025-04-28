@@ -66,7 +66,33 @@
 		      #{challengeImg}
 	    		)
 	  </insert>
+	  
+	  <!-- 챌린지 삭제 -->
+	  <delete id="deleteChallenge" parameterType="long">
+	  DELETE
+	  	FROM
+	  		TB_CHALLENGE
+	  WHERE
+	  	CHALLENGE_SEQ = #{challengeSeq}
+	  
+	  </delete>
+	  
+	  
+	  <!-- 	챌린지 수정 -->
+	  <update id="updateChallenge" parameterType="com.kh.ecolog.challenge.model.dto.ChallengeDTO">
+	  UPDATE 
+	  	TB_CHALLENGE
+	  SET
+	  	CHALLENGE_TITLE = #{challengeTitle},
+	  	CHALLENGE_CONTENT = #{challengeContent},
+	  	CHALLENGE_IMG = #{challengeImg}
+	  
+	  WHERE
+	  	CHALLENGE_SEQ = #{challengeSeq} 
+	  </update>
+	  
 
+	
 	
 	</mapper>
 	

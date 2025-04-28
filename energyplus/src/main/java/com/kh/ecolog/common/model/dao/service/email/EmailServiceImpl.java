@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
 	private String senderEmail;
 
 	/**
-	 * 이메일 발송
+	 * 이메일 발송 
 	 */
 	@Override
 	public void sendEmail(String to, String subject, String content) {
