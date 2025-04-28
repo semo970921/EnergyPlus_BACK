@@ -74,7 +74,24 @@ public class ChallengeServiceImpl implements ChallengeService {
         return challengeMapper.selectChallengeDetail(challengeSeq);
     }
     
+    // 챌린지 삭제 
+    @Override
+    public void deleteChallenge(Long challengeSeq) {
+    	challengeMapper.deleteChallenge(challengeSeq);
+    }
     
+    // 챌린지 수정 
+    @Override
+    public ChallengeDTO updateChallenge(ChallengeDTO challenge, MultipartFile file) {
+    	
+    	if(file != null && !file.isEmpty()) {
+    		
+    		String filePath = fileService.store(file);
+    		challenge.setChallengeImg(filePath);
+    	}
+    	challengeMapper.updateChallenge(challenge);
+    	return challenge;
+    }
     
     
     

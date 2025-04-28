@@ -14,4 +14,8 @@ public interface ChallengeService {
     ChallengeDTO getChallengeDetail(Long challengeSeq); // 챌린지 상세 보기 
 
     void saveChallenge(ChallengeDTO challenge, MultipartFile file); // 챌린지 저장 
+    
+    void deleteChallenge(Long challengeSeq); // 챌린지 삭제 
+    
+    ChallengeDTO updateChallenge(ChallengeDTO challenge, MultipartFile file); // 챌린지 수정 
 }
