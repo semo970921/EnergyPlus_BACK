@@ -1,6 +1,7 @@
 package com.kh.ecolog.qna.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,8 +15,8 @@ public interface QnaMapper {
 	
 	void insert(Qna qna);
 	
-	List<QnaDTO> selectAll(RowBounds rb);
-	int countAll();
+	List<QnaDTO> selectAll(@Param("userId") Long userId, RowBounds rb);
+	int countAll(@Param("userId") Long userId);
 	
 	QnaDTO selectById(Long qnaId);
 	
@@ -24,7 +25,7 @@ public interface QnaMapper {
 	void deleteById(@Param("qnaId") Long qnaId);
 
 	// 검색
-	List<QnaDTO> searchQna(@Param("keyword") String keyword, RowBounds rowBounds);
-	int countSearch(@Param("keyword") String keyword);
+	List<QnaDTO> searchQna(Map<String, Object> param, RowBounds rowBounds);
+	int countSearch(Map<String, Object> param);
 	
 }

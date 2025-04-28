@@ -11,6 +11,10 @@ public class WebConfigure implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String uploadPath = "file:///" + System.getProperty("user.dir").replace("\\", "/") + "/uploads/";
 
+        
+        System.out.println("현재 서버 실행 경로: " + System.getProperty("user.dir"));
+
+        
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations(uploadPath);
     }

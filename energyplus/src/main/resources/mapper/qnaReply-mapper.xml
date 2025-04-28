@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.ecolog.qna_reply.model.dao.QnaReplyMapper">
+<mapper namespace="com.kh.ecolog.qnareply.model.dao.QnaReplyMapper">
 	
 	<insert id="insertReply">
 		INSERT
@@ -24,7 +24,7 @@
 	</insert>
 	
 	<select id="selectReplyList" parameterType="long"
-			resultType="com.kh.ecolog.qna_reply.model.dto.QnaReplyDTO">
+			resultType="com.kh.ecolog.qnareply.model.dto.QnaReplyDTO">
 		SELECT
 			   QNA_ID as qnaId
 			 , QNA_REPLY_ID as qnaReplyId
@@ -84,7 +84,7 @@
 	
 	<!-- 댓글 수정 -->
 	<update id="update"
-			parameterType="com.kh.ecolog.qna_reply.model.dto.QnaReplyDTO">
+			parameterType="com.kh.ecolog.qnareply.model.dto.QnaReplyDTO">
 		UPDATE
 			   TB_QNA_REPLY
 		   SET

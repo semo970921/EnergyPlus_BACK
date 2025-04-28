@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.mymarket.model.dao.MyMarketMapper">
+
+	<sql id="marketColumns">
+        MARKET_NO marketNo,
+        USER_ID userId,
+        MARKET_TITLE marketTitle,
+        MARKET_CONTENT marketContent,
+        MARKET_DATE marketDate,
+        MARKET_STATUS marketStatus,
+        MARKET_PRICE marketPrice
+    </sql>
+    
+	<!-- 게시글 조회용 resultMap -->
+    <resultMap id="marketResultMap" type="com.kh.ecolog.mymarket.model.dto.MyMarketDTO">
+        <result column="MARKET_NO" property="marketNo" />
+        <result column="USER_ID" property="userId" />
+        <result column="USER_NAME" property="userName" />
+        <result column="MARKET_TITLE" property="marketTitle" />
+        <result column="MARKET_CONTENT" property="marketContent" />
+        <result column="MARKET_DATE" property="marketDate" />
+        <result column="MARKET_STATUS" property="marketStatus" />
+        <result column="MARKET_PRICE" property="marketPrice" />
+        <result column="marketStatusLabel" property="marketStatusLabel" />
+        <result column="thumbnailUrl" property="thumbnailUrl" />
+    </resultMap>
+    
+    <!-- 상태 표시 SQL -->
+    <sql id="marketStatusLabel">
+        DECODE(M.MARKET_STATUS, 'N', '판매중', 'Y', '판매완료') AS marketStatusLabel
+    </sql>
+    
+	<select id="selectMyMarket" resultMap="marketResultMap">
+		SELECT
+				M.MARKET_NO AS MARKET_NO,
+			    M.USER_ID AS USER_ID,
+			    U.USER_NAME AS USER_NAME,
+			    M.MARKET_TITLE AS MARKET_TITLE,
+			    M.MARKET_CONTENT AS MARKET_CONTENT,
+			    M.MARKET_DATE AS MARKET_DATE,
+			    M.MARKET_STATUS AS MARKET_STATUS,
+			    M.MARKET_PRICE AS MARKET_PRICE,
+	            <include refid="marketStatusLabel" />,
+	            (
+	                SELECT MI.MARKET_IMG_URL 
+	                FROM TB_MARKET_IMG MI 
+	                WHERE MI.MARKET_NO = M.MARKET_NO AND MI.IMG_ORDER = 1
+	            ) AS thumbnailUrl
+		 FROM
+		       TB_MARKET M
+		 JOIN 
+		 	   TB_USER U ON M.USER_ID = U.USER_ID
+		WHERE
+			   U.USER_ID = #{userId}
+		ORDER
+		   BY
+		       MARKET_NO DESC
+	</select>
+	
+	<!-- 게시글 번호로 조회 -->
+    <select id="selectMarketByNo" parameterType="long" resultType="com.kh.ecolog.mymarket.model.dto.MyMarketDTO">
+        SELECT 
+	            M.MARKET_NO AS marketNo,
+	            M.USER_ID AS userId,
+	            M.MARKET_TITLE AS marketTitle,
+	            M.MARKET_CONTENT AS marketContent,
+	            M.MARKET_DATE AS marketDate,
+	            M.MARKET_STATUS AS marketStatus,
+	            M.MARKET_PRICE AS marketPrice,
+	            U.USER_NAME AS userName,
+	            <include refid="marketStatusLabel" />
+         FROM 
+         		TB_MARKET M
+         JOIN 
+        		TB_USER U ON M.USER_ID = U.USER_ID
+        WHERE 
+        		M.MARKET_NO = #{marketNo}
+    </select>
+
+    <!-- 게시글 번호로 이미지 조회 -->
+    <select id="selectImagesByMarketNo" parameterType="long" resultType="com.kh.ecolog.mymarket.model.dto.MyMarketImageDTO">
+        SELECT 
+	            MARKET_IMG_ID AS marketImgId,
+	            MARKET_NO AS marketNo,
+	            MARKET_IMG_URL AS imgUrl,
+	            IMG_ORDER AS imgOrder
+          FROM 
+        		TB_MARKET_IMG
+         WHERE 
+         		MARKET_NO = #{marketNo}
+         ORDER
+            BY 
+           		IMG_ORDER ASC
+    </select>
+    
+</mapper>
