@@ -21,7 +21,9 @@ public class ChallengeDTO {
     private String challengeStatus; 
     private Long userId;
     private Date enrollDate;
+    private String challengeImg;
     
     private String userName;
+    
 
 }

@@ -13,6 +13,7 @@
 	      c.CHALLENGE_STATUS AS challengeStatus,
 	      c.USER_ID AS userId,
 	      c.ENROLL_DATE AS enrollDate,
+	      c.CHALLENGE_IMG AS challengeImg,
 	      u.USER_NAME AS userName
 	    FROM 
 	      TB_CHALLENGE c
@@ -32,6 +33,7 @@
 	      c.CHALLENGE_STATUS AS challengeStatus,
 	      c.USER_ID AS userId,
 	      c.ENROLL_DATE AS enrollDate,
+	      c.CHALLENGE_IMG AS challengeImg,
 	      u.USER_NAME AS userName
 	    FROM 
 	      TB_CHALLENGE c
@@ -42,21 +44,37 @@
 	  </select>
 	
 	  <!-- 챌린지 등록 -->
-	  <insert id="insertChallenge" parameterType="com.kh.ecolog.challenge.model.dto.ChallengeDTO">
-	    INSERT INTO TB_CHALLENGE (
-	      CHALLENGE_SEQ,
-	      CHALLENGE_TITLE,
-	      CHALLENGE_CONTENT,
-	      CHALLENGE_STATUS,
-	      USER_ID
-	    )
-	    VALUES (
-	      SEQ_CHALLENGE.NEXTVAL,
-	      #{challengeTitle},
-	      #{challengeContent},
-	      #{challengeStatus},
-	      #{userId}
-	    )
+	  <insert id="saveChallenge"
+          parameterType="com.kh.ecolog.challenge.model.vo.Challenge">
+	    INSERT INTO 
+	    	TB_CHALLENGE (
+		      CHALLENGE_SEQ,
+		      CHALLENGE_TITLE,
+		      CHALLENGE_CONTENT,
+		      ENROLL_DATE,
+		      CHALLENGE_STATUS,
+		      USER_ID,
+		      CHALLENGE_IMG
+		      )
+		VALUES (
+		      SEQ_CHALLENGE.NEXTVAL,
+		      #{challengeTitle},
+		      #{challengeContent},
+		      SYSDATE,
+		      #{challengeStatus},
+		      #{userId},
+		      #{challengeImg}
+	    		)
 	  </insert>
+
 	
 	</mapper>
+	
+	
+	
+	
+	
+	
+	
+	
+	
