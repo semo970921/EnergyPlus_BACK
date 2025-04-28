@@ -34,7 +34,7 @@ public class QnaController {
 	
 	private final QnaService qnaService;
 	
-	// 등록(완)
+	// 등록
 	@PostMapping
 	public ResponseEntity<?> insert(@Valid @RequestBody QnaDTO qna){
 		qnaService.insert(qna);
@@ -57,7 +57,7 @@ public class QnaController {
 		return ResponseEntity.ok(qnaService.selectById(qnaId));
 	}
 	
-	// 수정(완)
+	// 수정
 	@PutMapping("/{id}")
 	public ResponseEntity<QnaDTO> update(
 								@PathVariable(name="id") Long qnaId,
@@ -68,7 +68,7 @@ public class QnaController {
 							 .body(qnaService.update(qna));
 	}
 	
-	// 삭제(완)
+	// 삭제
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteById(@PathVariable(name="id") Long qnaId){
 		qnaService.deleteById(qnaId);

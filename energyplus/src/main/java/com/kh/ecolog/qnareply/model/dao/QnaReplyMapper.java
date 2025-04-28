@@ -1,11 +1,11 @@
-package com.kh.ecolog.qna_reply.model.dao;
+package com.kh.ecolog.qnareply.model.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.kh.ecolog.qna_reply.model.dto.QnaReplyDTO;
-import com.kh.ecolog.qna_reply.model.vo.QnaReply;
+import com.kh.ecolog.qnareply.model.dto.QnaReplyDTO;
+import com.kh.ecolog.qnareply.model.vo.QnaReply;
 
 @Mapper
 public interface QnaReplyMapper {
