@@ -13,6 +13,6 @@ public interface MarketReplyService {
 	
 	void updateMarketReply(MarketReplyDTO dto);
 	
-	void deleteMarketReply(Long replyNo, Long currentUserId);
+	void deleteMarketReply(MarketReplyDTO dto);
 
 }

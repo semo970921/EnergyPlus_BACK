@@ -2,6 +2,7 @@ package com.kh.ecolog.market.model.service;
 
 import java.util.List;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,14 @@ public class MarketReplyServiceImpl implements MarketReplyService {
 	
 	@Override
 	public void insertMarketReply(MarketReplyDTO dto) {
-		
-		Long userId = SecurityUtil.getCurrentUserId();
-	    dto.setUserId(userId);
-	    
-		marketReplyMapper.insertMarketReply(dto);
-		
+	    Long userId = SecurityUtil.getCurrentUserId(); // JWT에서 꺼냄
+	    dto.setUserId(userId); // 프론트에서 보내든 말든 무조건 덮어씀!
+
+	    if (userId == null) {
+	        throw new AccessDeniedException("로그인 필요");
+	    }
+
+	    marketReplyMapper.insertMarketReply(dto);
 	}
 
 	@Override
@@ -41,16 +44,21 @@ public class MarketReplyServiceImpl implements MarketReplyService {
 		
 	}
 	@Override
-	public void deleteMarketReply(Long replyNo, Long userId) {
+	public void deleteMarketReply(MarketReplyDTO dto) {
+	    Long replyNo = dto.getReplyNo();
+	    Long userId = dto.getUserId();   
 
-		if(userId == null) {
-			throw new RuntimeException("대댓글이 존재하지않습니다.");
-		}
-		if (!userId.equals(userId) ) {
-		throw new RuntimeException("삭제권한이 없습니다");
-		}
-		
-		marketReplyMapper.deleteMarketReply(replyNo);
+	    Long writerUserId = marketReplyMapper.findMarketReplyWriter(replyNo);
+
+	    if(writerUserId == null) {
+	        throw new RuntimeException("대댓글이 존재하지 않습니다.");
+	    }
+
+	    if (!writerUserId.equals(userId)) {
+	        throw new RuntimeException("삭제 권한이 없습니다.");
+	    }
+
+	    marketReplyMapper.deleteMarketReply(replyNo);
 	}
 
 	

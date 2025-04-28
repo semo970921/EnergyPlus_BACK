@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.ecolog.common.util.SecurityUtil;
 import com.kh.ecolog.market.model.dto.MarketDTO;
 import com.kh.ecolog.market.model.dto.MarketReplyDTO;
 import com.kh.ecolog.market.model.service.MarketReplyService;
@@ -47,9 +48,16 @@ public class MarketReplyController {
 	    return ResponseEntity.ok("대댓글 수정 완료!");
 	}
 	@DeleteMapping("/{replyNo}")
-	public ResponseEntity<String> deleteMarketReply(@PathVariable Long replyNo, @RequestParam Long userId ) {
-		marketReplyService.deleteMarketReply(replyNo, userId);
-		return ResponseEntity.ok("대댓글 삭제 완료!");
+	public ResponseEntity<String> deleteMarketReply(@PathVariable Long replyNo) {
+	    Long userId = SecurityUtil.getCurrentUserId();
+
+	    MarketReplyDTO dto = new MarketReplyDTO();
+	    dto.setReplyNo(replyNo); // DTO 이름 그대로
+	    dto.setUserId(userId);   // DTO 이름 그대로
+
+	    marketReplyService.deleteMarketReply(dto);
+
+	    return ResponseEntity.ok("대댓글 삭제 완료!");
 	}
 	
 	
