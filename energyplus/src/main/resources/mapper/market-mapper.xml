@@ -93,27 +93,28 @@
     </sql>
 
     <!-- 전체 게시글 목록 -->
-    <select id="findAllMarkets" resultType="com.kh.ecolog.market.model.dto.MarketDTO">
-        SELECT 
-            M.MARKET_NO AS marketNo,
-            M.USER_ID AS userId,
-            U.USER_NAME AS userName,
-            M.MARKET_TITLE AS marketTitle,
-            M.MARKET_CONTENT AS marketContent,
-            M.MARKET_DATE AS marketDate,
-            M.MARKET_STATUS AS marketStatus,
-            M.MARKET_PRICE AS marketPrice,
-            <include refid="marketStatusLabel" />,
-            (
-                SELECT MI.MARKET_IMG_URL 
-                FROM TB_MARKET_IMG MI 
-                WHERE MI.MARKET_NO = M.MARKET_NO AND MI.IMG_ORDER = 1
-                FETCH FIRST 1 ROWS ONLY
-            ) AS thumbnailUrl
-        FROM TB_MARKET M
-        JOIN TB_USER U ON M.USER_ID = U.USER_ID
-        ORDER BY M.MARKET_NO DESC
-    </select>
+   <select id="findAllMarkets" resultType="com.kh.ecolog.market.model.dto.MarketDTO">
+    SELECT 
+        M.MARKET_NO,
+        M.USER_ID,
+        U.USER_NAME,
+        M.MARKET_TITLE,
+        M.MARKET_CONTENT,
+        M.MARKET_DATE,
+        M.MARKET_STATUS,
+        M.MARKET_PRICE,
+        <include refid="marketStatusLabel" />,
+        (
+            SELECT MI.MARKET_IMG_URL
+            FROM TB_MARKET_IMG MI
+            WHERE MI.MARKET_NO = M.MARKET_NO
+              AND MI.IMG_ORDER = 1
+            FETCH FIRST 1 ROWS ONLY
+        ) AS thumbnailUrl
+    FROM TB_MARKET M
+    JOIN TB_USER U ON M.USER_ID = U.USER_ID
+    ORDER BY M.MARKET_NO DESC
+	</select>
 
     <!-- 게시글 번호로 조회 -->
     <select id="selectMarketByNo" parameterType="long" resultType="com.kh.ecolog.market.model.dto.MarketDTO">

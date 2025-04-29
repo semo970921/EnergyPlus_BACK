@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.kh.ecolog.market.model.dao.MarketReReportMapper">
+  	<insert id="insertMarketReReport" parameterType="com.kh.ecolog.market.model.dto.MarketReReportDTO">
+        <selectKey keyProperty="replyReportId" resultType="long" order="BEFORE">
+            SELECT SEQ_MARKET_REPLY_CNT.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO TB_MARKET_REPLY_CNT (
+            REPLY_REPORT_ID,
+            REPLY_NO,
+            REPLY_REPORT_REASON,
+            REPLY_REPORT_DATE,
+            REPORTER_USER_ID
+        ) VALUES (
+            #{replyReportId},
+            #{replyNo},
+            #{replyReportReason},
+            SYSDATE,
+            #{reporterUserId}
+        )
+    </insert>
+  </mapper>
