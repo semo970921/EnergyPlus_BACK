@@ -34,4 +34,18 @@
 	  WHERE R.MARKET_COMMENT_NO = #{marketCommentNo}
 	  ORDER BY R.REPLY_DATE ASC
 	</select>
+	<update id="updateMarketReply" parameterType="com.kh.ecolog.market.model.dto.MarketReplyDTO">
+	    UPDATE TB_MARKET_REPLY
+	    SET REPLY_CONTENT = #{replyContent},
+	        REPLY_DATE = SYSDATE
+	    WHERE REPLY_NO = #{replyNo}
+	      AND USER_ID = #{userId} <!-- 본인만 수정 가능 -->
+	</update>
+	<delete id="deleteMarketReply" parameterType="Long">
+    	DELETE FROM TB_MARKET_REPLY WHERE REPLY_NO = #{replyNo}
+	</delete>
+	
+	<select id="findMarketReplyWriter" parameterType="Long" resultType="Long">
+	    SELECT USER_ID FROM TB_MARKET_REPLY WHERE REPLY_NO = #{replyNo}
+	</select>
  </mapper>

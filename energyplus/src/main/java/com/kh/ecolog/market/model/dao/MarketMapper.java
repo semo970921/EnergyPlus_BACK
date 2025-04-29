@@ -17,4 +17,7 @@ public interface MarketMapper {
 	void deleteMarket(Long marketNo);
 	MarketDTO selectMarketByNo(Long marketNo);
 	List<MarketImageDTO> selectImagesByMarketNo(Long marketNo);
+	Long findMarketWriter(Long marketNo);
+	void deleteImageByUrl(String imgUrl);
+	List<String> findAllImageUrls(Long marketNo);
 }

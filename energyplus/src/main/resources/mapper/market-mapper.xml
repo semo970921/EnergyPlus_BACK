@@ -14,7 +14,7 @@
         MARKET_STATUS marketStatus,
         MARKET_PRICE marketPrice
     </sql>
-
+	
     <!-- 게시글 등록 -->
     <insert id="insertMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
         <selectKey keyProperty="marketNo" resultType="long" order="BEFORE">
@@ -37,6 +37,10 @@
             SEQ_MARKET_IMG_ID.NEXTVAL, #{marketNo}, #{imgUrl}, #{imgOrder}
         )
     </insert>
+    
+    <select id="findMarketWriter" parameterType="Long" resultType="Long">
+	  SELECT USER_ID FROM TB_MARKET WHERE MARKET_NO = #{marketNo}
+	</select>
 
     <!-- 게시글 수정 -->
     <update id="updateMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
@@ -48,7 +52,17 @@
             MARKET_DATE = SYSDATE
         WHERE MARKET_NO = #{marketNo}
     </update>
+    
+    <delete id="deleteImageByUrl" parameterType="string">
+    DELETE FROM TB_MARKET_IMG
+    WHERE MARKET_IMG_URL = #{imgUrl}
+	</delete>
 
+	<select id="findAllImageUrls" parameterType="long" resultType="string">
+	    SELECT MARKET_IMG_URL
+	    FROM TB_MARKET_IMG
+	    WHERE MARKET_NO = #{marketNo}
+	</select>
     <!-- 게시글 삭제 -->
     <delete id="deleteMarket" parameterType="long">
         DELETE FROM TB_MARKET WHERE MARKET_NO = #{marketNo}
@@ -94,6 +108,7 @@
                 SELECT MI.MARKET_IMG_URL 
                 FROM TB_MARKET_IMG MI 
                 WHERE MI.MARKET_NO = M.MARKET_NO AND MI.IMG_ORDER = 1
+                FETCH FIRST 1 ROWS ONLY
             ) AS thumbnailUrl
         FROM TB_MARKET M
         JOIN TB_USER U ON M.USER_ID = U.USER_ID

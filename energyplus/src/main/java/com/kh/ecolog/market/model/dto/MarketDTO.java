@@ -27,4 +27,5 @@ public class MarketDTO {
     private String thumbnailUrl;
     private List<MarketImageDTO> imageList;
     private List<String> keepImageUrls;
+    private Boolean isMine; 
 }
