@@ -55,7 +55,7 @@ public class MarketReplyController {
 	
 	
 	@DeleteMapping("/{replyNo}")
-	public ResponseEntity<String> deleteMarketReply(@PathVariable Long replyNo) {
+	public ResponseEntity<String> deleteMarketReply(@PathVariable("replyNo") Long replyNo) {
 	    try {
 	        MarketReplyDTO dto = new MarketReplyDTO();
 	        dto.setReplyNo(replyNo);

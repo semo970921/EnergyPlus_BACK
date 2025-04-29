@@ -68,10 +68,14 @@ public class MarketController {
 	@PutMapping("/update")
 	public ResponseEntity<String> updateMarket(
 	    @RequestHeader("Authorization") String authHeader,
-	    @RequestPart("market") MarketDTO dto,
-	    @RequestPart(value = "images", required = false) List<MultipartFile> images
+	    @ModelAttribute MarketDTO dto,
+	    @RequestParam(value = "keepImageUrls", required = false) List<String> keepImageUrls,
+	    @RequestParam(value = "images", required = false) List<MultipartFile> images
 	) {
-	    marketService.updateMarket(dto, images); // 서비스 호출
+		log.info("{}", keepImageUrls);
+		log.info("{}", images);
+	    dto.setKeepImageUrls(keepImageUrls); // 여기 추가!
+	    marketService.updateMarket(dto, images);
 	    return ResponseEntity.ok("수정 성공!");
 	}
 	// 게시글 삭제

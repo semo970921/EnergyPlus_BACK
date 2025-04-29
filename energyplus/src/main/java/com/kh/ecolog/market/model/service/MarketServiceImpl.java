@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.ecolog.auth.model.vo.CustomUserDetails;
@@ -79,56 +80,57 @@ public class MarketServiceImpl implements MarketService  {
 
 	@Override
 	public void updateMarket(MarketDTO dto, List<MultipartFile> images) {
-	    // 1. 작성자 ID 조회 및 권한 확인
+	    // 작성자 확인
 	    Long writerUserId = marketMapper.findMarketWriter(dto.getMarketNo());
 	    checkUserAuthorization(writerUserId);
 
-	    // 2. 유효한 새 이미지만 필터링
-	    List<MultipartFile> validImages = (images != null)
-	        ? images.stream().filter(img -> img != null && !img.isEmpty()).toList()
-	        : new ArrayList<>();
+	    // 1. 먼저 게시글의 기존 이미지를 전부 삭제
+	    marketMapper.deleteImagesByMarketNo(dto.getMarketNo());
 
-	    // 3. 유지할 기존 이미지
-	    List<String> keepUrls = dto.getKeepImageUrls() != null
-	        ? dto.getKeepImageUrls()
-	        : new ArrayList<>();
+	    // 2. 최종 이미지 3개를 순서대로 저장
+	    List<String> keepUrls = dto.getKeepImageUrls() != null ? dto.getKeepImageUrls() : new ArrayList<>();
+	    List<MultipartFile> validImages = (images != null) ? images.stream().filter(img -> img != null && !img.isEmpty()).toList() : new ArrayList<>();
 
-	    // 4. 총 이미지 수 확인
-	    int totalCount = validImages.size() + keepUrls.size();
+	    // 총 3장 검사
+	    int totalCount = keepUrls.size() + validImages.size();
 	    if (totalCount != 3) {
 	        throw new IllegalArgumentException("수정 시 이미지는 총 3장이 있어야 합니다");
 	    }
 
-	    // 5. 기존 이미지 전부 삭제
-	    marketMapper.deleteImagesByMarketNo(dto.getMarketNo());
-
-	    // 6. 이미지 순서 초기화
 	    AtomicInteger order = new AtomicInteger(1);
-
-	    // 7. 기존 이미지 다시 저장
-	    keepUrls.forEach(url -> {
+	    System.out.println(keepUrls);
+	    // 기존 이미지 URL 저장
+	    for (String url : keepUrls) {
 	        MarketImageDTO image = MarketImageDTO.builder()
-	            .marketNo(dto.getMarketNo())
-	            .imgUrl(url)
-	            .imgOrder(order.getAndIncrement())
-	            .build();
+	                .marketNo(dto.getMarketNo())
+	                .imgUrl(url)
+	                .imgOrder(order.getAndIncrement())
+	                .build();
 	        marketMapper.insertMarketImage(image);
-	    });
+	    }
 
-	    // 8. 새 이미지 저장
-	    validImages.forEach(file -> {
-	        String url = fileService.store(file);
-	        MarketImageDTO image = MarketImageDTO.builder()
-	            .marketNo(dto.getMarketNo())
-	            .imgUrl(url)
-	            .imgOrder(order.getAndIncrement())
-	            .build();
-	        marketMapper.insertMarketImage(image);
-	    });
+	    // 새로 업로드된 파일 저장
+	    for (MultipartFile file : validImages) {
+	        try {
+	            String url = fileService.store(file);
+	            MarketImageDTO image = MarketImageDTO.builder()
+	                    .marketNo(dto.getMarketNo())
+	                    .imgUrl(url)
+	                    .imgOrder(order.getAndIncrement())
+	                    .build();
+	            marketMapper.insertMarketImage(image);
+	        } catch (Exception e) {
+	            System.out.println("이미지 저장 실패: " + file.getOriginalFilename());
+	            e.printStackTrace();
+	            throw new RuntimeException("이미지 업로드 중 오류 발생", e);
+	        }
+	    }
+	    System.out.println("먼디");
 
-	    // 9. 게시글 정보 업데이트
+	    // 3. 게시글 내용 업데이트
 	    marketMapper.updateMarket(dto);
 	}
+
 
 	private void handleImages(Long marketNo, List<MultipartFile> images, boolean isUpdate) {
 	    if (isUpdate) {
