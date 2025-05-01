@@ -44,10 +44,10 @@ public class ChallengeController {
     
     // 챌린지 목록 조회
     @GetMapping
-    public ResponseEntity<List<ChallengeDTO>> getChallenges() {
-        List<ChallengeDTO> list = challengeService.getChallengeList();
-        return ResponseEntity.ok(list);
-    }
+    public ResponseEntity<List<ChallengeDTO>> findAllChallenge(
+    	@RequestParam(name = "page", defaultValue = "0") int page){
+    		return ResponseEntity.ok(challengeService.findAllChallenge(page));
+    	}
 
     // 챌린지 상세 조회
     @GetMapping("/{challengeSeq}")

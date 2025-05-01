@@ -35,7 +35,7 @@ public class NoticeServiceImpl implements NoticeService{
 
     @Override
     public List<NoticeDTO> findAll(int pageNo) {
-        int size = 5;  // 페이지 당 5
+        int size = 10;
         RowBounds rowBounds = new RowBounds(pageNo * size, size);
         return noticeMapper.findAll(rowBounds);
     }

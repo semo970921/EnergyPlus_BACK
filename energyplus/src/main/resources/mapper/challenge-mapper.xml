@@ -5,7 +5,7 @@
 	<mapper namespace="com.kh.ecolog.challenge.model.dao.ChallengeMapper">
 	
 	  <!-- 챌린지 목록 -->
-	  <select id="selectChallengeList" resultType="com.kh.ecolog.challenge.model.dto.ChallengeDTO">
+	  <select id="findAllChallenge" resultType="com.kh.ecolog.challenge.model.dto.ChallengeDTO">
 	    SELECT 
 	      c.CHALLENGE_SEQ AS challengeSeq,
 	      c.CHALLENGE_TITLE AS challengeTitle,

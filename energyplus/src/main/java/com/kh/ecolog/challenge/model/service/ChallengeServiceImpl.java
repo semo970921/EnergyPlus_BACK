@@ -2,6 +2,7 @@ package com.kh.ecolog.challenge.model.service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,8 +65,10 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     // 챌린지 목록 조회 
     @Override
-    public List<ChallengeDTO> getChallengeList() {
-        return challengeMapper.selectChallengeList();
+    public List<ChallengeDTO> findAllChallenge(int pageNo) {
+    	int size = 10;
+    	RowBounds rowBounds = new RowBounds(pageNo * size, size);
+        return challengeMapper.findAllChallenge(rowBounds);
     }
  
     // 챌린지 상세 보기 

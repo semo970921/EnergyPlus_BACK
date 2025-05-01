@@ -13,9 +13,9 @@ import com.kh.ecolog.notice.model.vo.Notice;
 @Mapper
 public interface NoticeMapper {
 
-	void save(Notice notice);
-	
 	List<NoticeDTO> findAll (RowBounds rowBounds);
+
+	void save(Notice notice);
 	
 	NoticeDTO findById(Long noticeId);
 	

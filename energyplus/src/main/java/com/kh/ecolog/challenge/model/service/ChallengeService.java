@@ -9,7 +9,7 @@ import com.kh.ecolog.challenge.model.dto.ChallengeDTO;
 public interface ChallengeService {
 
 	
-	List<ChallengeDTO> getChallengeList(); // 챌린지 목록 조회 
+	List<ChallengeDTO> findAllChallenge(int pageNo); // 챌린지 목록 조회 
 
     ChallengeDTO getChallengeDetail(Long challengeSeq); // 챌린지 상세 보기 
 
