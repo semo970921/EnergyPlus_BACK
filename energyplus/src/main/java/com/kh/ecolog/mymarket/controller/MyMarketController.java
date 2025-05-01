@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.ecolog.market.model.dto.MarketDTO;
-import com.kh.ecolog.market.model.service.MarketService;
 import com.kh.ecolog.mymarket.model.dto.MyMarketDTO;
 import com.kh.ecolog.mymarket.model.service.MyMarketService;
 import lombok.RequiredArgsConstructor;

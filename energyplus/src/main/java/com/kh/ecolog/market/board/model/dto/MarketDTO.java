@@ -1,8 +1,9 @@
-package com.kh.ecolog.mymarket.model.dto;
+package com.kh.ecolog.market.board.model.dto;
 
 import java.sql.Date;
 import java.util.List;
 
+import com.kh.ecolog.market.board.model.dto.MarketImageDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class MyMarketDTO {
+public class MarketDTO {
 	private Long marketNo;
     private Long userId;
     private String userName;
@@ -26,6 +27,7 @@ public class MyMarketDTO {
     private Long marketPrice;
     private String marketStatusLabel;
     private String thumbnailUrl;
-    private List<MyMarketImageDTO> imageList;
+    private List<MarketImageDTO> imageList;
     private List<String> keepImageUrls;
+    private Boolean isMine; 
 }
