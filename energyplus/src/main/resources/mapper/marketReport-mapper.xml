@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.ecolog.market.model.dao.MarketReportMapper">
+<mapper namespace="com.kh.ecolog.market.report.model.dao.MarketReportMapper">
  	
  	<insert id="insertMarketReport">
  		<selectKey keyProperty="reportId" resultType="long" order="BEFORE">

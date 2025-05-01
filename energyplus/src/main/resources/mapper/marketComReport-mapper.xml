@@ -1,7 +1,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.ecolog.market.model.dao.MarketComReportMapper">
+<mapper namespace="com.kh.ecolog.market.report.model.dao.MarketComReportMapper">
 
-    <insert id="insertMarketComReport" parameterType="com.kh.ecolog.market.model.dto.MarketComReportDTO">
+<insert id="insertMarketComReport"
+        parameterType="com.kh.ecolog.market.report.model.dto.MarketComReportDTO">
         <selectKey keyProperty="commentReportId" resultType="long" order="BEFORE">
             SELECT SEQ_MARKET_COMMENT_CNT.NEXTVAL FROM DUAL
         </selectKey>
