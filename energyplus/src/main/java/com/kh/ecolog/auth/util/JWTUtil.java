@@ -38,12 +38,14 @@ public class JWTUtil {
 	 * 액세스 토큰 생성 (30분 유효)
 	 * @param userEmail
 	 * @param userId
+	 * @param role
 	 * @return
 	 */
-	public String getAccessToken(String userEmail, Long userId) {
+	public String getAccessToken(String userEmail, Long userId, String role) {
 		return Jwts.builder()
 				   .subject(userId.toString())
 				   .claim("userEmail", userEmail)
+				   .claim("role", role)
 				   .issuedAt(new Date())
 				   .expiration(new Date(System.currentTimeMillis() + 3600000L / 2))
 				   .signWith(key)
@@ -57,10 +59,11 @@ public class JWTUtil {
 	 * @param userId
 	 * @return
 	 */
-	public String getRefreshToken(String userEmail, Long userId) {
+	public String getRefreshToken(String userEmail, Long userId, String role) {
 		return Jwts.builder()
 				   .subject(userId.toString())
 				   .claim("userEmail", userEmail)
+				   .claim("role", role)
 				   .issuedAt(new Date())
 				   .expiration(new Date(System.currentTimeMillis() + 3600000L * 24 * 30))
 				   .signWith(key)		   
@@ -112,6 +115,16 @@ public class JWTUtil {
     public String getUserEmailFromToken(String token) {
         Claims claims = parseJwt(token);
         return claims.get("userEmail", String.class);
+    }
+    
+    /**
+     * 토큰에서 사용자 역할 추출
+     * @param token
+     * @return 사용자 역할 (role)
+     */
+    public String getRoleFromToken(String token) {
+        Claims claims = parseJwt(token);
+        return claims.get("role", String.class);
     }
 	
 

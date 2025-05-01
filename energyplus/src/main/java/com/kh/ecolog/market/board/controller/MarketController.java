@@ -96,7 +96,7 @@ public class MarketController {
 	}
 
 // 검색 + 페이징 용 
-	@GetMapping
+	@GetMapping("/search")
 	public ResponseEntity<Map<String, Object>> searchMarkets(
 	        @RequestParam(name = "page", defaultValue = "0") int page,
 	        @RequestParam(name = "keyword", required = false) String keyword
