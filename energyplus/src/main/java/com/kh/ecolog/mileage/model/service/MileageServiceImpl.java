@@ -28,6 +28,8 @@ public class MileageServiceImpl implements MileageService {
 	private final FileService fileService;
 	private final AuthService authService;
 	
+	
+	// 마일리지 인정 신청글 저장
 	@Override
 	public ResponseEntity<?> saveMileage(MileageDTO mileage, MultipartFile file) {
 
@@ -54,28 +56,6 @@ public class MileageServiceImpl implements MileageService {
 		mileageMapper.saveMileage(requestData);
 		
 		return ResponseEntity.ok().body("신청이 완료되었습니다.");
-	}
-	
-	// 관리자 권한
-	@Override
-	public List<MileageDTO> findAllMileage(int pageNo) {
-		int size = 5;
-		RowBounds rowBounds = new RowBounds(pageNo * size, size);
-		
-		return mileageMapper.findAllMileage(rowBounds);
-	}
-	
-	@Override
-	public MileageDTO detailMileage(Long mileageSeq) {
-		
-	    return mileageMapper.detailMileage(mileageSeq);
-	}
-	
-
-	@Override
-	public void updateMileageStatus(Long mileageSeq, String mileageStatus) {
-		
-		mileageMapper.updateMileageStatus(mileageSeq, mileageStatus);
 	}
 	
 	

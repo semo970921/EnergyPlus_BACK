@@ -38,4 +38,15 @@ public class ApiController {
         return ResponseEntity.ok(responseData);
     }
 	
+	@GetMapping("/energyUsage1")
+	public ResponseEntity<String> getenergyUsage1(){
+		String responseData = apiService.requestEnergyUsage1();
+		return ResponseEntity.ok(responseData);
+	}
+	
+	@GetMapping("/energyUsage2")
+	public ResponseEntity<String> getenergyUsage2(){
+		String responseData = apiService.requestEnergyUsage2();
+		return ResponseEntity.ok(responseData);
+	}
 }
