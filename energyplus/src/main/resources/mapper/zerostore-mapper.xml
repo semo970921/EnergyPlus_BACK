@@ -5,7 +5,7 @@
 <mapper namespace="com.kh.ecolog.api.model.dao.ZerostoreMapper">
 
 	<select id="requestGetZerostore"
-	resultType="com.kh.ecolog.api.model.dto.ZerostoreDTO">
+	resultType="ZerostoreDTO">
 		SELECT
 			ZEROSTORE_SEQ zerostoreSeq,
             STORE_NAME storeName,

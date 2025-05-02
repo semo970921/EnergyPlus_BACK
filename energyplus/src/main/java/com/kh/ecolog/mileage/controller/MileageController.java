@@ -35,34 +35,13 @@ public class MileageController {
 
 	private final MileageService mileageService;
 	
-	
+	/* 마일리지 신청글 저장 */
 	@PostMapping("/save")
 	public ResponseEntity<?> saveMileage(@ModelAttribute MileageDTO mileage, 
 										 @RequestParam(name="mileageImg", required=false) MultipartFile file){
 		
 		log.info("인증 신청글 정보 : {}, 파일 정보 : {}", mileage, file);
 		return mileageService.saveMileage(mileage, file);
-	}
-	
-	@GetMapping("/{mileageSeq}")
-	public ResponseEntity<MileageDTO> getMileageDetail(@PathVariable("mileageSeq") Long mileageSeq){
-		
-		MileageDTO mileage = mileageService.detailMileage(mileageSeq);
-		
-	    return ResponseEntity.ok(mileage);
-	}
-	
-	@GetMapping
-	public ResponseEntity<List<MileageDTO>> findAllMileage(@RequestParam(name="page", defaultValue="0") int page){
-		
-		return ResponseEntity.ok(mileageService.findAllMileage(page));
-	}
-	
-	@PutMapping("/{mileageSeq}/status")
-	public ResponseEntity<?> updateMileageStatus(@PathVariable Long mileageSeq, @RequestParam String mileageStatus) {
-	    
-	    mileageService.updateMileageStatus(mileageSeq, mileageStatus);
-	    return ResponseEntity.ok("상태가 업데이트되었습니다.");
 	}
 	
 	

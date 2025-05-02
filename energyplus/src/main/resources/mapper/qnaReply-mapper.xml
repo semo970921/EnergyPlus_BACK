@@ -24,7 +24,7 @@
 	</insert>
 	
 	<select id="selectReplyList" parameterType="long"
-			resultType="com.kh.ecolog.qnareply.model.dto.QnaReplyDTO">
+			resultType="QnaReplyDTO">
 		SELECT
 			   QNA_ID as qnaId
 			 , QNA_REPLY_ID as qnaReplyId
@@ -84,7 +84,7 @@
 	
 	<!-- 댓글 수정 -->
 	<update id="update"
-			parameterType="com.kh.ecolog.qnareply.model.dto.QnaReplyDTO">
+			parameterType="QnaReplyDTO">
 		UPDATE
 			   TB_QNA_REPLY
 		   SET
