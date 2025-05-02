@@ -51,4 +51,5 @@ mybatis:
                         com.kh.ecolog.market.reply.model.dto, com.kh.ecolog.market.report.model.dto, 
                         com.kh.ecolog.mileage.model.dto, 
                         com.kh.ecolog.mymarket.model.dto, 
-                        com.kh.ecolog.api.model.dto
+                        com.kh.ecolog.api.model.dto, 
+                        com.kh.ecolog.admin.qnaManage.model.dto
