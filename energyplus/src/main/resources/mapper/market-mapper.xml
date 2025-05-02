@@ -16,7 +16,7 @@
     </sql>
 	
     <!-- 게시글 등록 -->
-    <insert id="insertMarket" parameterType="com.kh.ecolog.market.board.model.dto.MarketDTO">
+    <insert id="insertMarket" parameterType="MarketDTO">
         <selectKey keyProperty="marketNo" resultType="long" order="BEFORE">
             SELECT SEQ_MARKET_NO.NEXTVAL FROM DUAL
         </selectKey>
@@ -29,7 +29,7 @@
     </insert>
 
     <!-- 이미지 등록 -->
-    <insert id="insertMarketImage" parameterType="com.kh.ecolog.market.board.model.dto.MarketImageDTO">
+    <insert id="insertMarketImage" parameterType="MarketImageDTO">
         INSERT INTO TB_MARKET_IMG (
             MARKET_IMG_ID, MARKET_NO, MARKET_IMG_URL, IMG_ORDER
         )
@@ -43,7 +43,7 @@
 	</select>
 
     <!-- 게시글 수정 -->
-    <update id="updateMarket" parameterType="com.kh.ecolog.market.board.model.dto.MarketDTO">
+    <update id="updateMarket" parameterType="MarketDTO">
         UPDATE TB_MARKET
         SET MARKET_TITLE = #{marketTitle},
             MARKET_CONTENT = #{marketContent},
@@ -93,7 +93,7 @@
     </sql>
 
     <!-- 전체 게시글 목록 -->
-   <select id="findAllMarkets" resultType="com.kh.ecolog.market.board.model.dto.MarketDTO">
+   <select id="findAllMarkets" resultType="MarketDTO">
     SELECT 
         M.MARKET_NO,
         M.USER_ID,
@@ -117,7 +117,7 @@
 	</select>
 
     <!-- 게시글 번호로 조회 -->
-    <select id="selectMarketByNo" parameterType="long" resultType="com.kh.ecolog.market.board.model.dto.MarketDTO">
+    <select id="selectMarketByNo" parameterType="long" resultType="MarketDTO">
         SELECT 
             M.MARKET_NO AS marketNo,
             M.USER_ID AS userId,
@@ -134,7 +134,7 @@
     </select>
 
     <!-- 게시글 번호로 이미지 조회 -->
-    <select id="selectImagesByMarketNo" parameterType="long" resultType="com.kh.ecolog.market.board.model.dto.MarketImageDTO">
+    <select id="selectImagesByMarketNo" parameterType="long" resultType="MarketImageDTO">
         SELECT 
             MARKET_IMG_ID AS marketImgId,
             MARKET_NO AS marketNo,

@@ -6,7 +6,7 @@
 <mapper namespace="com.kh.ecolog.mileage.model.dao.MileageMapper">
 
 	<insert id="saveMileage"
-			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+			parameterType="MileageDTO">
 		INSERT 
 		  INTO 
 			   TB_MILEAGE
@@ -29,7 +29,7 @@
 	
 	<select id="detailMileage"
 			parameterType="long"
-			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+			resultType="MileageDTO">
 		SELECT
 			  USER_ID userId
 			, MILEAGE_TITLE mileageTitle
@@ -48,7 +48,7 @@
 	<!-- 관리자 권한 -->
 	
 	<select id="findAllMileage"
-			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+			resultType="MileageDTO">
 		SELECT
 			  MILEAGE_SEQ mileageSeq
 			, MILEAGE_CATEGORY mileageCategory
@@ -62,7 +62,7 @@
 	
 	
 	<update id="updateMileageStatus"
-			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+			parameterType="MileageDTO">
 		UPDATE
 			TB_MILEAGE
 		SET 
@@ -76,7 +76,7 @@
 	<!-- 마일리지 사용처 조회 -->
 	
 	<select id="findAllStore"
-			resultType="com.kh.ecolog.mileage.model.dto.MileageStoreDTO">
+			resultType="MileageStoreDTO">
 		SELECT
 			  MILEAGE_STORE_SEQ mileageStoreSeq
 			, MILEAGE_STORE_CATEGORY mileageStoreCategory
