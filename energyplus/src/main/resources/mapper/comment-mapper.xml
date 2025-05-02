@@ -1,8 +1,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.ecolog.market.model.dao.MarketCommentMapper">
+<mapper namespace="com.kh.ecolog.market.comment.model.dao.MarketCommentMapper">
 	<!-- 댓글 등록 -->
 	<insert id="insertComment"
-		parameterType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
+		parameterType="com.kh.ecolog.market.comment.model.dto.MarketCommentDTO">
 		INSERT INTO TB_MARKET_COMMENT (
 		MARKET_COMMENT_NO,
 		MARKET_NO,
@@ -19,7 +19,7 @@
 	</insert>
 	<!-- 게시글 번호로 댓글 리스트 조회 -->
 	<select id="selectCommentsByMarketNo"
-		resultType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
+		resultType="com.kh.ecolog.market.comment.model.dto.MarketCommentDTO">
 		SELECT
 		C.MARKET_COMMENT_NO AS marketCommentNo,
 		C.MARKET_NO AS marketNo,
@@ -33,14 +33,14 @@
 		ORDER BY C.MARKET_COMMENT_DATE DESC
 	</select>
 	<update id="updateComment"
-		parameterType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
+		parameterType="com.kh.ecolog.market.comment.model.dto.MarketCommentDTO">
 		UPDATE TB_MARKET_COMMENT
 		SET MARKET_COMMENT_CONTENT = #{marketCommentContent}
 		WHERE MARKET_COMMENT_NO = #{marketCommentNo}
 	</update>
 	
 	<!-- 댓글 단일 조회 (삭제 전 작성자 확인용) -->
-	<select id="selectCommentByNo" resultType="com.kh.ecolog.market.model.dto.MarketCommentDTO">
+	<select id="selectCommentByNo" resultType="com.kh.ecolog.market.comment.model.dto.MarketCommentDTO">
 	    SELECT
 	    MARKET_COMMENT_NO AS marketCommentNo,
 	    MARKET_NO AS marketNo,

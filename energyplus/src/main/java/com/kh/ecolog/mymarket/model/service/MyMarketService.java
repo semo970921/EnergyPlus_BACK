@@ -2,7 +2,6 @@ package com.kh.ecolog.mymarket.model.service;
 
 import java.util.List;
 
-import com.kh.ecolog.market.model.dto.MarketDTO;
 import com.kh.ecolog.mymarket.model.dto.MyMarketDTO;
 
 public interface MyMarketService {
