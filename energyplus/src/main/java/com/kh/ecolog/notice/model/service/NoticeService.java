@@ -8,11 +8,14 @@ public interface NoticeService {
 	
 	void save(NoticeDTO notice);
 	
-    List<NoticeDTO> findAll(int pageNo);
+    List<NoticeDTO> findAll(int pageNo, String keyword);
     
     NoticeDTO findById(Long noticeId);
     
     NoticeDTO update(NoticeDTO notice);
     
     void deleteById(Long noticeId);
+    
+    int getTotalPages(String keyword);
+
 }

@@ -44,11 +44,13 @@ public class AuthServiceImpl implements AuthService {
 	    
 	    // 토큰 발급
 	    Map<String, String> loginResponse = tokenService.generateToken(user.getUsername(),
-	                                                                  user.getUserId());
+	                                                                  user.getUserId(),
+	                                                                  user.getRole());
 	    
 	    // 사용자 정보 추가
 	    loginResponse.put("userEmail", user.getUsername());
 	    loginResponse.put("userName", user.getName());
+	    loginResponse.put("userRole", user.getRole());
 	    
 	    return loginResponse;
 	}
