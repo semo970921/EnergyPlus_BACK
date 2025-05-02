@@ -17,7 +17,7 @@ import lombok.ToString;
 public class MileageDTO {
 	
 	private Long mileageSeq;
-	private String userId;
+	private Long userId;
 	private String mileageTitle;
 	private String mileageContent;
 	private String mileageCategory;
