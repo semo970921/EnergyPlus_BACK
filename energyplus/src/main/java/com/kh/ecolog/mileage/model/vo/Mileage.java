@@ -10,7 +10,7 @@ import lombok.Value;
 public class Mileage {
 
 	private Long mileageSeq;
-	private String userId;
+	private Long userId;
 	private String mileageTitle;
 	private String mileageContent;
 	private String mileageCategory;
@@ -19,5 +19,7 @@ public class Mileage {
 	private int mileageScore;
 	private String mileageReject;
 	private Date createDate;
+	private Date approveDate;
+	private Date useDate;
 	
 }
