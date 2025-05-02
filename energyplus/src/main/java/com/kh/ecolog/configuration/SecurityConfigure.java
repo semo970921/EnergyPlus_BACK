@@ -57,12 +57,13 @@ public class SecurityConfigure {
                 .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/info/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/info/pass").authenticated()
                 .requestMatchers("/promise/me").authenticated()
                 .requestMatchers(
                     "/members/**", "/markets/**", "/notices/**", "/apis/**",
                     "/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**",
                     "/qnas/**", "/replys/**", "/challenges/**", "/test/**", "/promise/**" , "/api/verification/**",
-                    "/mymarket/**", "/info/**"
+                    "/mymarket/**", "/info/**", "/info/grade/**"
                 ).permitAll()
                 .anyRequest().authenticated()
 

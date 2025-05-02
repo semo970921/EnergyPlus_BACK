@@ -6,7 +6,7 @@
 <mapper namespace="com.kh.ecolog.mileage.model.dao.MileageMapper">
 
 	<insert id="saveMileage"
-			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+			parameterType="MileageDTO">
 		INSERT 
 		  INTO 
 			   TB_MILEAGE
@@ -31,7 +31,7 @@
 	<!-- 마일리지 사용처 조회 -->
 	
 	<select id="findAllStore"
-			resultType="com.kh.ecolog.mileage.model.dto.MileageStoreDTO">
+			resultType="MileageStoreDTO">
 		SELECT
 			  MILEAGE_STORE_SEQ mileageStoreSeq
 			, MILEAGE_STORE_CATEGORY mileageStoreCategory
