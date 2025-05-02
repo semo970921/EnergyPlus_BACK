@@ -2,6 +2,8 @@ package com.kh.ecolog.api.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -52,8 +54,34 @@ public class ApiServiceImpl implements ApiService {
 	public List<ZerostoreDTO> requestGetZerostore() {
 		return zerostoreMapper.requestGetZerostore();
 	}
-
-
 	
+	
+	// -------------------------------------------------- //
+	/* 메인 대시보드 활용 API */
+	
+	@Value("${api.public.service-key2}")
+	private String mainServiceKey;
+	
+	@Override
+	public String requestEnergyUsage1() {
+		
+		StringBuilder sb = new StringBuilder("http://apis.data.go.kr/B553530/GHG_LIST_03/GHG_LIST_03_02_VIEW");
+		sb.append("?serviceKey=" + URLEncoder.encode(mainServiceKey, StandardCharsets.UTF_8));
+		sb.append("&numOfRows=5000");
+		sb.append("&apiType=JSON");
+		
+		return apiRequest(sb.toString());
+	}
+
+	@Override
+	public String requestEnergyUsage2() {
+		
+		StringBuilder sb = new StringBuilder("http://apis.data.go.kr/B553530/GHG_LIST_03/GHG_LIST_03_03_VIEW");
+		sb.append("?serviceKey=" + URLEncoder.encode(mainServiceKey, StandardCharsets.UTF_8));
+		sb.append("&numOfRows=7000");
+		sb.append("&apiType=JSON");
+		
+		return apiRequest(sb.toString());
+	}
 
 }
