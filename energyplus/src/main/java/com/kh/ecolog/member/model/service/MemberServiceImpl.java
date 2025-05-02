@@ -1,8 +1,11 @@
 package com.kh.ecolog.member.model.service;
 
 
+import java.beans.Transient;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.ecolog.exception.MemberEmailDuplicateException;
 import com.kh.ecolog.member.model.dao.MemberMapper;
@@ -48,6 +51,21 @@ public class MemberServiceImpl implements MemberService {
 	public boolean isEmailDuplicated(String email) {
 		
 		return memberMapper.existsByEmail(email)>0;
+	}
+	
+	@Override
+	@Transactional
+	public boolean withdrawMember(Long userId) {
+		
+		
+		return true;
+	}
+	
+	@Override
+	public MemberDTO getMemberByUserId(Long userId) {
+		
+		
+		return 
 	}
 
 }
