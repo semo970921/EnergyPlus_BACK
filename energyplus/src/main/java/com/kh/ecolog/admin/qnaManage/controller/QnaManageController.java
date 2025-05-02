@@ -32,7 +32,9 @@ public class QnaManageController {
 	public ResponseEntity<Map<String, Object>> selectAll(
 			@RequestParam(name="page", defaultValue="0") int page,
 			@RequestParam(name = "keyword", required = false) String keyword){
-		return ResponseEntity.ok(qnaManageService.selectAll(page, keyword));
+		Map<String, Object> result = qnaManageService.selectAllAdmin(page, keyword);
+		log.info("QNA 관리자 전체 조회 결과: {}", result);
+		return ResponseEntity.ok(qnaManageService.selectAllAdmin(page, keyword));
 	}
 	
 	// 1개 조회

@@ -20,4 +20,5 @@ public class QnaManageDTO {
 	private String qnaContent;
 	private Date qnaDate;
 	private String qnaStatus;
+	private String userName;
 }

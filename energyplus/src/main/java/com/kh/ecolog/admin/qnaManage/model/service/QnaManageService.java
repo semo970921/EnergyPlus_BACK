@@ -6,7 +6,7 @@ import com.kh.ecolog.admin.qnaManage.model.dto.QnaManageDTO;
 
 public interface QnaManageService {
 	
-	Map<String, Object> selectAll(int pageNo, String keyword);
+	Map<String, Object> selectAllAdmin(int pageNo, String keyword);
 	
 	QnaManageDTO selectById(Long qnaId);
 	

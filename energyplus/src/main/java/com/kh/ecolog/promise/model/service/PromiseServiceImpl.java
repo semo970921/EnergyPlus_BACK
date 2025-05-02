@@ -51,7 +51,7 @@ public class PromiseServiceImpl implements PromiseService {
 	    
 		PromiseDTO promise = promiseMapper.findByUserId(userId);
 		if(promise == null) {
-			throw new RuntimeException("나의 다짐 정보가 없습니다.");
+			return new PromiseDTO(); // 또는 return null;
 		}
 		return promise;
 	}
