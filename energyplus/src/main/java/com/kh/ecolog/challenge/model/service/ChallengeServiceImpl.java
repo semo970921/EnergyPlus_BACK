@@ -1,7 +1,10 @@
 package com.kh.ecolog.challenge.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,8 +67,17 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     // 챌린지 목록 조회 
     @Override
-    public List<ChallengeDTO> getChallengeList() {
-        return challengeMapper.selectChallengeList();
+    public List<ChallengeDTO> findAllChallenge(int pageNo, String keyword) {
+    	int size = 10;
+    	RowBounds rowBounds = new RowBounds(pageNo * size, size);
+    	
+    	if (keyword != null && !keyword.trim().isEmpty()) {
+            Map<String, Object> param = new HashMap<>();
+            param.put("keyword", keyword);
+            return challengeMapper.searchChallenge(param, rowBounds);
+        }
+    	
+        return challengeMapper.findAllChallenge(rowBounds);
     }
  
     // 챌린지 상세 보기 
@@ -93,6 +105,22 @@ public class ChallengeServiceImpl implements ChallengeService {
     	return challenge;
     }
     
+    // 페이지 수 계산 
+    @Override
+    public int getTotalPages(String keyword) {
+        int size = 10;
+        int totalCount;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            Map<String, Object> param = new HashMap<>();
+            param.put("keyword", keyword);
+            totalCount = challengeMapper.countSearch(param);
+        } else {
+            totalCount = challengeMapper.countAll();
+        }
+
+        return (int) Math.ceil((double) totalCount / size);
+    }
     
     
     

@@ -1,6 +1,8 @@
 package com.kh.ecolog.notice.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
@@ -34,9 +36,16 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override
-    public List<NoticeDTO> findAll(int pageNo) {
-        int size = 5;  // 페이지 당 5
+    public List<NoticeDTO> findAll(int pageNo, String keyword) {
+        int size = 10;
         RowBounds rowBounds = new RowBounds(pageNo * size, size);
+        
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            Map<String, Object> param = new HashMap<>();
+            param.put("keyword", keyword);
+            return noticeMapper.searchNotice(param, rowBounds);
+        }
+        
         return noticeMapper.findAll(rowBounds);
     }
 
@@ -60,5 +69,22 @@ public class NoticeServiceImpl implements NoticeService{
         noticeMapper.deleteById(noticeId);
     }
 	
+    // 페이지 수 계산 
+    @Override
+    public int getTotalPages(String keyword) {
+        int size = 10;
+        int totalCount;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            Map<String, Object> param = new HashMap<>();
+            param.put("keyword", keyword);
+            totalCount = noticeMapper.countSearch(param);
+        } else {
+            totalCount = noticeMapper.countAll();
+        }
+
+        return (int) Math.ceil((double) totalCount / size);
+    }
+
 
 }
