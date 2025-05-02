@@ -42,11 +42,12 @@ public class ChallengeController {
     
     }
     
-    // 챌린지 목록 조회
+    // 챌린지 목록 조회 (+ 페이징) 
     @GetMapping
     public ResponseEntity<List<ChallengeDTO>> findAllChallenge(
-    	@RequestParam(name = "page", defaultValue = "0") int page){
-    		return ResponseEntity.ok(challengeService.findAllChallenge(page));
+    	@RequestParam(name = "page", defaultValue = "0") int page,
+    	@RequestParam(name = "keyword", required = false) String keyword){
+    		return ResponseEntity.ok(challengeService.findAllChallenge(page, keyword));
     	}
 
     // 챌린지 상세 조회
@@ -75,6 +76,11 @@ public class ChallengeController {
     										.body(challengeService.updateChallenge(challenge, file));
     }
     
+    // 패이지 수 조회 
+    @GetMapping("/pages")
+    public ResponseEntity<Integer> getPageCount(@RequestParam(name = "keyword",required = false) String keyword){
+    	return ResponseEntity.ok(challengeService.getTotalPages(keyword));
+    }
     
 
     

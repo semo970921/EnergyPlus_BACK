@@ -9,7 +9,7 @@ import com.kh.ecolog.challenge.model.dto.ChallengeDTO;
 public interface ChallengeService {
 
 	
-	List<ChallengeDTO> findAllChallenge(int pageNo); // 챌린지 목록 조회 
+	List<ChallengeDTO> findAllChallenge(int pageNo,String keyword); // 챌린지 목록 조회 
 
     ChallengeDTO getChallengeDetail(Long challengeSeq); // 챌린지 상세 보기 
 
@@ -18,4 +18,7 @@ public interface ChallengeService {
     void deleteChallenge(Long challengeSeq); // 챌린지 삭제 
     
     ChallengeDTO updateChallenge(ChallengeDTO challenge, MultipartFile file); // 챌린지 수정 
+    
+    int getTotalPages(String keyword);
+
 }

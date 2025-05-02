@@ -40,11 +40,12 @@ public class NoticeController {
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
-	// 전체 공지 목록 (페이징)
+	// 전체 공지 목록 (+ 페이징)
 	@GetMapping
 	public ResponseEntity<List<NoticeDTO>> findAll(
-			@RequestParam(name = "page", defaultValue = "0") int page) {
-		return ResponseEntity.ok(noticeService.findAll(page));
+			@RequestParam(name = "page", defaultValue = "0") int page,
+			@RequestParam(name = "keyword", required = false) String keyword){
+		return ResponseEntity.ok(noticeService.findAll(page, keyword));
 	}
 
 	// 특정 공지 상세 보기
@@ -67,6 +68,12 @@ public class NoticeController {
 		noticeService.deleteById(noticeId);
 		return ResponseEntity.ok().build();
 	}
-	
+
+	// 페이지 수 조회 
+	@GetMapping("/pages")
+	public ResponseEntity<Integer> getPageCount(@RequestParam(name = "keyword", required = false) String keyword) {
+		return ResponseEntity.ok(noticeService.getTotalPages(keyword));
+	}
+
 
 }
