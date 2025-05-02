@@ -1,5 +1,6 @@
 package com.kh.ecolog.info.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.ecolog.info.model.dto.InfoDTO;
+import com.kh.ecolog.info.model.dto.PasswordDTO;
 import com.kh.ecolog.info.model.service.InfoService;
 
 import jakarta.validation.Valid;
@@ -35,5 +37,28 @@ public class InfoController {
 		infoService.updateMyInfo(info);
 		return ResponseEntity.ok("내 정보 수정 완료");
 	}
+	
+	
+	/*
+	 * 원래 비밀번호 :
+	 * 바꿀 비밀번호 :
+	 * 바꿀 비밀번호 확인 :
+	 */
+	// 비밀번호 변경
+	@PutMapping("/pass")
+	public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordDTO changePassword){
+		//log.info("비밀번호? {}", changePassword);
+		infoService.changePassword(changePassword);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+	
+	
+	// 마이페이지 등급 조회
+	@GetMapping("/grade")
+	public ResponseEntity<InfoDTO> selectMyGrade() {
+		InfoDTO grade = infoService.selectMyGrade();
+		return ResponseEntity.ok(grade);
+	}
+	
 
 }
