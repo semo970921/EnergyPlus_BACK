@@ -1,9 +1,13 @@
 package com.kh.ecolog.configuration.filter;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
+import java.util.Collections;
+import java.util.List;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -60,17 +64,25 @@ public class JwtFilter extends OncePerRequestFilter {
             Long userId = jwtUtil.getUserIdFromToken(token);
             String userEmail = jwtUtil.getUserEmailFromToken(token);
             
+            String role = jwtUtil.getRoleFromToken(token);
+            
+            log.info(role);
+            
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
+            	
+                List<SimpleGrantedAuthority> authorities = Collections.singletonList(
+                    new SimpleGrantedAuthority(role));
+                
                 UserDetails userDetails = usrDetailsService.loadUserByUsername(userEmail);
                 
                 UsernamePasswordAuthenticationToken authentication = 
                     new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
+                        userDetails, null, authorities);
                     
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 
-                log.debug("사용자 인증 성공: {}, 사용자 ID: {}", userEmail, userId);
+                log.debug("사용자 인증 성공: {}, 사용자 ID: {}, 권한 : {}", userEmail, userId, role);
             }
             
         } catch (ExpiredJwtException e) {

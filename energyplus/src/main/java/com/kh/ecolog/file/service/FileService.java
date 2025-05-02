@@ -42,7 +42,7 @@ public class FileService {
 
 	    try {
 	        Path targetPath = this.fileLocation.resolve(renamedFile);
-	        log.info("🧩 저장된 URL: {}", "/uploads/" + renamedFile);
+	        log.info("저장된 URL: {}", "/uploads/" + renamedFile);
 
 	        file.transferTo(targetPath.toFile());
 	        log.info("파일 저장 완료: {}", renamedFile);
@@ -54,4 +54,19 @@ public class FileService {
 	        throw new RuntimeException("파일 저장 실패", e);
 	    }
 	}
+	
+	public void delete(String url) {
+	    try {
+	        // URL에서 파일 이름만 추출 (예: "/uploads/ep_202504291105_123.jpg" → "ep_202504291105_123.jpg")
+	        String filename = Paths.get(url).getFileName().toString();
+	        Path targetPath = this.fileLocation.resolve(filename);
+
+	        Files.deleteIfExists(targetPath);
+	        log.info("파일 삭제 완료: {}", filename);
+	    } catch (IOException e) {
+	        log.error("파일 삭제 실패", e);
+	        throw new RuntimeException("파일 삭제 실패: " + url, e);
+	    }
+	}
+
 }

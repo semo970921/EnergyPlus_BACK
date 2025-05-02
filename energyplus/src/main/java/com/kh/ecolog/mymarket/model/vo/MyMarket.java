@@ -3,7 +3,7 @@ package com.kh.ecolog.mymarket.model.vo;
 import java.sql.Date;
 import java.util.List;
 
-import com.kh.ecolog.market.model.dto.MarketImageDTO;
+import com.kh.ecolog.market.board.model.dto.MarketImageDTO;
 
 import lombok.Builder;
 import lombok.Value;

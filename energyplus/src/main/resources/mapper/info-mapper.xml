@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.info.model.dao.InfoMapper">
+	
+	<update id="updateMyInfo" 
+			parameterType="com.kh.ecolog.info.model.dto.InfoDTO">
+		UPDATE
+		        TB_USER
+		   SET
+		        USER_NAME = #{userName}
+		      , USER_PHONE = #{userPhone}
+		      , UPDATE_DATE = SYSDATE
+		 WHERE
+		        USER_ID = #{userId}
+	</update>
+	
+	<select id="selectMyInfo" 
+			resultType="com.kh.ecolog.info.model.dto.InfoDTO">
+	    SELECT
+	    	   USER_EMAIL as userEmail
+		     , USER_NAME as userName
+		     , USER_PHONE as userPhone
+		     , USER_ID as userId
+	      FROM 
+	           TB_USER
+	     WHERE 
+	     	   USER_ID = #{userId}
+	</select>
+	
+	<!--비밀번호 변경-->
+	<update id="changePassword" parameterType="map">
+		UPDATE 
+				TB_USER
+		   SET 
+		   		USER_PASSWORD = #{encodePassword} 
+		 WHERE 
+		 		USER_ID = #{userId}
+	</update>
+	
+	<!--내 등급 조회-->
+	<select id="selectMyGrade"
+			resultType="com.kh.ecolog.info.model.dto.InfoDTO">
+		SELECT
+	    	   GRADE_ID as gradeId
+		     , USER_ID as userId
+	      FROM 
+	           TB_USER
+	     WHERE 
+	     	   USER_ID = #{userId}
+	</select>
+	
+	
+</mapper>

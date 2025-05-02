@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kh.ecolog.market.model.dao.MarketMapper">
+<mapper namespace="com.kh.ecolog.market.board.model.dao.MarketMapper">
 
     <sql id="marketColumns">
         MARKET_NO marketNo,
@@ -14,9 +14,9 @@
         MARKET_STATUS marketStatus,
         MARKET_PRICE marketPrice
     </sql>
-
+	
     <!-- 게시글 등록 -->
-    <insert id="insertMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
+    <insert id="insertMarket" parameterType="com.kh.ecolog.market.board.model.dto.MarketDTO">
         <selectKey keyProperty="marketNo" resultType="long" order="BEFORE">
             SELECT SEQ_MARKET_NO.NEXTVAL FROM DUAL
         </selectKey>
@@ -29,7 +29,7 @@
     </insert>
 
     <!-- 이미지 등록 -->
-    <insert id="insertMarketImage" parameterType="com.kh.ecolog.market.model.dto.MarketImageDTO">
+    <insert id="insertMarketImage" parameterType="com.kh.ecolog.market.board.model.dto.MarketImageDTO">
         INSERT INTO TB_MARKET_IMG (
             MARKET_IMG_ID, MARKET_NO, MARKET_IMG_URL, IMG_ORDER
         )
@@ -37,9 +37,13 @@
             SEQ_MARKET_IMG_ID.NEXTVAL, #{marketNo}, #{imgUrl}, #{imgOrder}
         )
     </insert>
+    
+    <select id="findMarketWriter" parameterType="Long" resultType="Long">
+	  SELECT USER_ID FROM TB_MARKET WHERE MARKET_NO = #{marketNo}
+	</select>
 
     <!-- 게시글 수정 -->
-    <update id="updateMarket" parameterType="com.kh.ecolog.market.model.dto.MarketDTO">
+    <update id="updateMarket" parameterType="com.kh.ecolog.market.board.model.dto.MarketDTO">
         UPDATE TB_MARKET
         SET MARKET_TITLE = #{marketTitle},
             MARKET_CONTENT = #{marketContent},
@@ -48,7 +52,17 @@
             MARKET_DATE = SYSDATE
         WHERE MARKET_NO = #{marketNo}
     </update>
+    
+    <delete id="deleteImageByUrl" parameterType="string">
+    DELETE FROM TB_MARKET_IMG
+    WHERE MARKET_IMG_URL = #{imgUrl}
+	</delete>
 
+	<select id="findAllImageUrls" parameterType="long" resultType="string">
+	    SELECT MARKET_IMG_URL
+	    FROM TB_MARKET_IMG
+	    WHERE MARKET_NO = #{marketNo}
+	</select>
     <!-- 게시글 삭제 -->
     <delete id="deleteMarket" parameterType="long">
         DELETE FROM TB_MARKET WHERE MARKET_NO = #{marketNo}
@@ -60,7 +74,7 @@
     </delete>
 
     <!-- 게시글 조회용 resultMap -->
-    <resultMap id="marketResultMap" type="com.kh.ecolog.market.model.dto.MarketDTO">
+    <resultMap id="marketResultMap" type="com.kh.ecolog.market.board.model.dto.MarketDTO">
         <result column="MARKET_NO" property="marketNo" />
         <result column="USER_ID" property="userId" />
         <result column="USER_NAME" property="userName" />
@@ -79,29 +93,31 @@
     </sql>
 
     <!-- 전체 게시글 목록 -->
-    <select id="findAllMarkets" resultType="com.kh.ecolog.market.model.dto.MarketDTO">
-        SELECT 
-            M.MARKET_NO AS marketNo,
-            M.USER_ID AS userId,
-            U.USER_NAME AS userName,
-            M.MARKET_TITLE AS marketTitle,
-            M.MARKET_CONTENT AS marketContent,
-            M.MARKET_DATE AS marketDate,
-            M.MARKET_STATUS AS marketStatus,
-            M.MARKET_PRICE AS marketPrice,
-            <include refid="marketStatusLabel" />,
-            (
-                SELECT MI.MARKET_IMG_URL 
-                FROM TB_MARKET_IMG MI 
-                WHERE MI.MARKET_NO = M.MARKET_NO AND MI.IMG_ORDER = 1
-            ) AS thumbnailUrl
-        FROM TB_MARKET M
-        JOIN TB_USER U ON M.USER_ID = U.USER_ID
-        ORDER BY M.MARKET_NO DESC
-    </select>
+   <select id="findAllMarkets" resultType="com.kh.ecolog.market.board.model.dto.MarketDTO">
+    SELECT 
+        M.MARKET_NO,
+        M.USER_ID,
+        U.USER_NAME,
+        M.MARKET_TITLE,
+        M.MARKET_CONTENT,
+        M.MARKET_DATE,
+        M.MARKET_STATUS,
+        M.MARKET_PRICE,
+        <include refid="marketStatusLabel" />,
+        (
+            SELECT MI.MARKET_IMG_URL
+            FROM TB_MARKET_IMG MI
+            WHERE MI.MARKET_NO = M.MARKET_NO
+              AND MI.IMG_ORDER = 1
+            FETCH FIRST 1 ROWS ONLY
+        ) AS thumbnailUrl
+    FROM TB_MARKET M
+    JOIN TB_USER U ON M.USER_ID = U.USER_ID
+    ORDER BY M.MARKET_NO DESC
+	</select>
 
     <!-- 게시글 번호로 조회 -->
-    <select id="selectMarketByNo" parameterType="long" resultType="com.kh.ecolog.market.model.dto.MarketDTO">
+    <select id="selectMarketByNo" parameterType="long" resultType="com.kh.ecolog.market.board.model.dto.MarketDTO">
         SELECT 
             M.MARKET_NO AS marketNo,
             M.USER_ID AS userId,
@@ -118,7 +134,7 @@
     </select>
 
     <!-- 게시글 번호로 이미지 조회 -->
-    <select id="selectImagesByMarketNo" parameterType="long" resultType="com.kh.ecolog.market.model.dto.MarketImageDTO">
+    <select id="selectImagesByMarketNo" parameterType="long" resultType="com.kh.ecolog.market.board.model.dto.MarketImageDTO">
         SELECT 
             MARKET_IMG_ID AS marketImgId,
             MARKET_NO AS marketNo,
@@ -128,5 +144,44 @@
         WHERE MARKET_NO = #{marketNo}
         ORDER BY IMG_ORDER ASC
     </select>
+    
+    
+    <!-- 페이징처리를 위한 게시글 총 개수 count -->
+	<select id="countMarketAll" resultType="int">
+		SELECT COUNT(*) 
+		  FROM 
+		       TB_MARKET
+		 WHERE
+			   USER_ID = #{userId}
+	</select>
+	
+	<!-- 검색 기능 -->
+	<select id="searchMarket" resultType="MarketDTO" parameterType="map">
+	  SELECT 
+		      MARKET_NO marketId
+		    , USER_ID userId
+		    , MARKET_TITLE marketTitle
+		    , MARKET_CONTENT marketContent
+		    , MARKET_DATE marketDate
+		    , MARKET_STATUS marketStatus
+	    FROM
+	  	      TB_MARKET
+	   WHERE
+			  USER_ID = #{userId}
+	     AND
+	   		  MARKET_TITLE LIKE '%' || #{keyword} || '%'
+	   ORDER 
+	      BY  MARKET_NO DESC
+	</select>
+	
+	<select id="countMarketSearch" resultType="int" parameterType="map">
+	  SELECT COUNT(*)
+	    FROM
+	    	 TB_MARKET
+	   WHERE
+			 USER_ID = #{userId}
+		 AND
+	  		 MARKET_TITLE LIKE '%' || #{keyword} || '%'
+	</select>
 
 </mapper>

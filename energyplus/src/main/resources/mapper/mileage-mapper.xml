@@ -76,7 +76,7 @@
 	<!-- 마일리지 사용처 조회 -->
 	
 	<select id="findAllStore"
-			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+			resultType="com.kh.ecolog.mileage.model.dto.MileageStoreDTO">
 		SELECT
 			  MILEAGE_STORE_SEQ mileageStoreSeq
 			, MILEAGE_STORE_CATEGORY mileageStoreCategory

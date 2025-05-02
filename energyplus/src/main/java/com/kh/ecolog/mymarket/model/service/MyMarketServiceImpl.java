@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.kh.ecolog.auth.model.vo.CustomUserDetails;
 import com.kh.ecolog.auth.service.AuthService;
-import com.kh.ecolog.market.model.dao.MarketMapper;
-import com.kh.ecolog.market.model.dto.MarketDTO;
 import com.kh.ecolog.mymarket.model.dao.MyMarketMapper;
 import com.kh.ecolog.mymarket.model.dto.MyMarketDTO;
 
