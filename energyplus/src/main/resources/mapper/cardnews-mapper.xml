@@ -1,0 +1,41 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.ecolog.admin.cardnews.model.dao.CardNewsMapper">
+
+  <!-- 카드 뉴스 등록 -->
+  <insert id="insertCardNews" parameterType="com.kh.ecolog.admin.cardnews.model.vo.CardNews">
+    <selectKey keyProperty="cardNewsNo" resultType="Long" order="BEFORE">
+      SELECT SEQ_CARDNEWS_NO.NEXTVAL FROM DUAL
+    </selectKey>
+    INSERT INTO TB_CARDNEWS (
+      CARDNEWS_NO,
+      CARDNEWS_TITLE,
+      CARDNEWS_CONTENT,
+      CARDNEWS_DATE,
+      USER_ID,
+      CARDNEWS_IMG_URL
+    ) VALUES (
+      #{cardNewsNo}, 
+      #{cardNewsTitle}, 
+      #{cardNewsContent},
+      #{cardNewsDate}, 
+      #{userId}, 
+      #{cardNewsImgUrl}
+    )
+  </insert>
+  
+ <select id="selectAllCardNews" resultType="CardNewsDTO">
+	  SELECT 
+	    CARDNEWS_NO,
+	    CARDNEWS_TITLE,
+	    CARDNEWS_CONTENT,
+	    CARDNEWS_DATE,
+	    USER_ID,
+	    CARDNEWS_IMG_URL
+	  FROM TB_CARDNEWS
+	  ORDER BY CARDNEWS_NO DESC
+ </select>
+
+</mapper>
