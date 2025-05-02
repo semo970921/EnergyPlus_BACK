@@ -21,10 +21,10 @@ public class TokenServiceImpl implements TokenService {
 	
 	@Override
 	@Transactional
-	public Map<String, String> generateToken(String userEmail, Long userId) {
+	public Map<String, String> generateToken(String userEmail, Long userId, String role) {
 		
 		// 액세스토큰과 리프레시토큰 생성
-		Map<String, String> tokens = createTokens(userEmail, userId);
+		Map<String, String> tokens = createTokens(userEmail, userId, role);
 		
 		// 기존의 리프레시토큰 삭제
 		tokenMapper.deleteTokenByUserId(userId);
@@ -36,6 +36,15 @@ public class TokenServiceImpl implements TokenService {
 		tokenMapper.deleteExpiredRefreshToken(System.currentTimeMillis());
 		
 		return tokens;
+	}
+	
+	private String getRoleBasedOnUserEmail(String userEmail) {
+	    // 실제로는 이 값을 DB에서 조회하거나 특정 로직에 따라 정할 수 있습니다.
+	    if (userEmail.contains("admin")) {
+	        return "ADMIN";
+	    } else {
+	        return "USER";
+	    }
 	}
 	
 	/**
@@ -66,10 +75,10 @@ public class TokenServiceImpl implements TokenService {
 	 * @param userId
 	 * @return
 	 */
-	private Map<String, String> createTokens(String userEmail, Long userId){
+	private Map<String, String> createTokens(String userEmail, Long userId, String role){
 		
-		String accessToken = jwtUtil.getAccessToken(userEmail, userId);
-		String refreshToken = jwtUtil.getRefreshToken(userEmail, userId);
+		String accessToken = jwtUtil.getAccessToken(userEmail, userId, role);
+		String refreshToken = jwtUtil.getRefreshToken(userEmail, userId, role);
 		
 		Map<String, String> tokens = new HashMap<String, String>();
 		tokens.put("accessToken", accessToken);
@@ -89,6 +98,9 @@ public class TokenServiceImpl implements TokenService {
 			Long userId = Long.parseLong(claims.getSubject());
 			String userEmail = jwtUtil.getUserEmailFromToken(refreshToken);
 			
+			// 사용자 역할 추출 (이메일을 기준으로 역할 조회)
+			String role = getRoleBasedOnUserEmail(userEmail);
+			
 			// DB에서 리프레시토큰 조회
 			RefreshToken tokenEntity = tokenMapper.findByToken(refreshToken);
 			
@@ -102,7 +114,7 @@ public class TokenServiceImpl implements TokenService {
 				throw new InvalidTokenException("만료된 리프레시 초큰입니다.");
 			}
 			
-			return generateToken(userEmail, userId);
+			return generateToken(userEmail, userId, role);
 			
 		} catch (ExpiredJwtException e) {
 			throw new InvalidTokenException("만료된 리프레시토큰 입니다.");

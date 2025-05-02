@@ -10,7 +10,7 @@ public interface TokenService {
 	 * @param userId 사용자 시퀀스 번호
 	 * @return 액세스토큰과 리프레시 토큰을 담은 Map
 	 */
-	Map<String, String> generateToken(String userEmail, Long userId);
+	Map<String, String> generateToken(String userEmail, Long userId, String role);
 	
 	/**
 	 * 리프레시 토큰으로 새로운 토큰 발급

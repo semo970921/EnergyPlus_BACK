@@ -20,6 +20,7 @@ public class CustomUserDetails implements UserDetails {
 	private String username; // 사용자 아이디(이메일)
 	private String password;
 	private String name;
+	private String role;
 	private Collection<? extends GrantedAuthority> authorities;
 
     @Override
