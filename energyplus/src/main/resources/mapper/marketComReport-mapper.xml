@@ -2,7 +2,7 @@
 <mapper namespace="com.kh.ecolog.market.report.model.dao.MarketComReportMapper">
 
 <insert id="insertMarketComReport"
-        parameterType="com.kh.ecolog.market.report.model.dto.MarketComReportDTO">
+        parameterType="MarketComReportDTO">
         <selectKey keyProperty="commentReportId" resultType="long" order="BEFORE">
             SELECT SEQ_MARKET_COMMENT_CNT.NEXTVAL FROM DUAL
         </selectKey>
