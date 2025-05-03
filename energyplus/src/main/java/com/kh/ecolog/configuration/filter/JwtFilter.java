@@ -20,6 +20,7 @@ import com.kh.ecolog.exception.UserNotFoundException;
 import com.kh.ecolog.member.model.dao.MemberMapper;
 import com.kh.ecolog.member.model.dto.MemberDTO;
 import com.kh.ecolog.member.model.service.MemberService;
+import com.kh.ecolog.token.model.service.TokenService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -38,6 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
     private final UserDetailsService usrDetailsService;
     private final MemberMapper memberMapper;
+    private final TokenService tokenService;
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, 
@@ -75,6 +77,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 log.warn("존재하지 않는 회원의 접근 시도: {}", userEmail);
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("존재하지 않는 회원입니다. 접근이 거부되었습니다.");
+                tokenService.deleteUserToken(userId); // 재로그인 방지
                 return;
             }
             
@@ -82,7 +85,8 @@ public class JwtFilter extends OncePerRequestFilter {
             if ("N".equals(member.getStatus())) {
                 log.warn("탈퇴한 회원의 접근 시도: {}", userEmail);
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.getWriter().write("탈퇴한 회원입니다. 접근이 거부되었습니다.");
+                response.getWriter().write("탈퇴한 회원입니다.");
+                tokenService.deleteUserToken(userId);
                 return;
             }
             
