@@ -6,7 +6,7 @@
 <mapper namespace="com.kh.ecolog.mileage.model.dao.MileageMapper">
 
 	<insert id="saveMileage"
-			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+			parameterType="MileageDTO">
 		INSERT 
 		  INTO 
 			   TB_MILEAGE
@@ -26,57 +26,12 @@
 			 , #{mileageImg}
 			   )
 	</insert>
-	
-	<select id="detailMileage"
-			parameterType="long"
-			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
-		SELECT
-			  USER_ID userId
-			, MILEAGE_TITLE mileageTitle
-			, MILEAGE_CONTENT mileageContent
-			, MILEAGE_CATEGORY mileageCategory
-			, MILEAGE_IMG mileageImg
-			, MILEAGE_STATUS mileageStatus
-			, CREATE_DATE createDate
-		FROM
-			TB_MILEAGE
-		WHERE
-			MILEAGE_SEQ = #{mileageSeq}
-	</select>
-	
-	
-	<!-- 관리자 권한 -->
-	
-	<select id="findAllMileage"
-			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
-		SELECT
-			  MILEAGE_SEQ mileageSeq
-			, MILEAGE_CATEGORY mileageCategory
-			, USER_ID userId
-			, CREATE_DATE createDate
-			, MILEAGE_STATUS mileageStatus
-		FROM
-			TB_MILEAGE
-		ORDER BY createDate DESC
-	</select>
-	
-	
-	<update id="updateMileageStatus"
-			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
-		UPDATE
-			TB_MILEAGE
-		SET 
-			MILEAGE_STATUS = #{mileageStatus} 
-		WHERE 
-			MILEAGE_SEQ = #{mileageSeq}
-	</update>
-	
-	
+
 	
 	<!-- 마일리지 사용처 조회 -->
 	
 	<select id="findAllStore"
-			resultType="com.kh.ecolog.mileage.model.dto.MileageStoreDTO">
+			resultType="MileageStoreDTO">
 		SELECT
 			  MILEAGE_STORE_SEQ mileageStoreSeq
 			, MILEAGE_STORE_CATEGORY mileageStoreCategory

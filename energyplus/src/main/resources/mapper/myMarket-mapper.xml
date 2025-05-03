@@ -15,7 +15,7 @@
     </sql>
     
 	<!-- 게시글 조회용 resultMap -->
-    <resultMap id="marketResultMap" type="com.kh.ecolog.mymarket.model.dto.MyMarketDTO">
+    <resultMap id="marketResultMap" type="MyMarketDTO">
         <result column="MARKET_NO" property="marketNo" />
         <result column="USER_ID" property="userId" />
         <result column="USER_NAME" property="userName" />
@@ -61,7 +61,7 @@
 	</select>
 	
 	<!-- 게시글 번호로 조회 -->
-    <select id="selectMarketByNo" parameterType="long" resultType="com.kh.ecolog.mymarket.model.dto.MyMarketDTO">
+    <select id="selectMarketByNo" parameterType="long" resultType="MyMarketDTO">
         SELECT 
 	            M.MARKET_NO AS marketNo,
 	            M.USER_ID AS userId,
@@ -81,7 +81,7 @@
     </select>
 
     <!-- 게시글 번호로 이미지 조회 -->
-    <select id="selectImagesByMarketNo" parameterType="long" resultType="com.kh.ecolog.mymarket.model.dto.MyMarketImageDTO">
+    <select id="selectImagesByMarketNo" parameterType="long" resultType="MyMarketImageDTO">
         SELECT 
 	            MARKET_IMG_ID AS marketImgId,
 	            MARKET_NO AS marketNo,

@@ -54,6 +54,7 @@ public class SecurityConfigure {
                 .requestMatchers("/auth/**").permitAll() // 모든 인증 경로 허용
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/members/withdrawal").authenticated()
+                .requestMatchers("/admin/qnas/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/info/**").permitAll()

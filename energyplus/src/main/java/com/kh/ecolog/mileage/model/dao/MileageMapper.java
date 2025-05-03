@@ -16,13 +16,6 @@ public interface MileageMapper {
 	
 	void saveMileage(Mileage mileage);
 	
-	MileageDTO detailMileage(@Param("mileageSeq") Long mileageSeq);
-	
-	List<MileageDTO> findAllMileage(RowBounds rb);
-	
-	void updateMileageStatus(@Param("mileageSeq") Long mileageSeq, @Param("mileageStatus") String status);
-	
-	
 	// 마일리지 사용처 
 	List<MileageStoreDTO> findAllStore();
 
