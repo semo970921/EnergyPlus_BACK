@@ -30,9 +30,7 @@ public class MemberServiceImpl implements MemberService {
 	public void signUp(MemberDTO member) {
 		
 		// 같은 이메일이 있는지 유효성 검사
-		MemberDTO searchedMember = memberMapper.getMemberByMemberEmail(member.getUserEmail());
-		
-		if(searchedMember != null) {
+		if(isEmailDuplicated(member.getUserEmail())){
 			throw new MemberEmailDuplicateException("이미 존재하는 이메일입니다.");
 		}
 
