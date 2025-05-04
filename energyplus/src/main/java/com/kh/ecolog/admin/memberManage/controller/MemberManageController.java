@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.ecolog.admin.memberManage.model.service.MemberManageService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,8 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 @Validated
 @RequestMapping("/admin/members")
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+@RequiredArgsConstructor
 public class MemberManageController {
 	
+	private final MemberManageService memberManageService;
 	
 	/**
 	 * 전체 회원
@@ -49,7 +53,9 @@ public class MemberManageController {
 		filter.put("status", status);
 		filter.put("role", role);
 		
+		Map<String, Object> result = memberManageService.getAllMembers(page,  filter);
 		
+		return ResponseEntity.ok(result);
 		
 		
 	}
