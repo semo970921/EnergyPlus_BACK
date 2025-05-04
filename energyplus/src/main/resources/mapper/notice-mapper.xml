@@ -5,7 +5,7 @@
   
   <mapper namespace="com.kh.ecolog.notice.model.dao.NoticeMapper">
   
-  	<insert id="save" parameterType="com.kh.ecolog.notice.model.vo.Notice">
+  	<insert id="save" parameterType="Notice">
 	    INSERT INTO TB_NOTICE   (
 							      NOTICE_ID,
 							      NOTICE_TITLE,
@@ -22,7 +22,7 @@
 	  							  )
 	  </insert>
 	  
-	<update id="update" parameterType="com.kh.ecolog.notice.model.dto.NoticeDTO">
+	<update id="update" parameterType="NoticeDTO">
 	    UPDATE TB_NOTICE
 	    	SET
 		        NOTICE_TITLE = #{noticeTitle},
@@ -39,7 +39,7 @@
 	    	NOTICE_ID = #{noticeId}
 	</delete>
 
-	<select id="findAll" resultType="com.kh.ecolog.notice.model.dto.NoticeDTO">
+	<select id="findAll" resultType="NoticeDTO">
         SELECT 
             NOTICE_ID as noticeId,
             NOTICE_TITLE as noticeTitle,
@@ -52,7 +52,7 @@
     
     
   
-	<select id="findById" resultType="com.kh.ecolog.notice.model.dto.NoticeDTO" parameterType="long">
+	<select id="findById" resultType="NoticeDTO" parameterType="long">
 		  SELECT 
 		    NOTICE_ID AS noticeId,
 		    NOTICE_TITLE AS noticeTitle,
@@ -65,7 +65,7 @@
 		  	NOTICE_ID = #{noticeId}
 	</select>
 	
-	<select id="searchNotice" resultType="com.kh.ecolog.notice.model.dto.NoticeDTO" parameterType="map">
+	<select id="searchNotice" resultType="NoticeDTO" parameterType="map">
 		SELECT 
 			    NOTICE_ID AS noticeId,
 			    NOTICE_TITLE AS noticeTitle,

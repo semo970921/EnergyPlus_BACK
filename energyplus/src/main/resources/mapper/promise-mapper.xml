@@ -5,7 +5,7 @@
 <mapper namespace="com.kh.ecolog.promise.model.dao.PromiseMapper">
 	
 	<insert id="insert" 
-			parameterType="com.kh.ecolog.promise.model.dto.PromiseDTO">
+			parameterType="PromiseDTO">
 		INSERT 
 		  INTO 
 		       TB_PROMISE
@@ -25,7 +25,7 @@
 	</insert>
 	
 	<update id="updateByUserId" 
-			parameterType="com.kh.ecolog.promise.model.dto.PromiseDTO">
+			parameterType="PromiseDTO">
 		UPDATE
 		        TB_PROMISE
 		   SET
@@ -36,7 +36,7 @@
 	</update>
 	
 	<select id="findByUserId" 
-			resultType="com.kh.ecolog.promise.model.dto.PromiseDTO">
+			resultType="PromiseDTO">
 	    SELECT
 	    	   USER_PROMISE_ID as userPromiseId
 		     , USER_PROMISE as userPromise
