@@ -19,5 +19,11 @@ public interface MemberManageMapper {
 	 * @return 필터링 조건에 맞는 회원목록
 	 */
 	List<MemberDTO> getAllMembers(@Param("filter")Map<String, Object> filter, RowBounds rowBounds);
-	
+
+	/**
+	 * 필터링 조건에 맞는 전체 회원 수
+	 * @param filter
+	 * @return
+	 */
+	int countAllMembers(@Param("filter") Map<String, Object> filter);
 }

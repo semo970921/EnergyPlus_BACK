@@ -29,9 +29,12 @@ public class MemberManageServiceImpl implements MemberManageService {
 		
 		// 필터링에 맞는 회원목록
 		List<MemberDTO> members = memberManageMapper.getAllMembers(filter, rowBounds);
+		// 필터링에 맞는 전체 회원 수
+		int totalCount = memberManageMapper.countAllMembers(filter);
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("members", members);
+		result.put("totalCount", totalCount);
 		
 		log.info("회원 목록 조회 : 페이지={}, 필터 = {} ", pageNo, filter);
 		
