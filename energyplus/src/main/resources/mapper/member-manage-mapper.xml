@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kh.ecolog.admin.memberManage.model.dao.MemberManageMapper">
+
+	<select id="getAllMembers" resultType="MemberDTO">
+	
+		SELECT
+			USER_ID AS userId,
+			GRADE_ID AS gradeId,
+			USER_EMAIL AS userEmail,
+			USER_NAME AS userName,
+			USER_PHONE AS userPhone,
+			ROLE AS role,
+			STATUS AS status,
+			CREATE_DATE AS createDate
+		FROM TB_USER
+		
+		<where>
+			<!-- 검색어 필터-->
+			<if test="filter.keyword != null and filter.keyword != ''">
+                AND (
+                    USER_EMAIL LIKE '%' || #{filter.keyword} || '%'
+                    OR USER_NAME LIKE '%' || #{filter.keyword} || '%'
+                )			
+			</if>
+			
+			<!-- 역할 필터(관리자/사용자) -->
+            <if test="filter.role != null and filter.role != ''">
+                AND ROLE = #{filter.role}
+            </if>
+            
+            <!-- 상태 필터(회원/탈퇴) -->
+            <if test="filter.status != null and filter.status != ''">
+                AND STATUS = #{filter.status}
+            </if>
+            
+            <!-- 등급 필터 -->
+            <if test="filter.grade != null and filter.grade != ''">
+                <if test="filter.grade == '관리자제외'">
+                    <!-- 관리자를 제외한 -->
+                    AND ROLE != 'ROLE_ADMIN'
+                </if>
+                <if test="filter.grade != '관리자제외'">
+                    <!-- 특정 등급의 회원만 -->
+                    AND GRADE_ID = 
+                    (
+                        SELECT GRADE_ID FROM TB_GRADE WHERE GRADE_NAME = #{filter.grade}
+                    )
+                </if>
+            </if>
+            
+            <!-- 가입일 범위 필터 -->
+            <if test="filter.dateRange != null and filter.dateRange != ''">
+                <choose>
+                    <!-- 가입일이 최근 1주일 이내인 회원 -->
+                    <when test="filter.dateRange == '1주일'">
+                        AND CREATE_DATE >= SYSDATE - 7
+                    </when>
+                    <!-- 가입일이 최근 1개월 이내인 회원 -->
+                    <when test="filter.dateRange == '1개월'">
+                        AND CREATE_DATE >= ADD_MONTHS(SYSDATE, -1)
+                    </when>
+                    <!-- 가입일이 최근 3개월 이내인 회원 -->
+                    <when test="filter.dateRange == '3개월'">
+                        AND CREATE_DATE >= ADD_MONTHS(SYSDATE, -3)
+                    </when>
+                    <!-- 가입일이 최근 6개월 이내인 회원 -->
+                    <when test="filter.dateRange == '6개월'">
+                        AND CREATE_DATE >= ADD_MONTHS(SYSDATE, -6)
+                    </when>
+                    <!-- 가입일이 최근 1년 이내인 회원 -->
+                    <when test="filter.dateRange == '1년'">
+                        AND CREATE_DATE >= ADD_MONTHS(SYSDATE, -12)
+                    </when>
+                </choose>
+            </if>
+		
+		</where>
+			
+	</select>
+	
+	<!--=================-->
+	
+	
+
+
+</mapper>
