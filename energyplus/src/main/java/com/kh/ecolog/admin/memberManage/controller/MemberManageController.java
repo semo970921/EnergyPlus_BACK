@@ -81,6 +81,12 @@ public class MemberManageController {
 	}
 	
 	
+	/**
+	 * 회원역할변경(사용자/관리자)
+	 * @param userId
+	 * @param role
+	 * @return
+	 */
 	@PutMapping("/{userId}/role")
 	public ResponseEntity<?> updateMemberRole(
 			@PathVariable("userId")Long userId,
