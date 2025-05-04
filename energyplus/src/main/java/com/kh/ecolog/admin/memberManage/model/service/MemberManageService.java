@@ -12,5 +12,10 @@ public interface MemberManageService {
 	 */
 	Map<String, Object> getAllMembers(int pageNo, Map<String, Object>filter);
 	
-	
+	/**
+	 * 회원 상태 변경(회원/탈퇴)
+	 * @param userId
+	 * @param status
+	 */
+	void updateMemberStatus(Long userId, String status);
 }

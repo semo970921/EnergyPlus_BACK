@@ -6,8 +6,10 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.ecolog.admin.memberManage.model.dao.MemberManageMapper;
+import com.kh.ecolog.exception.UserNotFoundException;
 import com.kh.ecolog.member.model.dto.MemberDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -40,6 +42,24 @@ public class MemberManageServiceImpl implements MemberManageService {
 		
 		return result;
 		
+		
+	}
+	
+	
+	
+	@Override
+	@Transactional
+	public void updateMemberStatus(Long userId, String status) {
+		
+		// 회원존재 확인
+		MemberDTO member = memberManageMapper.getMemberById(userId);
+		if(member==null) {
+			throw new UserNotFoundException("존재하지 않는 회원입니다.");
+		}
+		
+		memberManageMapper.updateMemberStatus(userId, status);
+		
+        log.info("회원 상태 업데이트 완료: ID={}, 이전 상태={}, 새 상태={}", userId, member.getStatus(), status);
 		
 	}
 	

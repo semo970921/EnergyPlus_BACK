@@ -26,4 +26,20 @@ public interface MemberManageMapper {
 	 * @return
 	 */
 	int countAllMembers(@Param("filter") Map<String, Object> filter);
+	
+	/**
+	 * userId(시퀀스넘버)로 회원 조회
+	 * @param userId
+	 * @return
+	 */
+	MemberDTO getMemberById(@Param("userId")Long userId);
+	
+	
+	/**
+	 * 회원상태 업데이트
+	 * @param userId 상태변경할 회원의 시퀀스넘버
+	 * @param status
+	 */
+	void updateMemberStatus(@Param("userId") Long userId, @Param("status") String status);
+	
 }

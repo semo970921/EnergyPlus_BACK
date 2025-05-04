@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,6 +61,23 @@ public class MemberManageController {
 		
 		
 	}
+	
+	
+	
+	@PutMapping("/{userId}/status")
+	public ResponseEntity<?> updateMemberStatus(
+			@PathVariable("userId") Long userId,
+			@RequestParam("status") String status){
+		
+		memberManageService.updateMemberStatus(userId, status);
+		log.info("회원상태 변경 완료 : userId={}", userId);
+		
+		return ResponseEntity.ok(Map.of("message", "회원 상태가 변경됨."));
+	}
+	
+	
+	
+	
 	
 
 }

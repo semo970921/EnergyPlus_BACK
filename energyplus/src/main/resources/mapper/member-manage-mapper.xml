@@ -154,6 +154,40 @@
 	
 	
 	<!--===============-->
+	
+	
+    <select id="getMemberById" resultType="MemberDTO">
+        SELECT 
+            USER_ID AS userId,
+            GRADE_ID AS gradeId,
+            USER_EMAIL AS userEmail, 
+            USER_NAME AS userName,
+            USER_PHONE AS userPhone,
+            ROLE AS role,
+            STATUS AS status,
+            CREATE_DATE AS createDate
+        FROM 
+            TB_USER
+        WHERE 
+            USER_ID = #{userId} 
+    </select>
+	
+	
+	<!--===============-->
+	
+	<!--회원상태 업데이트-->
+    <update id="updateMemberStatus">
+        UPDATE 
+            TB_USER
+        SET 
+            STATUS = #{status} 
+        WHERE 
+            USER_ID = #{userId}
+    </update>
+	
+	
+	<!--===============-->
+	<!--===============-->
 
 
 </mapper>
