@@ -63,7 +63,12 @@ public class MemberManageController {
 	}
 	
 	
-	
+	/**
+	 * 회원상태
+	 * @param userId
+	 * @param status
+	 * @return
+	 */
 	@PutMapping("/{userId}/status")
 	public ResponseEntity<?> updateMemberStatus(
 			@PathVariable("userId") Long userId,
@@ -75,6 +80,17 @@ public class MemberManageController {
 		return ResponseEntity.ok(Map.of("message", "회원 상태가 변경됨."));
 	}
 	
+	
+	@PutMapping("/{userId}/role")
+	public ResponseEntity<?> updateMemberRole(
+			@PathVariable("userId")Long userId,
+			@RequestParam("role")String role){
+		
+		memberManageService.updateMemberRole(userId, role);
+	    log.info("회원 역할 변경 완료: ID={}, 새 역할={}", userId, role);
+	       
+        return ResponseEntity.ok(Map.of("message", "회원 권한이 업데이트 완료~"));
+	}
 	
 	
 	

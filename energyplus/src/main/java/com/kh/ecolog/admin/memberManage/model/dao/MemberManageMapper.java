@@ -41,5 +41,11 @@ public interface MemberManageMapper {
 	 * @param status
 	 */
 	void updateMemberStatus(@Param("userId") Long userId, @Param("status") String status);
-	
+
+	/**
+	 * 회원역할 업데이투
+	 * @param userId
+	 * @param role ROLE_USER/ROLE_ADMIN
+	 */
+	void updateMemberRole(@Param("userId")Long userId, @Param("role")String role);
 }

@@ -187,6 +187,17 @@
 	
 	
 	<!--===============-->
+	<!--역할 업데이트-->
+    <update id="updateMemberRole">
+        UPDATE 
+            TB_USER
+        SET 
+            ROLE = #{role} 
+        WHERE 
+            USER_ID = #{userId}
+    </update>
+	
+	
 	<!--===============-->
 
 

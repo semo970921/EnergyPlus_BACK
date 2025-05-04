@@ -18,4 +18,11 @@ public interface MemberManageService {
 	 * @param status
 	 */
 	void updateMemberStatus(Long userId, String status);
+	
+	/**
+	 * 회원 역할 변경(관리자/사용자)
+	 * @param userId
+	 * @param role
+	 */
+	void updateMemberRole(Long userId, String role);
 }

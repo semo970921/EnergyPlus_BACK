@@ -63,4 +63,19 @@ public class MemberManageServiceImpl implements MemberManageService {
 		
 	}
 	
+	@Override
+	@Transactional
+	public void updateMemberRole(Long userId, String role) {
+		
+		// 회원존재 확인
+		MemberDTO member = memberManageMapper.getMemberById(userId);
+		if(member==null) {
+			throw new UserNotFoundException("존재하지 않는 회원입니다.");
+		}
+		
+		memberManageMapper.updateMemberRole(userId, role);
+		
+		
+	}
+	
 }
