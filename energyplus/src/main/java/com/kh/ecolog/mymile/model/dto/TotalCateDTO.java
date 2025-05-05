@@ -1,4 +1,4 @@
-package com.kh.ecolog.mileage.model.dto;
+package com.kh.ecolog.mymile.model.dto;
 
 import java.sql.Date;
 
@@ -13,15 +13,14 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class MileageDTO {
-	
+public class TotalCateDTO {
 	private Long mileageSeq;
 	private Long userId;
-	private String mileageTitle;
-	private String mileageContent;
 	private String mileageCategory;
 	private String mileageStatus;
 	private int mileageScore;
-	private String mileageReject;
-	private Date createDate;
+	
+	private int bikeTotal; // 자전거
+	private int reuseTotal; // 다회용기
+	private int etcTotal; // 기타
 }

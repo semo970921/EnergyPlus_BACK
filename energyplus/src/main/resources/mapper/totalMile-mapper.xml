@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.mymile.model.dao.TotalMileMapper">
+	
+	<select id="findByUserId" 
+			resultType="TotalMileDTO">
+	    SELECT
+		       USER_MILEAGE_SEQ as userMileageSeq
+			 , USER_ID as userId
+			 , TOTAL_SAVE as totalSave
+			 , TOTAL_USE as totalUse
+			 , TOTAL_MILEAGE as totalMileage
+	      FROM 
+	           TB_USER_MILEAGE
+	     WHERE 
+	     	   USER_ID = #{userId}
+	</select>
+	
+	
+</mapper>

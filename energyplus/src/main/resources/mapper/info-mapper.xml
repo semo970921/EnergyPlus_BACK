@@ -9,8 +9,7 @@
 		UPDATE
 		        TB_USER
 		   SET
-		        USER_NAME = #{userName}
-		      , USER_PHONE = #{userPhone}
+		        USER_PHONE = #{userPhone}
 		      , UPDATE_DATE = SYSDATE
 		 WHERE
 		        USER_ID = #{userId}
