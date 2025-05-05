@@ -15,6 +15,8 @@ import com.kh.ecolog.auth.model.dto.LoginDTO;
 import com.kh.ecolog.auth.model.vo.CustomUserDetails;
 import com.kh.ecolog.auth.service.AuthService;
 import com.kh.ecolog.auth.util.JWTUtil;
+import com.kh.ecolog.member.model.dto.MemberDTO;
+import com.kh.ecolog.member.model.service.MemberService;
 import com.kh.ecolog.token.model.service.TokenService;
 
 import jakarta.validation.Valid;
@@ -30,6 +32,7 @@ public class AuthController {
     private final AuthService authService;
     private final TokenService tokenService;
     private final JWTUtil jwtUtil;
+    private final MemberService memberService;
     
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO){
@@ -53,6 +56,15 @@ public class AuthController {
         }
         
         try {
+        	
+            Long userId = jwtUtil.getUserIdFromToken(refreshToken);
+            
+            MemberDTO member = memberService.getMemberByUserId(userId);
+            if ("N".equals(member.getStatus())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("error", "탈퇴한 회원입니다."));
+            }
+        	
             Map<String, String> newToken = tokenService.refreshToken(refreshToken);
             return ResponseEntity.status(HttpStatus.CREATED).body(newToken);
         } catch (Exception e) {
