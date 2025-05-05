@@ -17,5 +17,19 @@ public interface MemberService {
 	 */
 	boolean isEmailDuplicated(String email);
 
+	/**
+	 * 회원 탈퇴 메소드
+	 * @param userId 탈퇴할 회원의 식별자(시퀀스넘버)
+	 * @return 탈퇴 결과(t -> 성공, f -> 실패)
+	 */
+	boolean withdrawMember(Long userId);
+	
+	/**
+	 * 회원 식별자(usrId)로 회원정보 조회
+	 * @param userId 조회할 회원의 시퀀스넘버
+	 * @return 조회할 회원의 정보
+	 */
+	MemberDTO getMemberByUserId(Long userId);
+	
 }
 
