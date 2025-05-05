@@ -64,7 +64,7 @@ public class SecurityConfigure {
                     "/members/**", "/markets/**", "/notices/**", "/apis/**",
                     "/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**",
                     "/qnas/**", "/replys/**", "/challenges/**", "/test/**", "/promise/**" , "/api/verification/**",
-                    "/mymarket/**", "/info/**", "/info/grade/**"
+                    "/mymarket/**", "/info/**", "/info/grade/**", "/mymile/**", "/totalmile/**", "/totalcategory/**"
                 ).permitAll()
                 .anyRequest().authenticated()
 

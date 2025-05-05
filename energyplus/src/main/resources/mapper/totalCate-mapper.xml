@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.kh.ecolog.mymile.model.dao.TotalCateMapper">
+	
+	<select id="cateSum" parameterType="long"
+			resultType="TotalCateDTO">
+	    SELECT
+	    	    USER_ID as userId
+	    	  , NVL(SUM(CASE WHEN MILEAGE_CATEGORY = '자전거' THEN MILEAGE_SCORE END), 0) AS bikeTotal
+  			  , NVL(SUM(CASE WHEN MILEAGE_CATEGORY = '다회용기' THEN MILEAGE_SCORE END), 0) AS reuseTotal
+  			  ,	NVL(SUM(CASE WHEN MILEAGE_CATEGORY = '기타' THEN MILEAGE_SCORE END), 0) AS etcTotal
+	      FROM 
+	           TB_MILEAGE
+	     WHERE 
+	     	   USER_ID = #{userId}
+	       AND
+	           MILEAGE_STATUS = 'Y'
+	     GROUP 
+	        BY
+      		   USER_ID
+	</select>
+	
+	
+</mapper>
