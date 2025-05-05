@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.kh.ecolog.auth.util.JWTUtil;
 import com.kh.ecolog.exception.InvalidTokenException;
+import com.kh.ecolog.member.model.dao.MemberMapper;
+import com.kh.ecolog.member.model.dto.MemberDTO;
 import com.kh.ecolog.token.model.dao.TokenMapper;
 import com.kh.ecolog.token.vo.RefreshToken;
 import io.jsonwebtoken.Claims;
@@ -18,10 +20,17 @@ public class TokenServiceImpl implements TokenService {
 	
 	private final JWTUtil jwtUtil;
 	private final TokenMapper tokenMapper;
+	private final MemberMapper memberMapper;
 	
 	@Override
 	@Transactional
 	public Map<String, String> generateToken(String userEmail, Long userId, String role) {
+		
+		// 회원 상태 확인 추가
+		MemberDTO member = memberMapper.getMemberByUserId(userId);
+		if (member == null || "N".equals(member.getStatus())) {
+			throw new InvalidTokenException("탈퇴한 회원이거나 존재하지 않는 회원");
+		}
 		
 		// 액세스토큰과 리프레시토큰 생성
 		Map<String, String> tokens = createTokens(userEmail, userId, role);
@@ -39,7 +48,6 @@ public class TokenServiceImpl implements TokenService {
 	}
 	
 	private String getRoleBasedOnUserEmail(String userEmail) {
-	    // 실제로는 이 값을 DB에서 조회하거나 특정 로직에 따라 정할 수 있습니다.
 	    if (userEmail.contains("admin")) {
 	        return "ADMIN";
 	    } else {
@@ -97,6 +105,12 @@ public class TokenServiceImpl implements TokenService {
 			Claims claims = jwtUtil.parseJwt(refreshToken);
 			Long userId = Long.parseLong(claims.getSubject());
 			String userEmail = jwtUtil.getUserEmailFromToken(refreshToken);
+			
+			// 회원 상태 확인 로직 추가
+			MemberDTO member = memberMapper.getMemberByUserId(userId);
+			if (member == null || "N".equals(member.getStatus())) {
+				throw new InvalidTokenException("탈퇴한 회원이거나 존재하지 않는 회원입니다.");
+			}
 			
 			// 사용자 역할 추출 (이메일을 기준으로 역할 조회)
 			String role = getRoleBasedOnUserEmail(userEmail);
