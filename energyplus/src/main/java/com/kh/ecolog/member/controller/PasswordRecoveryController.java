@@ -54,4 +54,21 @@ public class PasswordRecoveryController {
 	return ResponseEntity.ok(response);
 	}
 	
+	
+	/**
+	 * 비밀번호 재설정 인증코드 확인
+	 * @param request 이메일, 코드
+	 * @return 결과
+	 */
+	@PostMapping("/verifyCode")
+	public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> request){
+		String email = request.get("email");
+		String code = request.get("code");
+		
+		if
+		
+		
+		return null;
+	}
+	
 }
