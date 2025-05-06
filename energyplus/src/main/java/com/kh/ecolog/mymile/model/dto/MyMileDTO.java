@@ -1,4 +1,4 @@
-package com.kh.ecolog.mileage.model.dto;
+package com.kh.ecolog.mymile.model.dto;
 
 import java.sql.Date;
 
@@ -13,8 +13,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class MileageDTO {
-	
+public class MyMileDTO {
 	private Long mileageSeq;
 	private Long userId;
 	private String mileageTitle;
@@ -24,4 +23,5 @@ public class MileageDTO {
 	private int mileageScore;
 	private String mileageReject;
 	private Date createDate;
+	private Date approveDate;
 }

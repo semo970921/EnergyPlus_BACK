@@ -51,12 +51,12 @@ public class SecurityConfigure {
             .csrf(config -> config.disable())
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
-                // Auth 관련 경로 허용
                 .requestMatchers("/auth/**").permitAll() // 모든 인증 경로 허용
                 .requestMatchers("/admin/cardnews/list").permitAll()
                 .requestMatchers(HttpMethod.GET, "/admin/cardnews").permitAll()
                 .requestMatchers(HttpMethod.GET, "/admin/cardnews/**").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/members/withdrawal").authenticated()
                 .requestMatchers("/admin/qnas/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll()
@@ -67,7 +67,7 @@ public class SecurityConfigure {
                     "/members/**", "/markets/**", "/notices/**", "/apis/**",
                     "/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**",
                     "/qnas/**", "/replys/**", "/challenges/**", "/test/**", "/promise/**" , "/api/verification/**",
-                    "/mymarket/**", "/info/**", "/info/grade/**"
+                    "/mymarket/**", "/info/**", "/info/grade/**", "/mymile/**", "/totalmile/**", "/totalcategory/**"
                 ).permitAll()
                 .anyRequest().authenticated()
 

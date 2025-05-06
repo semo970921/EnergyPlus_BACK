@@ -35,7 +35,7 @@ public class QnaServiceImpl implements QnaService {
 						 .qnaContent(qna.getQnaContent())
 						 .userId(userId) // 로그인한 사용자 ID 세팅
 						 .build();
-		qnaMapper.insert(requestData);
+		qnaMapper.insertQna(requestData);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	public QnaDTO update(QnaDTO qna) {
-		qnaMapper.update(qna);
+		qnaMapper.updateQna(qna);
 		return qna;
 	}
 

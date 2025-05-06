@@ -13,14 +13,14 @@ import com.kh.ecolog.qna.model.vo.Qna;
 @Mapper
 public interface QnaMapper {
 	
-	void insert(Qna qna);
+	void insertQna(Qna qna);
 	
 	List<QnaDTO> selectAll(@Param("userId") Long userId, RowBounds rb);
 	int countAll(@Param("userId") Long userId);
 	
 	QnaDTO selectById(Long qnaId);
 	
-	int update(QnaDTO qna);
+	int updateQna(QnaDTO qna);
 	
 	void deleteById(@Param("qnaId") Long qnaId);
 

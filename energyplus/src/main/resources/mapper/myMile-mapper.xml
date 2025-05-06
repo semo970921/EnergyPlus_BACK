@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.mymile.model.dao.MyMileMapper">
+	
+	<!--중복 코드 분리-->
+	<sql id="mileageColumns">
+	  MILEAGE_SEQ as mileageSeq,
+	  MILEAGE_CATEGORY as mileageCategory,
+	  MILEAGE_STATUS as mileageStatus,
+	  MILEAGE_SCORE as mileageScore,
+	  MILEAGE_REJECT as mileageReject,
+	  CREATE_DATE as createDate,
+	  APPROVE_DATE as approveDate,
+	  USER_ID as userId
+	</sql>
+	
+	<select id="selectAll" resultType="MyMileDTO">
+	   SELECT
+    		   <include refid="mileageColumns" />
+		 FROM
+		       TB_MILEAGE
+		WHERE
+			   USER_ID = #{userId}
+		ORDER
+		   BY
+		       CREATE_DATE DESC
+	</select>
+	
+	<!-- 페이징처리를 위한 게시글 총 개수 count -->
+	<select id="countAll" resultType="int">
+		SELECT COUNT(*) 
+		  FROM 
+		       TB_MILEAGE
+		 WHERE
+			   USER_ID = #{userId}
+	</select>
+	
+	<!-- 검색 기능 -->
+	<select id="searchMile" resultType="MyMileDTO" parameterType="map">
+	  SELECT
+    		  <include refid="mileageColumns" />
+	    FROM
+	  	      TB_MILEAGE
+	   WHERE
+			  USER_ID = #{userId}
+	     AND
+	   		  MILEAGE_CATEGORY LIKE '%' || #{keyword} || '%'
+	   ORDER 
+	      BY  CREATE_DATE DESC
+	</select>
+	
+	<select id="countSearch" resultType="int" parameterType="map">
+	  SELECT COUNT(*)
+	    FROM
+	    	 TB_MILEAGE
+	   WHERE
+			 USER_ID = #{userId}
+		 AND
+	  		 MILEAGE_CATEGORY LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<delete id="deleteById" parameterType="long">
+		DELETE
+		  FROM
+		       TB_MILEAGE
+		 WHERE
+		       MILEAGE_SEQ = #{mileId}
+	</delete>
+
+</mapper>
