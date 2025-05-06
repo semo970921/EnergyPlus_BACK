@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.ecolog.common.model.dao.service.email.EmailService;
 import com.kh.ecolog.common.model.dao.service.verification.VerificationService;
 import com.kh.ecolog.member.model.dao.MemberMapper;
+import com.kh.ecolog.member.model.dto.PasswordResetDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -98,6 +99,19 @@ public class PasswordRecoveryController {
         	return ResponseEntity.badRequest().body(response);
         }
         
+	}
+	
+	/**
+	 * 비밀번호 재설정 처리
+	 * @param passwordResetDTO
+	 * @return
+	 */
+	@PostMapping("/reset")
+	public ResponseEntity<?> resetPassword(@RequestBody PasswordResetDTO passwordResetDTO){
+		
+		
+		
+		return null;
 	}
 	
 	
