@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class PasswordRecoveryController {
 	private final MemberMapper memberMapper;
 	private final VerificationService verificationService;
 	private final EmailService emailService;
+	private final PasswordEncoder passwordEncoder;
 
 	/**
 	 * 비밀번호 재설정 이메일 요청
@@ -127,18 +129,27 @@ public class PasswordRecoveryController {
 		
         // 비밀번호 재설정
         try {
-
         	
+        	String encodedPassword = passwordEncoder.encode(password);
         	
-            return null;
+            // 비밀번호 업데이트
+            int result = memberMapper.updatePassword(email, encodedPassword);
+            
+            if (result > 0) {
+                Map<String, String> response = new HashMap<>();
+                response.put("message", "비밀번호가 성공적으로 재설정되었습니다.");
+                return ResponseEntity.ok(response);
+            } else {
+                Map<String, String> response = new HashMap<>();
+                response.put("error", "비밀번호 재설정에 실패했습니다.");
+                return ResponseEntity.badRequest().body(response);
+            }
+            
         } catch (Exception e) {
             Map<String, String> response = new HashMap<>();
             response.put("error", "비밀번호 재설정에 실패했습니다.");
             return ResponseEntity.badRequest().body(response);
         }
-        
+
 	}
-	
-	
-	
 }
