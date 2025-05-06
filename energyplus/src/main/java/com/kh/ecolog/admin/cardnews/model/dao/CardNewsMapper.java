@@ -18,5 +18,6 @@ public interface CardNewsMapper {
 	void updateCardNews(CardNewsDTO dto);
 	void deleteCardNews(Long cardnewsNo);
 	List<CardNewsDTO> mainCardNews();
+
 	
 }

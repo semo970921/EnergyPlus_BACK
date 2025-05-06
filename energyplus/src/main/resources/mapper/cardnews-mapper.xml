@@ -61,5 +61,21 @@
 	  ORDER BY CARDNEWS_NO DESC
 	  FETCH FIRST 3 ROWS ONLY
 	</select>
+	
+	<update id="updateCardNews" parameterType="com.kh.ecolog.admin.cardnews.model.dto.CardNewsDTO">
+    	UPDATE TB_CARDNEWS
+	    SET 
+	        CARDNEWS_TITLE = #{cardNewsTitle},
+	        CARDNEWS_CONTENT = #{cardNewsContent},
+	        CARDNEWS_IMG_URL = #{cardNewsImgUrl},
+	        USER_ID = #{userId},
+	        CARDNEWS_DATE = #{cardNewsDate}
+	    WHERE CARDNEWS_NO = #{cardNewsNo}
+	</update>
+	
+	<delete id="deleteCardNews" parameterType="long">
+	    DELETE FROM TB_CARDNEWS
+	    WHERE CARDNEWS_NO = #{cardnewsNo}
+	</delete>
 
 </mapper>

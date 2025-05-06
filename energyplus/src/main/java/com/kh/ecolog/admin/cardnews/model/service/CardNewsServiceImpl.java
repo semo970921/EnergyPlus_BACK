@@ -26,8 +26,7 @@ public class CardNewsServiceImpl implements CardNewsService {
 	@Override
 	public void insertCardNews(CardNewsDTO cardNewsDTO, MultipartFile file) {
 	    
-		Long userId = SecurityUtil.getCurrentUserId(); 
-	    
+		Long userId = SecurityUtil.getCurrentUserId();
 	    CardNews requestData; 
 	    
 	    if (file != null && !file.isEmpty()) {
@@ -67,6 +66,46 @@ public class CardNewsServiceImpl implements CardNewsService {
 	 @Override
 	 public List<CardNewsDTO> mainCardNews() {
 	    return cardNewsMapper.mainCardNews();
+	 }
+	 
+	 @Override
+	 public void updateCardNews(Long id, CardNewsDTO cardNewsDTO, MultipartFile file) {
+	     CardNewsDTO existing = cardNewsMapper.selectCardNewsByNo(id);
+	     if (existing == null) {
+	         throw new RuntimeException("해당 카드뉴스가 존재하지 않습니다.");
+	     }
+
+	     Long userId = SecurityUtil.getCurrentUserId();
+
+	     String newImgUrl = existing.getCardNewsImgUrl();
+
+	     if (file != null && !file.isEmpty()) {
+	         if (newImgUrl != null) {
+	             fileService.delete(newImgUrl);
+	         }
+	         newImgUrl = fileService.store(file);
+	     }
+
+	     cardNewsDTO.setCardNewsNo(id);
+	     cardNewsDTO.setCardNewsImgUrl(newImgUrl);
+	     cardNewsDTO.setUserId(userId);
+	     cardNewsDTO.setCardNewsDate(new Date(System.currentTimeMillis()));
+
+	     cardNewsMapper.updateCardNews(cardNewsDTO);
+	 }
+	 
+	 @Override
+	 public void deleteCardNews(Long id) {
+	     CardNewsDTO existing = cardNewsMapper.selectCardNewsByNo(id);
+	     if (existing == null) {
+	         throw new RuntimeException("해당 카드뉴스가 존재하지 않습니다.");
+	     }
+
+	     if (existing.getCardNewsImgUrl() != null) {
+	         fileService.delete(existing.getCardNewsImgUrl());
+	     }
+
+	     cardNewsMapper.deleteCardNews(id);
 	 }
 
 }

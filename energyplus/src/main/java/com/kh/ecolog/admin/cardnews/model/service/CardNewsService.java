@@ -15,6 +15,7 @@ public interface CardNewsService {
 	
 	List<CardNewsDTO> mainCardNews();
 	  
-
+	void updateCardNews(Long id, CardNewsDTO dto, MultipartFile file); 
+    void deleteCardNews(Long id);
 
 }
