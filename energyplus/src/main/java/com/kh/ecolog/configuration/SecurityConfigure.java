@@ -51,8 +51,7 @@ public class SecurityConfigure {
             .csrf(config -> config.disable())
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll() // 기존 인증 경로 허용
-                .requestMatchers("/auth/kakao/**").permitAll() // 카카오 인증 경로 허용
+                .requestMatchers("/auth/**").permitAll() // 모든 인증 경로 허용
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/members/withdrawal").authenticated()
                 .requestMatchers("/admin/qnas/**").hasAuthority("ROLE_ADMIN")
@@ -87,4 +86,5 @@ public class SecurityConfigure {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }
