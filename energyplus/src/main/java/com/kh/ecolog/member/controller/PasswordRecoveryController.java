@@ -48,10 +48,10 @@ public class PasswordRecoveryController {
 		
 	// 사용자가 맞는 경우
 	String verificationCode = verificationService.generateVerificationCode(email);
-	
-	
-		
-		return null;
+	emailService.sendPasswordResetEmail(email, verificationCode);
+	Map<String,String> response = new HashMap<>();
+	response.put("message", "비밀전호 재설정 안내가 이멜로 발송되었습니다.");
+	return ResponseEntity.ok(response);
 	}
 	
 }
