@@ -103,15 +103,40 @@ public class PasswordRecoveryController {
 	
 	/**
 	 * 비밀번호 재설정 처리
-	 * @param passwordResetDTO
-	 * @return
+	 * @param passwordResetDTO 새 비밀번호
+	 * @return 결과
 	 */
 	@PostMapping("/reset")
 	public ResponseEntity<?> resetPassword(@RequestBody PasswordResetDTO passwordResetDTO){
 		
+		String email = passwordResetDTO.getUserEmail();
+		String password = passwordResetDTO.getNewPassword();
+		
+        if (email == null || email.trim().isEmpty()) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "이메일을 입력해주세요.");
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+        if (password == null || password.trim().isEmpty()) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "새 비밀번호를 입력해주세요.");
+            return ResponseEntity.badRequest().body(response);
+        }
 		
 		
-		return null;
+        // 비밀번호 재설정
+        try {
+
+        	
+        	
+            return null;
+        } catch (Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "비밀번호 재설정에 실패했습니다.");
+            return ResponseEntity.badRequest().body(response);
+        }
+        
 	}
 	
 	

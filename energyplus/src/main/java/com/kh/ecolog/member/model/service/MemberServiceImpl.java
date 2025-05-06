@@ -81,5 +81,10 @@ public class MemberServiceImpl implements MemberService {
 		// 존재하면
 		return member;
 	}
+	
+	@Override
+	public void resetPassword(String email, String newPassword) {
+		
+	}
 
 }
