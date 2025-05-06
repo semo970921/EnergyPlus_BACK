@@ -26,6 +26,11 @@ public class PasswordRecoveryController {
 	private final VerificationService verificationService;
 	private final EmailService emailService;
 
+	/**
+	 * 비밀번호 재설정 이메일 요청
+	 * @param request
+	 * @return
+	 */
 	@PostMapping("/request-reset")
 	public ResponseEntity<?> requestPasswordReset (@RequestBody Map<String, String> request){
 		String email = request.get("email");
@@ -65,10 +70,36 @@ public class PasswordRecoveryController {
 		String email = request.get("email");
 		String code = request.get("code");
 		
-		if
+		// 이메일이나 인증코드 입력 안한경우
+		if(email == null || email.trim().isEmpty()) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "이메일을 입력해주세요.");
+            return ResponseEntity.badRequest().body(response);
+		}
 		
+        if (code == null || code.trim().isEmpty()) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "인증 코드를 입력해주세요.");
+            return ResponseEntity.badRequest().body(response);
+        }
 		
-		return null;
+        // 다 입력한 경우
+        boolean isVerified = verificationService.verifyCode(email,  code);
+      
+        Map<String, Object> response = new HashMap<>();
+        
+        if(isVerified) {
+            response.put("message", "인증이 성공적으로 완료되었습니다.");
+            response.put("verified", true);
+            return ResponseEntity.ok(response);    	
+        }else {
+        	response.put("error", "인증코드가 유효하지 않습니다.");
+        	response.put("verified", false);
+        	return ResponseEntity.badRequest().body(response);
+        }
+        
 	}
+	
+	
 	
 }
