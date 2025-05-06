@@ -16,10 +16,10 @@ import lombok.ToString;
 @ToString
 @Builder
 public class CardNewsDTO {
-	  private Long cardnewsNo;
-	  private String cardnewsTitle;
-	  private String cardnewsContent;
-	  private String cardnewsImgUrl;
+	  private Long cardNewsNo;
+	  private String cardNewsTitle;
+	  private String cardNewsContent;
+	  private String cardNewsImgUrl;
 	  private Long userId;
-	  private Date cardnewsDate;
+	  private Date cardNewsDate;
 }

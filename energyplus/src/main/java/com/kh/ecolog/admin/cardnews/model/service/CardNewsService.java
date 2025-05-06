@@ -11,5 +11,10 @@ public interface CardNewsService {
 
 	List<CardNewsDTO> findAll(int pageNo); 
 	
+	CardNewsDTO findById(Long id);
+	
+	List<CardNewsDTO> mainCardNews();
+	  
+
 
 }

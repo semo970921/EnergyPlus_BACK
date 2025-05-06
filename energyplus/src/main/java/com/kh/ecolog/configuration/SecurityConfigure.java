@@ -54,6 +54,8 @@ public class SecurityConfigure {
                 // Auth 관련 경로 허용
                 .requestMatchers("/auth/**").permitAll() // 모든 인증 경로 허용
                 .requestMatchers("/admin/cardnews/list").permitAll()
+                .requestMatchers(HttpMethod.GET, "/admin/cardnews").permitAll()
+                .requestMatchers(HttpMethod.GET, "/admin/cardnews/**").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/admin/qnas/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()

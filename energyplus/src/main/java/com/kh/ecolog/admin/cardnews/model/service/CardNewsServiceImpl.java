@@ -33,16 +33,16 @@ public class CardNewsServiceImpl implements CardNewsService {
 	    if (file != null && !file.isEmpty()) {
 	        String imgUrl = fileService.store(file);
 	        requestData = CardNews.builder()
-	                .cardNewsTitle(cardNewsDTO.getCardnewsTitle())
-	                .cardNewsContent(cardNewsDTO.getCardnewsContent())
+	                .cardNewsTitle(cardNewsDTO.getCardNewsTitle())
+	                .cardNewsContent(cardNewsDTO.getCardNewsContent())
 	                .cardNewsImgUrl(imgUrl)
 	                .userId(userId)
 	                .cardNewsDate(new Date(System.currentTimeMillis()))
 	                .build();
 	    } else {
 	        requestData = CardNews.builder()
-	                .cardNewsTitle(cardNewsDTO.getCardnewsTitle())
-	                .cardNewsContent(cardNewsDTO.getCardnewsContent())
+	                .cardNewsTitle(cardNewsDTO.getCardNewsTitle())
+	                .cardNewsContent(cardNewsDTO.getCardNewsContent())
 	                .userId(userId)
 	                .cardNewsDate(new Date(System.currentTimeMillis()))
 	                .build();
@@ -58,5 +58,15 @@ public class CardNewsServiceImpl implements CardNewsService {
 	    RowBounds rowBounds = new RowBounds(pageNo * size, size);
 	    return cardNewsMapper.selectAllCardNews(rowBounds);
 	}
+
+	@Override
+	public CardNewsDTO findById(Long id) {
+		 return cardNewsMapper.selectCardNewsByNo(id);
+	}
+
+	 @Override
+	 public List<CardNewsDTO> mainCardNews() {
+	    return cardNewsMapper.mainCardNews();
+	 }
 
 }

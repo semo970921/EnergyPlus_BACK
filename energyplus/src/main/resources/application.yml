@@ -36,22 +36,31 @@ server:
 
 
 mybatis:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    jdbc-type-for-null: VARCHAR
-    map-underscore-to-camel-case: true
-  mapper-locations: classpath:mapper/**/*.xml
-
-  type-aliases-package: com.kh.ecolog.qna.model.vo,com.kh.ecolog.qna.model.dto, 
-                        com.kh.ecolog.qnareply.model.dto, com.kh.ecolog.promise.model.dto,
-                        com.kh.ecolog.info.model.dto, com.kh.ecolog.mymarket.model.dto, 
-                        com.kh.ecolog.notice.model.dto, com.kh.ecolog.notice.model.vo,
-                        com.kh.ecolog.token.vo, com.kh.ecolog.member.model.dto, 
-                        com.kh.ecolog.challenge.model.dto, com.kh.ecolog.challenge.model.vo, 
-                        com.kh.ecolog.market.model.dto, com.kh.ecolog.market.board.model.dto, com.kh.ecolog.market.comment.model.dto, 
-                        com.kh.ecolog.market.reply.model.dto, com.kh.ecolog.market.report.model.dto, 
-                        com.kh.ecolog.mileage.model.dto, 
-                        com.kh.ecolog.mymarket.model.dto, 
-                        com.kh.ecolog.api.model.dto, 
-                        com.kh.ecolog.admin.qnaManage.model.dto,
-                        com.kh.ecolog.admin.cardnews.model.dto
+ configuration:
+  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  jdbc-type-for-null: VARCHAR
+  map-underscore-to-camel-case: true
+ mapper-locations: classpath:mapper/**/*.xml
+ type-aliases-package: |
+   com.kh.ecolog.qna.model.vo,
+   com.kh.ecolog.qna.model.dto,
+   com.kh.ecolog.qnareply.model.dto,
+   com.kh.ecolog.promise.model.dto,
+   com.kh.ecolog.info.model.dto,
+   com.kh.ecolog.mymarket.model.dto,
+   com.kh.ecolog.notice.model.dto, 
+   com.kh.ecolog.notice.model.vo,
+   com.kh.ecolog.token.vo,
+   com.kh.ecolog.member.model.dto,
+   com.kh.ecolog.challenge.model.dto,
+   com.kh.ecolog.challenge.model.vo,
+   com.kh.ecolog.market.model.dto,
+   com.kh.ecolog.market.board.model.dto,
+   com.kh.ecolog.market.comment.model.dto,
+   com.kh.ecolog.market.reply.model.dto,
+   com.kh.ecolog.market.report.model.dto,
+   com.kh.ecolog.mileage.model.dto,
+   com.kh.ecolog.mymarket.model.dto,
+   com.kh.ecolog.api.model.dto,
+   com.kh.ecolog.admin.qnaManage.model.dto,
+   com.kh.ecolog.admin.cardnews.model.dto
