@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.auth.model.dao.OAuthMapper">
+
+	<!--provider과 providerId 조회-->
+	<select id="findByProviderAndProviderId" resultType="com.kh.ecolog.auth.model.dto.OAuthUserDTO">
+		SELECT
+			OAUTH_ID AS oauthId,
+			USER_ID AS userId,
+			PROVIDER AS provider,
+			PROVIDER_ID AS providerId,
+			EMAIL AS email,
+			NIKNAME AS nickname,
+			CREATED_DATE AS createdDate
+		FROM
+			TB_OAUTH_USER
+		WHERE 
+			PROVIDER = #{provider}
+		AND 
+			PROVIDER_ID = #{providerId}
+	</select>
+	
+	
+	<!--사용자 정보 저장-->
+	<insert id="saveOAuthUser">
+		INSERT
+			INTO 
+				TB_OAUTH_USER(
+					OAUTH_ID,
+					USER_ID,
+					PROVIDER,
+					PROVIDER_ID,
+					EMAIL,
+					NICKNAME,
+					CREATED_DATE
+				)VALUES (
+		            SEQ_OAUTH_ID.NEXTVAL,
+		            #{userId},
+		            #{provider},
+		            #{providerId},
+		            #{email},
+		            #{nickname},
+		            SYSDATE
+		        )
+
+	</insert>
+	
+	<!--사용자 정보 업데이트-->
+	<update id="updateOAuthUser">
+		UPDATE
+			TB_OAUTH_USER
+		SET
+			EMAIL = #{email}
+			NICKNAME = #{nickname}
+		WHERE
+			USER_ID = #{userId}
+		AND 
+			PROVIDER = #{provider}
+	</update>
+	
+    <!--사용자 정보 삭제 -->
+    <delete id="deleteOAuthUser">
+        DELETE
+        	FROM
+        		TB_OAUTH_USER
+        WHERE
+        	USER_ID = #{userId}
+    </delete>
+
+
+
+</mapper>
