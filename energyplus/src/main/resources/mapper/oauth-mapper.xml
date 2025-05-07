@@ -52,7 +52,7 @@
 		UPDATE
 			TB_OAUTH_USER
 		SET
-			EMAIL = #{email}
+			EMAIL = #{email},
 			NICKNAME = #{nickname}
 		WHERE
 			USER_ID = #{userId}
