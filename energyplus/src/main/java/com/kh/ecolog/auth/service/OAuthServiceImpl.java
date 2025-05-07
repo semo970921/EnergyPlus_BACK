@@ -21,7 +21,7 @@ import com.kh.ecolog.exception.OAuthProcessingException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OAuthServiceImpl {
+public class OAuthServiceImpl implements OAuthService {
 	
 	private final ObjectMapper objectMapper;
 	private final RestTemplate restTemplate;
@@ -32,6 +32,7 @@ public class OAuthServiceImpl {
     @Value("${oauth2.kakao.redirect-uri}")
     private String redirectUri;
 
+    @Override
 	public String getKaKaoAccessToken(String code) {
 		
 		log.info("카카오 액세스토큰 요청 >> 인증코드 : {}", code);
@@ -75,5 +76,7 @@ public class OAuthServiceImpl {
             throw new OAuthProcessingException("카카오 토큰 요청 중 오류 발생: " + e.getMessage());
         }
 	}
+	
+	
 	
 }
