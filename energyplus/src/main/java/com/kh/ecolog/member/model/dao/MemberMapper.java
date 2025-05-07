@@ -2,6 +2,7 @@ package com.kh.ecolog.member.model.dao;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import com.kh.ecolog.member.model.dto.MemberDTO;
@@ -30,4 +31,8 @@ public interface MemberMapper {
     // 회원 탈퇴 (상태 변경)
     @Update("UPDATE TB_USER SET STATUS='N' WHERE USER_ID=#{userId}")
     int withdrawMember(Long userId);
+    
+    // 비밀번호 업데이트
+    @Update("UPDATE TB_USER SET USER_PASSWORD=#{password} WHERE USER_EMAIL=#{email}")
+    int updatePassword(@Param("email") String email, @Param("password") String password);
 }
