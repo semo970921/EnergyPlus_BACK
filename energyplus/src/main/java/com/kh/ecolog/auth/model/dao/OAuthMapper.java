@@ -16,6 +16,9 @@ public interface OAuthMapper {
 	
 	// OAuth 사용자 정보 업데이트
 	void updateOAuthUser(OAuthUserDTO oAuthUser);
+	
+    // userId에 연결된 OAuth 사용자 정보 조회
+    OAuthUserDTO findByUserId(@Param("userId") Long userId);
     
     // OAuth 사용자 정보 삭제
     void deleteOAuthUser(@Param("userId") Long userId);	
