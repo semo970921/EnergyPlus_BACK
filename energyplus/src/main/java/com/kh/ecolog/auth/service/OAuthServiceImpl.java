@@ -263,7 +263,8 @@ public class OAuthServiceImpl implements OAuthService {
             
             memberMapper.updateMemberName(updatedMember);
             
-
+            // 업데이트된 회원 정보 다시 조회!!
+            memberDTO = memberMapper.getMemberByUserId(existingOAuthUser.getUserId());
         }
         
         
