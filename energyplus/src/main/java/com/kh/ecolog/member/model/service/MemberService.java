@@ -11,7 +11,7 @@ public interface MemberService {
 	void signUp(MemberDTO memberDTO);
 	
 	/**
-	 * 이메일 중복 확이 메서드
+	 * 이메일 중복 확인 메서드
 	 * @param email
 	 * @return 중복 여부(t->중복, f -> 중복 아님)
 	 */
@@ -30,6 +30,14 @@ public interface MemberService {
 	 * @return 조회할 회원의 정보
 	 */
 	MemberDTO getMemberByUserId(Long userId);
+	
+	
+	/**
+	 * 비밀번호 재설정 메서드
+	 * @param email
+	 * @param newPassword
+	 */
+	void resetPassword(String email, String newPassword);
 	
 }
 
