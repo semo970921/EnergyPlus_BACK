@@ -12,7 +12,7 @@
 			PROVIDER AS provider,
 			PROVIDER_ID AS providerId,
 			EMAIL AS email,
-			NIKNAME AS nickname,
+			NICKNAME AS nickname,
 			CREATED_DATE AS createdDate
 		FROM
 			TB_OAUTH_USER

@@ -1,6 +1,7 @@
 package com.kh.ecolog.auth.service;
 
 import com.kh.ecolog.auth.model.dto.KakaoUserInfoDTO;
+import com.kh.ecolog.auth.model.dto.OAuthLoginResponseDTO;
 
 public interface OAuthService {
 
@@ -8,6 +9,9 @@ public interface OAuthService {
 	String getKaKaoAccessToken(String code);
 	
 	// 얻은 액세스 토큰으로 사용자 정보 조회
-	KakaoUserInfoDTO getKaKaoUSerInfo(String accessToken);
+	KakaoUserInfoDTO getKakaoUserInfo(String accessToken);
+	
+    // 카카오 로그인 처리
+    OAuthLoginResponseDTO processKakaoLogin(KakaoUserInfoDTO kakaoUserInfo);
 	
 }

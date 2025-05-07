@@ -52,6 +52,7 @@ public class SecurityConfigure {
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**").permitAll() // 모든 인증 경로 허용
+                .requestMatchers("/oauth2/**").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/members/withdrawal").authenticated()
                 .requestMatchers("/admin/qnas/**").hasAuthority("ROLE_ADMIN")
