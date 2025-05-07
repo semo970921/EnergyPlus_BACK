@@ -30,4 +30,9 @@ public interface MemberMapper {
     // 회원 탈퇴 (상태 변경)
     @Update("UPDATE TB_USER SET STATUS='N' WHERE USER_ID=#{userId}")
     int withdrawMember(Long userId);
+    
+    // OAuth2.0 회원정보 수정
+    @Update("UPDATE TB_USER SET USER_NAME = #{userName} WHERE USER_ID = #{userId}")
+    void updateMemberName(Member member);
+    
 }

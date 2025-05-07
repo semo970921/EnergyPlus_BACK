@@ -244,10 +244,11 @@ public class OAuthServiceImpl implements OAuthService {
                 throw new OAuthProcessingException("탈퇴한 회원이거나 존재하지 않는 회원입니다ㅏ.");
             }
             
-            // 사용자 정보 업데이트
+         // 사용자 정보 업데이트
             if (!kakaoUserInfo.getEmail().equals(existingOAuthUser.getEmail()) || 
                 !kakaoUserInfo.getNickname().equals(existingOAuthUser.getNickname())) {
                 
+                // OAuth 사용자 정보 업데이트
                 OAuthUserDTO updatedOAuthUser = OAuthUserDTO.builder()
                         .userId(existingOAuthUser.getUserId())
                         .provider(existingOAuthUser.getProvider())
@@ -257,6 +258,16 @@ public class OAuthServiceImpl implements OAuthService {
                         .build();
                 
                 oAuthMapper.updateOAuthUser(updatedOAuthUser);
+                
+                // 회원 테이블도 업데이트
+                if (!kakaoUserInfo.getNickname().equals(memberDTO.getUserName())) {
+                    Member updatedMember = Member.builder()
+                            .userId(memberDTO.getUserId())
+                            .userName(kakaoUserInfo.getNickname())
+                            .build();
+                    
+                    memberMapper.updateMemberName(updatedMember);
+                }
             }
         }
         
