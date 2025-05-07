@@ -38,5 +38,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                             .body(Map.of("error", e.getMessage()));
     }
+    
+    @ExceptionHandler(OAuthProcessingException.class)
+    public ResponseEntity<?> handleOAuthProcessingException(OAuthProcessingException e) {
+        log.error("OAuth 처리 오류: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(Map.of("error", e.getMessage()));
+    }
 
 }
