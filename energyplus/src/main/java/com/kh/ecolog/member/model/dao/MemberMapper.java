@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import com.kh.ecolog.member.model.dto.MarketingAgreementDTO;
 import com.kh.ecolog.member.model.dto.MemberDTO;
 import com.kh.ecolog.member.model.vo.Member;
 
@@ -41,5 +43,11 @@ public interface MemberMapper {
     // 비밀번호 업데이트
     @Update("UPDATE TB_USER SET USER_PASSWORD=#{password} WHERE USER_EMAIL=#{email}")
     int updatePassword(@Param("email") String email, @Param("password") String password);
+    
+    @Insert("INSERT INTO TB_MARKETING_AGREEMENT (AGREEMENT_ID, USER_ID, MARKETING_AGREED) VALUES (SEQ_MARKETING_AGREEMENT.NEXTVAL, #{userId}, #{marketingAgreed})")
+    int saveMarketingAgreement(MarketingAgreementDTO agreementDTO);
+    
+    @Select("SELECT AGREEMENT_ID agreementId, USER_ID userId, MARKETING_AGREED marketingAgreed, TO_CHAR(AGREEMENT_DATE, 'YYYY-MM-DD') agreementDate FROM TB_MARKETING_AGREEMENT WHERE USER_ID = #{userId}")
+    MarketingAgreementDTO getMarketingAgreementByUserId(Long userId);
 
 }
