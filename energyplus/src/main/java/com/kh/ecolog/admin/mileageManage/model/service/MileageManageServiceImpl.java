@@ -38,11 +38,23 @@ public class MileageManageServiceImpl implements MileageManageService {
 	}
 
 
+	/* 마일리지 승인(적립) */
 	@Override
-	public void updateMileageStatus(MileageDTO dto) {
-		dto.setMileageStatus("R"); // 상태는 강제로 "R"로 설정
-		mileageManageMapper.updateMileageStatus(dto);
+	public void updateMileageStatusS(MileageDTO dto) {
+		dto.setMileageStatus("S");
+
+		if (dto.getMileageScore() == 0) {
+			System.out.println("포인트 값이 0입니다.");
+		}
+
+		mileageManageMapper.updateMileageStatusS(dto);
 	}
 
+	/* 마일리지 거부(적립 X) */
+	@Override
+	public void updateMileageStatusR(MileageDTO dto) {
+		dto.setMileageStatus("R");
+		mileageManageMapper.updateMileageStatusR(dto);
+	}
 
 }
