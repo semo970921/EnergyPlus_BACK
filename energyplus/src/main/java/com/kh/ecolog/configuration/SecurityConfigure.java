@@ -52,6 +52,7 @@ public class SecurityConfigure {
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**").permitAll() // 모든 인증 경로 허용
+                .requestMatchers("/oauth2/**").permitAll()
                 .requestMatchers("/admin/cardnews/list").permitAll()
                 .requestMatchers(HttpMethod.GET, "/admin/cardnews").permitAll()
                 .requestMatchers(HttpMethod.GET, "/admin/cardnews/**").permitAll()

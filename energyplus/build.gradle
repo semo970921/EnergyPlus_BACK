@@ -28,6 +28,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
@@ -38,8 +39,8 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-tasks.withType(JavaCompile) {
-    options.compilerArgs += '-parameters'
+compileJava {
+    options.compilerArgs << '-parameters'
 }
 
 tasks.named('test') {
