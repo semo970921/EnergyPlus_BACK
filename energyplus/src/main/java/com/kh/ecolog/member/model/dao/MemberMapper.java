@@ -14,7 +14,7 @@ public interface MemberMapper {
             "VALUES (SEQ_USER.NEXTVAL, #{gradeId}, #{userEmail}, #{userPassword}, #{userName}, #{userPhone}, #{role}, 'Y')")
     int signUp(Member member);
     
-    @Select("SELECT USER_ID userId, GRADE_ID gradeId, USER_EMAIL userEmail, USER_PASSWORD userPassword, USER_NAME userName, USER_PHONE userPhone, ROLE role, STATUS status" +
+    @Select("SELECT USER_ID userId, GRADE_ID gradeId, USER_EMAIL userEmail, USER_PASSWORD userPassword, USER_NAME userName, USER_PHONE userPhone, ROLE role, STATUS status, TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') joinDate" +
             " FROM TB_USER WHERE USER_EMAIL=#{userEmail}")
     MemberDTO getMemberByMemberEmail(String memberEmail);
     
@@ -23,11 +23,14 @@ public interface MemberMapper {
     int existsByEmail(String userEmail);
     
     // 회원 ID로 회원 정보 조회
-    @Select("SELECT USER_ID userId, GRADE_ID gradeId, USER_EMAIL userEmail, USER_PASSWORD userPassword, USER_NAME userName, USER_PHONE userPhone, ROLE role, STATUS status" +
+    @Select("SELECT USER_ID userId, GRADE_ID gradeId, USER_EMAIL userEmail, USER_PASSWORD userPassword, USER_NAME userName, USER_PHONE userPhone, ROLE role, STATUS status, TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') joinDate" +
             " FROM TB_USER WHERE USER_ID=#{userId}")
     MemberDTO getMemberByUserId(Long userId);
     
     // 회원 탈퇴 (상태 변경)
     @Update("UPDATE TB_USER SET STATUS='N' WHERE USER_ID=#{userId}")
     int withdrawMember(Long userId);
+    
+    
+    
 }

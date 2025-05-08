@@ -46,4 +46,6 @@ public class MemberDTO {
 	
 	private String status;
 	
+	private String joinDate;
+	
 }
