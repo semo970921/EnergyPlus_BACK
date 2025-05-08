@@ -17,4 +17,10 @@ public interface EmailService {
 	 */
 	void sendSignUpVerificationEmail(String to, String verificationCode);
 
+	/**
+	 * 비밀번호 재설정 이메일 발송
+	 * @param to
+	 * @param verificationCode
+	 */
+	void sendPasswordResetEmail(String to, String verificationCode);
 }

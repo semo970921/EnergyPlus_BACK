@@ -10,8 +10,7 @@ public class SecurityUtil {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 	    if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getPrincipal())) {
-	        System.out.println("로그인 안 됨!");
-	        return null;
+	        throw new IllegalStateException("로그인한 사용자만 접근 가능합니다.");
 	    }
 	    CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
 	    System.out.println("현재 로그인한 사용자 ID: " + user.getUserId());

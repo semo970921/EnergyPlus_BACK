@@ -81,5 +81,30 @@ public class MemberServiceImpl implements MemberService {
 		// 존재하면
 		return member;
 	}
+	
+	@Override
+	public void resetPassword(String email, String newPassword) {
+		
+		// 사용자존재 여부 확인
+		MemberDTO member = memberMapper.getMemberByMemberEmail(email);
+		
+		// 사용자가 없다면
+		if(member == null) {
+			throw new RuntimeException("존재하지 않는 사용자입니다.");
+		}
+		
+		// 비밀번호 변경
+		String encodedNewPassword = passwordEncoder.encode(newPassword);
+		int result = memberMapper.updatePassword(email, encodedNewPassword);
+
+		if (result != 1) {
+			log.error("비밀번호 업데이트 실패: 이메일 = {}", email);
+			throw new RuntimeException("비밀번호 업데이트에 실패했습니다.");
+		}
+		
+		log.info("비밀번호 재설정 완료: 이메일 = {}", email);
+		
+		
+	}
 
 }
