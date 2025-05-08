@@ -56,7 +56,8 @@ public class SecurityConfigure {
                 .requestMatchers("/admin/cardnews/list").permitAll()
                 .requestMatchers(HttpMethod.GET, "/admin/cardnews").permitAll()
                 .requestMatchers(HttpMethod.GET, "/admin/cardnews/**").permitAll()
-                 // ↓ 이 두 줄은 관리자만 허용
+                .requestMatchers(HttpMethod.GET, "/admin/market/report/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/admin/market/report/market/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.POST, "/admin/cardnews/form").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/admin/cardnews/edit/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/admin/cardnews/delete/**").hasAuthority("ROLE_ADMIN")
