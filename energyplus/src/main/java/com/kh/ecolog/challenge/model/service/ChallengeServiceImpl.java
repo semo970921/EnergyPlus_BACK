@@ -33,8 +33,10 @@ public class ChallengeServiceImpl implements ChallengeService {
     	
     	
     	CustomUserDetails user = authService.getUserDetails();
-        Long userId = 1L; // 토큰 발급 후 추후 수정 예정 
+        Long userId = user.getUserId();
 
+        
+        
         Challenge requestData;
 
       
@@ -80,6 +82,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         return challengeMapper.findAllChallenge(rowBounds);
     }
  
+    
     // 챌린지 상세 보기 
     @Override
     public ChallengeDTO getChallengeDetail(Long challengeSeq) {
@@ -92,7 +95,7 @@ public class ChallengeServiceImpl implements ChallengeService {
     	challengeMapper.deleteChallenge(challengeSeq);
     }
     
-    // 챌린지 수정 
+    // 챌린지 수정
     @Override
     public ChallengeDTO updateChallenge(ChallengeDTO challenge, MultipartFile file) {
     	
