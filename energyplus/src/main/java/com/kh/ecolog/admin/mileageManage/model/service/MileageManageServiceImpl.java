@@ -24,9 +24,9 @@ public class MileageManageServiceImpl implements MileageManageService {
 
 	// 관리자 권한
 	@Override
-	public List<MileageDTO> findAllMileage(int pageNo) {
-		int size = 5;
-		RowBounds rowBounds = new RowBounds(pageNo * size, size);
+	public List<MileageDTO> findAllMileage(int page) {
+		int size = 10;
+		RowBounds rowBounds = new RowBounds(page * size, size);
 			
 		return mileageManageMapper.findAllMileage(rowBounds);
 	}
@@ -36,11 +36,13 @@ public class MileageManageServiceImpl implements MileageManageService {
 			
 		return mileageManageMapper.detailMileage(mileageSeq);
 	}
-		
+
 
 	@Override
-	public void updateMileageStatus(Long mileageSeq, String mileageStatus) {
-			
-		mileageManageMapper.updateMileageStatus(mileageSeq, mileageStatus);
-		}
+	public void updateMileageStatus(MileageDTO dto) {
+		dto.setMileageStatus("R"); // 상태는 강제로 "R"로 설정
+		mileageManageMapper.updateMileageStatus(dto);
+	}
+
+
 }
