@@ -47,17 +47,17 @@ public class MemberServiceImpl implements MemberService {
 		
 		memberMapper.signUp(memberValue);
 		
-	    // 저장된 회원 정보 조회
-	    MemberDTO savedMember = memberMapper.getMemberByMemberEmail(member.getUserEmail());
-	    
-	    // 마케팅 동의 정보가 있는 경우에만 저장
-	    if (member.getMarketingAgreed() != null && member.getMarketingAgreed()) {
-	        MarketingAgreementDTO agreementDTO = new MarketingAgreementDTO();
-	        agreementDTO.setUserId(savedMember.getUserId());
-	        agreementDTO.setMarketingAgreed("Y");
-	        
-	        memberMapper.saveMarketingAgreement(agreementDTO);
-	    }
+//	    // 저장된 회원 정보 조회
+//	    MemberDTO savedMember = memberMapper.getMemberByMemberEmail(member.getUserEmail());
+//	    
+//	    // 마케팅 동의 정보가 있는 경우에만 저장
+//	    if (member.getMarketingAgreed() != null && member.getMarketingAgreed()) {
+//	        MarketingAgreementDTO agreementDTO = new MarketingAgreementDTO();
+//	        agreementDTO.setUserId(savedMember.getUserId());
+//	        agreementDTO.setMarketingAgreed("Y");
+//	        
+//	        memberMapper.saveMarketingAgreement(agreementDTO);
+//	    }
 		
 	}
 
@@ -119,5 +119,13 @@ public class MemberServiceImpl implements MemberService {
 		
 		
 	}
+	
+    @Override
+    @Transactional
+    public boolean updateMarketingAgreed(Long userId, boolean marketingAgreed) {
+        String marketingAgreedValue = marketingAgreed ? "Y" : "N";
+        int result = memberMapper.updateMarketingAgreed(userId, marketingAgreedValue);
+        return result > 0;
+    }
 
 }
