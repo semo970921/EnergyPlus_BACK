@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -39,8 +40,9 @@ public class ApiController {
     }
 	
 	@GetMapping("/energyUsage1")
-	public ResponseEntity<String> getenergyUsage1(){
-		String responseData = apiService.requestEnergyUsage1();
+	public ResponseEntity<String> getenergyUsage1(@RequestParam int pageNo){
+		String responseData = apiService.requestEnergyUsage1(pageNo);
+		log.info("응답데이터 : {}", responseData);
 		return ResponseEntity.ok(responseData);
 	}
 	

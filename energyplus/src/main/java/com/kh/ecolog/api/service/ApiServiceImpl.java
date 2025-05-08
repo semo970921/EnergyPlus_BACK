@@ -63,15 +63,16 @@ public class ApiServiceImpl implements ApiService {
 	private String mainServiceKey;
 	
 	@Override
-	public String requestEnergyUsage1() {
-		
-		StringBuilder sb = new StringBuilder("http://apis.data.go.kr/B553530/GHG_LIST_03/GHG_LIST_03_02_VIEW");
-		sb.append("?serviceKey=" + URLEncoder.encode(mainServiceKey, StandardCharsets.UTF_8));
-		sb.append("&numOfRows=5000");
-		sb.append("&apiType=JSON");
-		
-		return apiRequest(sb.toString());
+	public String requestEnergyUsage1(int pageNo) {
+	    StringBuilder sb = new StringBuilder("http://apis.data.go.kr/B553530/GHG_LIST_03/GHG_LIST_03_02_VIEW");
+	    sb.append("?serviceKey=" + URLEncoder.encode(mainServiceKey, StandardCharsets.UTF_8));
+	    sb.append("&numOfRows=100");
+	    sb.append("&apiType=JSON");
+	    sb.append("&pageNo=" + pageNo);
+
+	    return apiRequest(sb.toString());
 	}
+
 
 	@Override
 	public String requestEnergyUsage2() {
