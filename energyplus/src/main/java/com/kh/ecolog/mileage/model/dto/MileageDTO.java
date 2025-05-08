@@ -22,6 +22,8 @@ public class MileageDTO {
 	private String mileageCategory;
 	private String mileageStatus;
 	private int mileageScore;
+	private String mileageImg;
 	private String mileageReject;
 	private Date createDate;
+	private String userName;
 }
