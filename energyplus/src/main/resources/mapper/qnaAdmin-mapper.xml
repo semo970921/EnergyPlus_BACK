@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.ecolog.admin.qnaManage.model.dao.QnaManageMapper">
+	
+	<delete id="deleteById" parameterType="long">
+		DELETE
+		  FROM
+		       TB_QNA
+		 WHERE
+		       QNA_ID = #{qnaId}
+	</delete>
+	
+	<select id="selectAllAdmin" resultType="QnaManageDTO">
+		SELECT
+		      Q.QNA_ID      AS qnaId,
+		      Q.QNA_TITLE   AS qnaTitle,
+		      Q.QNA_DATE    AS qnaDate,
+		      Q.QNA_STATUS  AS qnaStatus,
+		      Q.USER_ID     AS userId,
+		      U.USER_NAME   AS userName
+		  FROM
+		      TB_QNA Q
+		  JOIN
+		      TB_USER U
+		    ON Q.USER_ID = U.USER_ID
+      ORDER BY
+		      Q.QNA_ID DESC
+	</select>
+	
+	<select id="selectById" resultType="QnaManageDTO" parameterType="long">
+		SELECT
+		       QNA_ID as qnaId
+		     , QNA_TITLE as qnaTitle
+		     , QNA_CONTENT as qnaContent
+		     , QNA_DATE as qnaDate
+		     , QNA_STATUS as qnaStatus
+		     , USER_ID as userId
+		 from
+		      TB_QNA
+		WHERE
+			  QNA_ID = #{qnaId}
+	</select>
+	
+	
+	<!-- 페이징처리를 위한 게시글 총 개수 count -->
+	<select id="countAllAdmin" resultType="int">
+		SELECT COUNT(*) 
+		  FROM 
+		       TB_QNA
+	</select>
+	
+	<!-- 검색 기능 -->
+	<select id="searchQnaAdmin" resultType="QnaManageDTO" parameterType="map">
+	    SELECT
+		       Q.QNA_ID      AS qnaId,
+		       Q.QNA_TITLE   AS qnaTitle,
+		       Q.QNA_DATE    AS qnaDate,
+		       Q.QNA_STATUS  AS qnaStatus,
+		       Q.USER_ID     AS userId,
+		       U.USER_NAME   AS userName
+		  FROM
+		       TB_QNA Q
+		  JOIN
+		       TB_USER U
+		    ON Q.USER_ID = U.USER_ID
+		  WHERE
+	   		  QNA_TITLE LIKE '%' || #{keyword} || '%'
+      ORDER BY
+		      Q.QNA_ID DESC
+	</select>
+	
+	<select id="countSearchAdmin" resultType="int" parameterType="map">
+	  SELECT COUNT(*)
+	    FROM
+	    	 TB_QNA
+	   WHERE
+	  		 QNA_TITLE LIKE '%' || #{keyword} || '%'
+	</select>
+
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kh.ecolog.admin.mileageManage.model.dao.MileageManageMapper">
+
+	<!-- 관리자 권한 -->
+	<select id="findAllMileage"
+			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+		SELECT
+			  MILEAGE_SEQ mileageSeq
+			, MILEAGE_CATEGORY mileageCategory
+			, USER_ID userId
+			, CREATE_DATE createDate
+			, MILEAGE_STATUS mileageStatus
+		FROM
+			TB_MILEAGE
+		ORDER BY createDate DESC
+	</select>
+	
+	<select id="detailMileage"
+			parameterType="long"
+			resultType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+		SELECT
+			  USER_ID userId
+			, MILEAGE_TITLE mileageTitle
+			, MILEAGE_CONTENT mileageContent
+			, MILEAGE_CATEGORY mileageCategory
+			, MILEAGE_IMG mileageImg
+			, MILEAGE_STATUS mileageStatus
+			, CREATE_DATE createDate
+		FROM
+			TB_MILEAGE
+		WHERE
+			MILEAGE_SEQ = #{mileageSeq}
+	</select>
+	
+	<update id="updateMileageStatus"
+			parameterType="com.kh.ecolog.mileage.model.dto.MileageDTO">
+		UPDATE
+			TB_MILEAGE
+		SET 
+			MILEAGE_STATUS = #{mileageStatus} 
+		WHERE 
+			MILEAGE_SEQ = #{mileageSeq}
+	</update>
+	
+
+
+</mapper>

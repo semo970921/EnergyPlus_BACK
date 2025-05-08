@@ -3,10 +3,13 @@ package com.kh.ecolog.mileage.model.service;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.ecolog.auth.model.vo.CustomUserDetails;
+import com.kh.ecolog.auth.service.AuthService;
 import com.kh.ecolog.file.service.FileService;
 import com.kh.ecolog.mileage.model.dao.MileageMapper;
 import com.kh.ecolog.mileage.model.dto.MileageDTO;
@@ -23,7 +26,10 @@ public class MileageServiceImpl implements MileageService {
 	
 	private final MileageMapper mileageMapper;
 	private final FileService fileService;
+	private final AuthService authService;
 	
+	
+	// 마일리지 인정 신청글 저장
 	@Override
 	public ResponseEntity<?> saveMileage(MileageDTO mileage, MultipartFile file) {
 
@@ -33,11 +39,14 @@ public class MileageServiceImpl implements MileageService {
 			return ResponseEntity.badRequest().body("인증사진을 첨부해주세요.");
 		}
 		
+		// 로그인한 사용자 정보 가져오기
+	    CustomUserDetails user = authService.getUserDetails();
+		
 		String filePath = fileService.store(file);
 		log.info("파일 저장 완료 : {}", filePath);
 		
 		requestData = Mileage.builder()
-				.userId(mileage.getUserId())
+				.userId(user.getUserId())
 				.mileageTitle(mileage.getMileageTitle())
 				.mileageCategory(mileage.getMileageCategory())
 				.mileageContent(mileage.getMileageContent())
@@ -48,33 +57,9 @@ public class MileageServiceImpl implements MileageService {
 		
 		return ResponseEntity.ok().body("신청이 완료되었습니다.");
 	}
-
-	@Override
-	public MileageDTO detailMileage(Long mileageSeq) {
-		
-	    return mileageMapper.detailMileage(mileageSeq);
-	}
-	
-	
-	// 관리자 권한
-	
-	@Override
-	public List<MileageDTO> findAllMileage(int pageNo) {
-		int size = 5;
-		RowBounds rowBounds = new RowBounds(pageNo * size, size);
-		
-		return mileageMapper.findAllMileage(rowBounds);
-	}
-
-	@Override
-	public void updateMileageStatus(Long mileageSeq, String mileageStatus) {
-		
-		mileageMapper.updateMileageStatus(mileageSeq, mileageStatus);
-	}
 	
 	
 	// 마일리지 사용처
-	
 	@Override
 	public List<MileageStoreDTO> findAllStores() {
 		

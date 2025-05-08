@@ -51,9 +51,18 @@ public class SecurityConfigure {
             .csrf(config -> config.disable())
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
-                // Auth 관련 경로 허용
                 .requestMatchers("/auth/**").permitAll() // 모든 인증 경로 허용
+                .requestMatchers("/oauth2/**").permitAll()
+                .requestMatchers("/admin/cardnews/list").permitAll()
+                .requestMatchers(HttpMethod.GET, "/admin/cardnews").permitAll()
+                .requestMatchers(HttpMethod.GET, "/admin/cardnews/**").permitAll()
+                 // ↓ 이 두 줄은 관리자만 허용
+                .requestMatchers(HttpMethod.POST, "/admin/cardnews/form").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/admin/cardnews/edit/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/admin/cardnews/delete/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/members/withdrawal").authenticated()
+                .requestMatchers("/admin/qnas/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.POST, "/markets/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/markets/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/info/**").permitAll()
@@ -63,7 +72,7 @@ public class SecurityConfigure {
                     "/members/**", "/markets/**", "/notices/**", "/apis/**",
                     "/uploads/**", "/resources/**", "/css/**", "/js/**", "/images/**",
                     "/qnas/**", "/replys/**", "/challenges/**", "/test/**", "/promise/**" , "/api/verification/**",
-                    "/mymarket/**", "/info/**", "/info/grade/**"
+                    "/mymarket/**", "/info/**", "/info/grade/**", "/mymile/**", "/totalmile/**", "/totalcategory/**"
                 ).permitAll()
                 .anyRequest().authenticated()
 

@@ -10,4 +10,8 @@ public interface ApiService {
 	
 	List<ZerostoreDTO> requestGetZerostore();
 	
+	String requestEnergyUsage1();
+	
+	String requestEnergyUsage2();
+	
 }

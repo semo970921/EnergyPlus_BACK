@@ -32,6 +32,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         throw new UserNotFoundException("존재하지 않는 사용자입니다.");
     }
     
+    log.info("로그인 시도: {}, 비밀번호: {}", username, user.getUserPassword());
+    
     // CustomUserDetails 객체 생성 및 반환
     return CustomUserDetails.builder()
             .userId(user.getUserId())
@@ -39,6 +41,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             .password(user.getUserPassword())
             .name(user.getUserName())
             .authorities(Collections.singletonList(new SimpleGrantedAuthority(user.getRole())))
+            .role(user.getRole()) 
             .build();
 }
 

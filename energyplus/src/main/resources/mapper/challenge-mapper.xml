@@ -5,7 +5,7 @@
 	<mapper namespace="com.kh.ecolog.challenge.model.dao.ChallengeMapper">
 	
 	  <!-- 챌린지 목록 -->
-	  <select id="findAllChallenge" resultType="com.kh.ecolog.challenge.model.dto.ChallengeDTO">
+	  <select id="findAllChallenge" resultType="ChallengeDTO">
 	    SELECT 
 	      c.CHALLENGE_SEQ AS challengeSeq,
 	      c.CHALLENGE_TITLE AS challengeTitle,
@@ -25,7 +25,7 @@
 	
 	  <!-- 챌린지 상세 -->
 	  <select id="selectChallengeDetail" parameterType="long"
-	          resultType="com.kh.ecolog.challenge.model.dto.ChallengeDTO">
+	          resultType="ChallengeDTO">
 	    SELECT 
 	      c.CHALLENGE_SEQ AS challengeSeq,
 	      c.CHALLENGE_TITLE AS challengeTitle,
@@ -45,7 +45,7 @@
 	
 	  <!-- 챌린지 등록 -->
 	  <insert id="saveChallenge"
-          parameterType="com.kh.ecolog.challenge.model.vo.Challenge">
+          parameterType="Challenge">
 	    INSERT INTO 
 	    	TB_CHALLENGE (
 		      CHALLENGE_SEQ,
@@ -79,7 +79,7 @@
 	  
 	  
 	  <!-- 	챌린지 수정 -->
-	  <update id="updateChallenge" parameterType="com.kh.ecolog.challenge.model.dto.ChallengeDTO">
+	  <update id="updateChallenge" parameterType="ChallengeDTO">
 	  UPDATE 
 	  	TB_CHALLENGE
 	  SET
@@ -92,7 +92,7 @@
 	  </update>
 		  
 	<!-- 챌린지 검색 -->
-	<select id="searchChallenge" parameterType="map" resultType="com.kh.ecolog.challenge.model.dto.ChallengeDTO">
+	<select id="searchChallenge" parameterType="map" resultType="ChallengeDTO">
 	 
 	  SELECT 
 	    c.CHALLENGE_SEQ AS challengeSeq,

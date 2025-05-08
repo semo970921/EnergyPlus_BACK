@@ -5,19 +5,18 @@
 <mapper namespace="com.kh.ecolog.info.model.dao.InfoMapper">
 	
 	<update id="updateMyInfo" 
-			parameterType="com.kh.ecolog.info.model.dto.InfoDTO">
+			parameterType="InfoDTO">
 		UPDATE
 		        TB_USER
 		   SET
-		        USER_NAME = #{userName}
-		      , USER_PHONE = #{userPhone}
+		        USER_PHONE = #{userPhone}
 		      , UPDATE_DATE = SYSDATE
 		 WHERE
 		        USER_ID = #{userId}
 	</update>
 	
 	<select id="selectMyInfo" 
-			resultType="com.kh.ecolog.info.model.dto.InfoDTO">
+			resultType="InfoDTO">
 	    SELECT
 	    	   USER_EMAIL as userEmail
 		     , USER_NAME as userName
@@ -41,7 +40,7 @@
 	
 	<!--내 등급 조회-->
 	<select id="selectMyGrade"
-			resultType="com.kh.ecolog.info.model.dto.InfoDTO">
+			resultType="InfoDTO">
 		SELECT
 	    	   GRADE_ID as gradeId
 		     , USER_ID as userId
