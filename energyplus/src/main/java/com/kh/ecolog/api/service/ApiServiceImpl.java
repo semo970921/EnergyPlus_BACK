@@ -79,7 +79,7 @@ public class ApiServiceImpl implements ApiService {
 		
 		StringBuilder sb = new StringBuilder("http://apis.data.go.kr/B553530/GHG_LIST_03/GHG_LIST_03_03_VIEW");
 		sb.append("?serviceKey=" + URLEncoder.encode(mainServiceKey, StandardCharsets.UTF_8));
-		sb.append("&numOfRows=7000");
+		sb.append("&numOfRows=100");
 		sb.append("&apiType=JSON");
 		
 		return apiRequest(sb.toString());
