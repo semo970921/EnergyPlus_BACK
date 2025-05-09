@@ -33,9 +33,12 @@ public class ChallengeManageServiceImpl implements ChallengeManageService {
 
     // 3. 승인
     @Override
-    public void approveChallenge(Long challengeSeq) {
-        challengeManageMapper.approveChallenge(challengeSeq);
-        challengeManageMapper.insertMileageRecord(challengeSeq);
+    public void approveChallenge(Long challengeSeq, long mileage ) {
+    	challengeManageMapper.approveChallenge(challengeSeq);
+    	
+        challengeManageMapper.insertParticipationIfMissing(challengeSeq);
+        
+        challengeManageMapper.updateMileageRewarded(challengeSeq, mileage);
     }
 
     // 4. 반려

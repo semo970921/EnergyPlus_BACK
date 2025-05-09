@@ -15,7 +15,7 @@ public interface ChallengeManageService {
     ChallengeManageDTO getChallengeDetail(Long challengeSeq);
 
     // 마일리지 승인
-    void approveChallenge(Long challengeSeq);
+    void approveChallenge(Long challengeSeq, long mileage);
 
     // 반려 처리
     void rejectChallenge(Long challengeSeq, String reason);

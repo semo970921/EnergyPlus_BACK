@@ -23,16 +23,19 @@ public interface ChallengeManageMapper {
     void approveChallenge(Long challengeSeq);
 
     // 4. 마일리지 지급 내역 삽입
-    void insertMileageRecord(Long challengeSeq);
+    void updateMileageRewarded(@Param("challengeSeq") Long challengeSeq,
+            @Param("mileage") long mileage);
 
     // 5. 반려 처리
     void rejectChallenge(@Param("challengeSeq") Long challengeSeq,
                              @Param("reason") String rejectReason);
     
- // 6. 반려 사유 저장
+    // 6. 반려 사유 저장
     void updateRejectReason(@Param("challengeSeq") Long challengeSeq,
     						@Param("reason") String reason);
 
+
+    void insertParticipationIfMissing(Long challengeSeq);
 
 
 

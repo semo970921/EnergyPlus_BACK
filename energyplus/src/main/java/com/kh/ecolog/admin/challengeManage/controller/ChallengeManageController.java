@@ -40,11 +40,18 @@ public class ChallengeManageController {
 
 	// 3. 참여 승인 (마일리지 지급)
 	@PutMapping("/{challengeSeq}/approve")
-	public ResponseEntity<?> approveChallenge(@PathVariable Long challengeSeq) {
+	public ResponseEntity<?> approveChallenge(@PathVariable("challengeSeq") Long challengeSeq,
+											  @RequestBody Map<String, Object> body) {
 
-		challengeManageService.approveChallenge(challengeSeq);
-		return ResponseEntity.ok("마일리지 지급 및 승인 완료");
+	    if (!body.containsKey("mileage")) {
+	        throw new IllegalArgumentException("마일리지 값이 없습니다.");
+	    }
+
+	    long mileage = Long.parseLong(body.get("mileage").toString());
+	    challengeManageService.approveChallenge(challengeSeq, mileage);
+	    return ResponseEntity.ok("마일리지 지급 및 승인 완료");
 	}
+
 
 	// 4. 참여 반려
 	@PutMapping("/{challengeSeq}/reject")
