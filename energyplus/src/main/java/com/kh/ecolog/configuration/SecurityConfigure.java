@@ -59,6 +59,7 @@ public class SecurityConfigure {
             	    // 관리자 - 마켓 게시글 관리
             	    .requestMatchers(HttpMethod.PUT, "/admin/market/hide/**").hasAuthority("ROLE_ADMIN")
             	    .requestMatchers(HttpMethod.GET, "/admin/market/**").hasAuthority("ROLE_ADMIN")
+            	    .requestMatchers(HttpMethod.PUT, "/admin/market/report/hide/**").hasAuthority("ROLE_ADMIN")
             	    .requestMatchers(HttpMethod.PUT, "/admin/market/**").hasAuthority("ROLE_ADMIN")
             	    .requestMatchers(HttpMethod.DELETE, "/admin/market/**").hasAuthority("ROLE_ADMIN")
 
