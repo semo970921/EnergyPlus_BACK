@@ -1,0 +1,60 @@
+package com.kh.ecolog.admin.challengeManage.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import com.kh.ecolog.admin.challengeManage.model.dto.ChallengeManageDTO;
+import com.kh.ecolog.admin.challengeManage.model.service.ChallengeManageService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RestController
+@Validated
+@RequiredArgsConstructor
+@RequestMapping("/admin/challenges")
+public class ChallengeManageController {
+
+	private final ChallengeManageService challengeManageService;
+
+	// 전체 목록 조회 
+	@GetMapping
+	public ResponseEntity<List<ChallengeManageDTO>> findAll(@RequestParam(defaultValue = "0", name="page") int page) {
+		return ResponseEntity.ok(challengeManageService.findAllChallenges(page));
+	}
+
+	// 2. 특정 참여 상세 조회
+	@GetMapping("/{challengeSeq}")
+	public ResponseEntity<ChallengeManageDTO> getChallengeDetail(
+			@PathVariable("challengeSeq") Long challengeSeq) {
+
+		ChallengeManageDTO challenge = challengeManageService.getChallengeDetail(challengeSeq);
+
+		return ResponseEntity.ok(challenge);
+	}
+
+	// 3. 참여 승인 (마일리지 지급)
+	@PutMapping("/{challengeSeq}/approve")
+	public ResponseEntity<?> approveChallenge(@PathVariable Long challengeSeq) {
+
+		challengeManageService.approveChallenge(challengeSeq);
+		return ResponseEntity.ok("마일리지 지급 및 승인 완료");
+	}
+
+	// 4. 참여 반려
+	@PutMapping("/{challengeSeq}/reject")
+	public ResponseEntity<?> rejectChallenge(@PathVariable("challengeSeq") Long challengeSeq,
+	                                         @RequestBody Map<String, String> body) {
+
+		String reason = body.get("rejectReason");
+		challengeManageService.rejectChallenge(challengeSeq, reason);
+		return ResponseEntity.ok("챌린지 반려 완료");
+	}
+	
+
+}
