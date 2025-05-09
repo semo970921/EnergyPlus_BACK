@@ -1,8 +1,12 @@
 package com.kh.ecolog.admin.marketManage.model.service;
 
-import java.util.Map;
+import java.util.List;
+
+import com.kh.ecolog.market.board.model.dto.MarketDTO;
 
 
 public interface MarketManageService {
-	public Map<String, Object> findMarketsWithPaging(int page, int size);
+	List<MarketDTO> findAllMarketsForAdmin();
+	MarketDTO findMarketByNo(Long marketNo);
+	void toggleMarketHidden(Long marketNo);
 }
