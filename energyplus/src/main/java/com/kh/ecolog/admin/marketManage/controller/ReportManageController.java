@@ -31,15 +31,13 @@ public class ReportManageController {
         ReportManageDTO report = reportManageService.findById(reportId);
         return ResponseEntity.ok(report);
     }
-
-    @PutMapping("/hide/{reportId}/{marketNo}")
-    public ResponseEntity<?> hideMarketAndMarkReport(
+    // 3. 
+    @PutMapping("/hide/{reportId}")
+    public ResponseEntity<?> hideMarket(
             @PathVariable("reportId") Long reportId,
             @PathVariable("marketNo") Long marketNo) {
 
-        marketService.hideMarket(marketNo); // 마켓 게시글 숨김 처리
-        reportManageService.markReportAsHidden(reportId); // 신고 테이블 숨김 처리
-
+        marketService.hideMarket(marketNo); // 마켓 게시글만 숨김 처리
         return ResponseEntity.ok().build();
     }
 

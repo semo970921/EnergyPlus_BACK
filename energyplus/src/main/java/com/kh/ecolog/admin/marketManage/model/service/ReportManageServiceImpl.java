@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 public class ReportManageServiceImpl implements ReportManageService {
 
     private final ReportManageMapper reportManageMapper;
-    private final MarketService marketService;
 
     @Override
     public List<ReportManageDTO> findAllReports() {
@@ -31,7 +30,7 @@ public class ReportManageServiceImpl implements ReportManageService {
     }
     @Override
     public void markReportAsHidden(Long reportId) {
-        reportManageMapper.markReportAsHidden(reportId);
+        reportManageMapper.markMarketAsHidden(reportId);
     }
    
 }

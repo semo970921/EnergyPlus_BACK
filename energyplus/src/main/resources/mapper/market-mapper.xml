@@ -187,7 +187,7 @@
 	</select>
 	
 	<!-- 관리자 신고글 숨김 -->
-	<update id="updateMarketHidden">
+	<update id="hideMarket">
 	  UPDATE TB_MARKET
 	  SET IS_HIDDEN = #{hidden}
 	  WHERE MARKET_NO = #{marketNo}

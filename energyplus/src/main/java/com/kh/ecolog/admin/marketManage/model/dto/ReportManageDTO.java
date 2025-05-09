@@ -21,4 +21,5 @@ public class ReportManageDTO {
 	  private Long marketNo;
 	  private int totalReportCount;
 	  private String marketContent;
+	  private String isHidden;
 }

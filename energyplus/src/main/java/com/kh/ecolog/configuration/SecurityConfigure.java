@@ -56,6 +56,7 @@ public class SecurityConfigure {
                 .requestMatchers("/admin/cardnews/list").permitAll()
                 .requestMatchers(HttpMethod.GET, "/admin/cardnews").permitAll()
                 .requestMatchers(HttpMethod.GET, "/admin/cardnews/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/admin/market/list").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.GET, "/admin/market/report/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/admin/market/report/market/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.POST, "/admin/cardnews/form").hasAuthority("ROLE_ADMIN")

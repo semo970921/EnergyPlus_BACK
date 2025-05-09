@@ -32,6 +32,6 @@ public interface MarketMapper {
 	int countMarketSearch(Map<String, Object> param);
 	
 	// 관리자 신고글 숨김 처리
-	void updateMarketHidden(@Param("marketNo") Long marketNo, @Param("hidden") String hidden);
+	void hideMarket(@Param("marketNo") Long marketNo, @Param("hidden") String hidden);
 
 }

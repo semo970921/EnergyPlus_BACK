@@ -13,6 +13,7 @@ public interface ReportManageMapper {
 	List<ReportManageDTO> findAllReports();
 	ReportManageDTO selectById(Long reportId);
 	void deleteById(Long reportId);
-	void markReportAsHidden(@Param("reportId") Long reportId);
 
+	// 숨김 처리
+	void markMarketAsHidden(@Param("marketNo") Long marketNo);
 }
