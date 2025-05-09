@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.kh.ecolog.notice.model.dao.NoticeMapper;
 import com.kh.ecolog.notice.model.dto.NoticeDTO;
-import com.kh.ecolog.notice.model.vo.Notice;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
