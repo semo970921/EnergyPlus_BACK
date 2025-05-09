@@ -3,11 +3,7 @@ package com.kh.ecolog.api.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import com.kh.ecolog.api.model.dto.ZerostoreDTO;
@@ -40,15 +36,14 @@ public class ApiController {
     }
 	
 	@GetMapping("/energyUsage1")
-	public ResponseEntity<String> getenergyUsage1(@RequestParam int pageNo){
+	public ResponseEntity<String> getenergyUsage1(@RequestParam(name="pageNo") int pageNo){
 		String responseData = apiService.requestEnergyUsage1(pageNo);
-		log.info("응답데이터 : {}", responseData);
 		return ResponseEntity.ok(responseData);
 	}
 	
 	@GetMapping("/energyUsage2")
-	public ResponseEntity<String> getenergyUsage2(){
-		String responseData = apiService.requestEnergyUsage2();
+	public ResponseEntity<String> getenergyUsage2(@RequestParam(name="pageNo") int pageNo){
+		String responseData = apiService.requestEnergyUsage2(pageNo);
 		return ResponseEntity.ok(responseData);
 	}
 }

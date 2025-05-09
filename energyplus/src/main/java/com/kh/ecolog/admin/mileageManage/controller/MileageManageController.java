@@ -40,13 +40,23 @@ public class MileageManageController {
 	}
 
 
-	@PutMapping("/{mileageSeq}/status")
-	public ResponseEntity<?> updateMileageStatus(
-			@PathVariable Long mileageSeq,
+	@PostMapping("/{mileageSeq}/status")
+	public ResponseEntity<?> updateMileageStatusS(
+			@PathVariable("mileageSeq") Long mileageSeq,
 			@RequestBody MileageDTO mileageDTO) {
 
-		mileageDTO.setMileageSeq(mileageSeq); // path로 받은 값 주입
-		mileageManageService.updateMileageStatus(mileageDTO);
+		mileageDTO.setMileageSeq(mileageSeq);
+		mileageManageService.updateMileageStatusS(mileageDTO);
+		return ResponseEntity.ok("상태와 점수가 업데이트되었습니다.");
+	}
+
+	@PostMapping("/{mileageSeq}/statusReject")
+	public ResponseEntity<?> updateMileageStatusR(
+			@PathVariable("mileageSeq") Long mileageSeq,
+			@RequestBody MileageDTO mileageDTO) {
+
+		mileageDTO.setMileageSeq(mileageSeq);
+		mileageManageService.updateMileageStatusR(mileageDTO);
 		return ResponseEntity.ok("상태와 점수가 업데이트되었습니다.");
 	}
 

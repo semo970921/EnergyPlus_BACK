@@ -64,23 +64,26 @@ public class ApiServiceImpl implements ApiService {
 	
 	@Override
 	public String requestEnergyUsage1(int pageNo) {
-	    StringBuilder sb = new StringBuilder("http://apis.data.go.kr/B553530/GHG_LIST_03/GHG_LIST_03_02_VIEW");
-	    sb.append("?serviceKey=" + URLEncoder.encode(mainServiceKey, StandardCharsets.UTF_8));
-	    sb.append("&numOfRows=100");
-	    sb.append("&apiType=JSON");
-	    sb.append("&pageNo=" + pageNo);
-
-	    return apiRequest(sb.toString());
+		
+		StringBuilder sb = new StringBuilder("http://apis.data.go.kr/B553530/GHG_LIST_03/GHG_LIST_03_02_VIEW");
+		sb.append("?serviceKey=" + URLEncoder.encode(mainServiceKey, StandardCharsets.UTF_8));
+		sb.append("&numOfRows=100");
+		sb.append("&apiType=JSON");
+		sb.append("&pageNo=")
+				.append(pageNo);
+		
+		return apiRequest(sb.toString());
 	}
 
-
 	@Override
-	public String requestEnergyUsage2() {
+	public String requestEnergyUsage2(int pageNo) {
 		
 		StringBuilder sb = new StringBuilder("http://apis.data.go.kr/B553530/GHG_LIST_03/GHG_LIST_03_03_VIEW");
 		sb.append("?serviceKey=" + URLEncoder.encode(mainServiceKey, StandardCharsets.UTF_8));
-		sb.append("&numOfRows=7000");
+		sb.append("&numOfRows=100");
 		sb.append("&apiType=JSON");
+		sb.append("&pageNo=")
+				.append(pageNo);
 		
 		return apiRequest(sb.toString());
 	}

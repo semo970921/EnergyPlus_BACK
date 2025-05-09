@@ -12,6 +12,6 @@ public interface ApiService {
 	
 	String requestEnergyUsage1(int pageNo);
 	
-	String requestEnergyUsage2();
+	String requestEnergyUsage2(int pageNo);
 	
 }
