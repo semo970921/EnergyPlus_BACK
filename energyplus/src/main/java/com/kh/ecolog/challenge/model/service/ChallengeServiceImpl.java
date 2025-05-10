@@ -124,8 +124,14 @@ public class ChallengeServiceImpl implements ChallengeService {
 
         return (int) Math.ceil((double) totalCount / size);
     }
-    
-    
+
+    // 작성자 확인 
+    @Override
+    public boolean isOwner(Long challengeSeq, Long userId) {
+        Long writerId = challengeMapper.findWriterIdByChallengeSeq(challengeSeq);
+        return writerId != null && writerId.equals(userId);
+    }
+
     
     
 }
