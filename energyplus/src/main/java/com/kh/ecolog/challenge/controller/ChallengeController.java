@@ -51,13 +51,6 @@ public class ChallengeController {
     
     }
     
-    // 챌린지 목록 조회 (+ 페이징) 
-    @GetMapping
-    public ResponseEntity<List<ChallengeDTO>> findAllChallenge(
-    	@RequestParam(name = "page", defaultValue = "0") int page,
-    	@RequestParam(name = "keyword", required = false) String keyword){
-    		return ResponseEntity.ok(challengeService.findAllChallenge(page, keyword));
-    	}
 
     // 챌린지 상세 조회
     @GetMapping("/{challengeSeq}")
@@ -94,6 +87,14 @@ public class ChallengeController {
     	challenge.setChallengeSeq(challengeSeq);
     	challenge.setUserId(user.getUserId());
     	return ResponseEntity.ok(challengeService.updateChallenge(challenge, file));
+    }
+    
+    // 챌린지 목록 조회 (+ 페이징) 
+    @GetMapping
+    public ResponseEntity<List<ChallengeDTO>> findAllChallenge(
+    		@RequestParam(name = "page", defaultValue = "0") int page,
+    		@RequestParam(name = "keyword", required = false) String keyword){
+    	return ResponseEntity.ok(challengeService.findAllChallenge(page, keyword));
     }
     
     // 패이지 수 조회 

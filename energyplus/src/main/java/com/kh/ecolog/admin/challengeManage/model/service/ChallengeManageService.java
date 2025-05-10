@@ -9,7 +9,10 @@ import com.kh.ecolog.admin.challengeManage.model.dto.ChallengeManageDTO;
 public interface ChallengeManageService {
 
 	// 전체 조회 
-	List<ChallengeManageDTO> findAllChallenges(int page);
+	List<ChallengeManageDTO> findAllChallenges(int page, String keyword);
+	
+	// 페이징 처리
+	int getTotalPages(String keyword);
     
 	// 참여 상세 조회
     ChallengeManageDTO getChallengeDetail(Long challengeSeq);

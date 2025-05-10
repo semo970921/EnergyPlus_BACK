@@ -24,9 +24,19 @@ public class ChallengeManageController {
 
 	// 전체 목록 조회 
 	@GetMapping
-	public ResponseEntity<List<ChallengeManageDTO>> findAll(@RequestParam(defaultValue = "0", name="page") int page) {
-		return ResponseEntity.ok(challengeManageService.findAllChallenges(page));
+	public ResponseEntity<List<ChallengeManageDTO>> findAll(@RequestParam(name = "page", defaultValue = "0") int page,
+															@RequestParam(name = "keyword", required = false) String keyword) {
+
+		return ResponseEntity.ok(challengeManageService.findAllChallenges(page, keyword));
 	}
+	
+	// 페이지 수 조회 
+    @GetMapping("/pages")
+    public ResponseEntity<Integer> getPageCount(@RequestParam(name = "keyword",required = false) String keyword){
+    	log.info("📄 페이지 수 요청: keyword={}", keyword);
+
+    	return ResponseEntity.ok(challengeManageService.getTotalPages(keyword));
+    }
 
 	// 2. 특정 참여 상세 조회
 	@GetMapping("/{challengeSeq}")
