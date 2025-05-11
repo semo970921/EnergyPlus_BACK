@@ -86,7 +86,6 @@
 	  	CHALLENGE_TITLE = #{challengeTitle},
 	  	CHALLENGE_CONTENT = #{challengeContent},
 	  	CHALLENGE_IMG = #{challengeImg}
-	  
 	  WHERE
 	  	CHALLENGE_SEQ = #{challengeSeq} 
 	  </update>

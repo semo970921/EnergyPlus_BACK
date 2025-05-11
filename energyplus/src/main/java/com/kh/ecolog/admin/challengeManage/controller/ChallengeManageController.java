@@ -70,7 +70,7 @@ public class ChallengeManageController {
 
 		String reason = body.get("rejectReason");
 		challengeManageService.rejectChallenge(challengeSeq, reason);
-		return ResponseEntity.ok("챌린지 반려 완료");
+		return ResponseEntity.ok("챌린지가 반려되었습니다.");
 	}
 	
 
