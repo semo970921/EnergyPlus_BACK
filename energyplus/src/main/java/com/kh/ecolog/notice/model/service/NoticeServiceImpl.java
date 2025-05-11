@@ -13,27 +13,33 @@ import com.kh.ecolog.notice.model.dto.NoticeDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
-public class NoticeServiceImpl implements NoticeService{
-	
-	private final NoticeMapper noticeMapper;
-	
+public class NoticeServiceImpl implements NoticeService {
+
+    private final NoticeMapper noticeMapper;
+    private static final int PAGE_SIZE = 10;
+
+    /**
+     * 공지사항 목록 조회 (페이징 및 검색 포함)
+     */
     @Override
     public List<NoticeDTO> findAll(int pageNo, String keyword) {
-        int size = 10;
-        RowBounds rowBounds = new RowBounds(pageNo * size, size);
-        
+        RowBounds rowBounds = new RowBounds(pageNo * PAGE_SIZE, PAGE_SIZE);
+
         if (keyword != null && !keyword.trim().isEmpty()) {
             Map<String, Object> param = new HashMap<>();
             param.put("keyword", keyword);
             return noticeMapper.searchNotice(param, rowBounds);
         }
-        
+
         return noticeMapper.findAll(rowBounds);
     }
 
+    /**
+     * 공지사항 상세 조회
+     */
     @Override
     public NoticeDTO findById(Long noticeId) {
         NoticeDTO notice = noticeMapper.findById(noticeId);
@@ -43,10 +49,11 @@ public class NoticeServiceImpl implements NoticeService{
         return notice;
     }
 
-    // 페이지 수 계산 
+    /**
+     * 전체 페이지 수 계산 (검색 포함)
+     */
     @Override
     public int getTotalPages(String keyword) {
-        int size = 10;
         int totalCount;
 
         if (keyword != null && !keyword.trim().isEmpty()) {
@@ -57,8 +64,6 @@ public class NoticeServiceImpl implements NoticeService{
             totalCount = noticeMapper.countAll();
         }
 
-        return (int) Math.ceil((double) totalCount / size);
+        return (int) Math.ceil((double) totalCount / PAGE_SIZE);
     }
-
-
 }
