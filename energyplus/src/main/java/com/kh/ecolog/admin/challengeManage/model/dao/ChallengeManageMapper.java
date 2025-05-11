@@ -1,6 +1,7 @@
 package com.kh.ecolog.admin.challengeManage.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 
@@ -36,6 +37,13 @@ public interface ChallengeManageMapper {
 
 
     void insertParticipationIfMissing(Long challengeSeq);
+    
+
+    int countAll();
+    
+    int countSearch(Map<String, Object> param);
+    
+    List<ChallengeManageDTO> searchChallenges(Map<String, Object> param, RowBounds rowbounds);
 
 
 

@@ -71,8 +71,8 @@ public class SecurityConfigure {
             	    .requestMatchers(HttpMethod.PUT, "/admin/cardnews/**").hasAuthority("ROLE_ADMIN")
             	    .requestMatchers(HttpMethod.DELETE, "/admin/cardnews/**").hasAuthority("ROLE_ADMIN")
                                    
-                  // 관리자 - 챌린지
-                  .requestMatchers("/admin/challenges/**").hasAuthority("ROLE_ADMIN")
+                    // 관리자 - 챌린지
+                    .requestMatchers("/admin/challenges/**").hasAuthority("ROLE_ADMIN")
 
             	    // 관리자 전체
             	    .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")

@@ -106,6 +106,44 @@
 	    WHERE CHALLENGE_SEQ = #{challengeSeq}
 	  )
 	</insert>
+	
+		<!-- 검색 결과 개수 -->
+	<select id="countSearch" parameterType="map" resultType="int">
+	
+	  SELECT
+	  	COUNT(*)
+	  FROM
+	  	TB_CHALLENGE
+	  WHERE
+	  	CHALLENGE_TITLE LIKE '%' || #{keyword} || '%'
+	  	
+	</select>
+	
+	
+	<!-- 전체 개수 -->
+	<select id="countAll" resultType="int">
+	
+	  SELECT
+	  	COUNT(*)
+	  FROM
+	  	TB_CHALLENGE
+	
+	</select>
+	
+	<select id="searchChallenges" resultType="com.kh.ecolog.admin.challengeManage.model.dto.ChallengeManageDTO">
+	  SELECT 
+	    C.CHALLENGE_SEQ,
+	    C.CHALLENGE_TITLE,
+	    U.USER_NAME,
+	    C.CHALLENGE_STATUS,
+	    P.MILEAGE_REWARDED
+	  FROM
+	    TB_CHALLENGE C
+	  JOIN TB_USER U ON C.USER_ID = U.USER_ID
+	  LEFT JOIN TB_CHALLENGE_PARTICIPATION P ON C.CHALLENGE_SEQ = P.CHALLENGE_SEQ
+	  WHERE C.CHALLENGE_TITLE LIKE '%' || #{keyword} || '%'
+	  ORDER BY C.CHALLENGE_SEQ DESC
+	</select>
 
 
 
