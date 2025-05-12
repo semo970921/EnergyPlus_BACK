@@ -76,9 +76,9 @@ public class ChallengeController {
     // 챌린지 수정 
     @PutMapping("/{challengeSeq}")
     public ResponseEntity<?> updateChallenge(@PathVariable(name = "challengeSeq") long challengeSeq,
-    													@Valid ChallengeDTO challenge,
-    													@RequestParam(name="file", required = false )MultipartFile file,
-    													@AuthenticationPrincipal CustomUserDetails user){
+    										 @Valid ChallengeDTO challenge,
+    										 @RequestParam(name="file", required = false )MultipartFile file,
+    										 @AuthenticationPrincipal CustomUserDetails user){
     	
     	if (!challengeService.isOwner(challengeSeq, user.getUserId())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("수정 권한이 없습니다.");
